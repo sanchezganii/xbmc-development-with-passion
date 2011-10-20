@@ -8,7 +8,7 @@
   <requires>
    <import addon="xbmc.python" version="1.0"/>
   </requires>
-  <extension 
+  <extension
     point="xbmc.python.pluginsource"
     library="default.py">
    <provides>video</provides>
