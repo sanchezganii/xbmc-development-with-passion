@@ -1,0 +1,12 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=BoxLiveTV - %s
+
+item_info_name=tmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://boxlivetv.us/embed.php?u=%s','.*SWFObject\("([^"]+)".*?"file","([^"]+)".*?"streamer","([^"]+)".*','','swf|file|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true'
+item_info_build=%s

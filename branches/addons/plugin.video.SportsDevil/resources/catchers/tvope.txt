@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=TVOpe - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://streamer.istreamlive.net/aliez/tvope/%s swfurl=http://builds.flowplayer.netdna-cdn.com/73166/40398/flowplayer.commercial-3.2.6-1.swf pageUrl=http://tvope.com/emb/player.php?c=teletubbiess

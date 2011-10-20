@@ -1,0 +1,12 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=LiveView365 - %s
+
+item_info_name=rtmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://liveview365.tv/embedded?id=%s','.*(rtmp://[^/]+).*','@CURRENT_URL@')
+item_info_build=%s/cdn2/
+
+item_info_name=url
+item_info_from=rtmp + @PARAM1@
+item_info_build=%s swfUrl=http://liveview365.tv/jwplayer/player.swf pageUrl=http://liveview365.tv/embedded?id=sdfvsfs
