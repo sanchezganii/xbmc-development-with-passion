@@ -1,6 +1,6 @@
 import os
 import md5
-
+from zipfile import ZipFile, ZipInfo
 
 class Generator:
     """
@@ -25,6 +25,14 @@ class Generator:
             try:
                 # skip any file or .svn folder
                 if ( not os.path.isdir( addon ) or addon == ".svn" ): continue
+                for files in os.listdir(addon):
+                    if files.endswith(".zip"):
+                        with ZipFile(addon + '/' + files, 'r') as myzip:
+                            myzip.extract(addon + '/addon.xml',addon)
+                            if os.path.isfile(addon + '/addon.xml'):
+                                os.remove(addon + '/addon.xml')
+                            os.rename(addon + '/' + addon + '/addon.xml', addon + '/addon.xml')
+                            os.rmdir(addon + '/' + addon + '/')
                 # create path
                 _path = os.path.join( addon, "addon.xml" )
                 # split lines for stripping
