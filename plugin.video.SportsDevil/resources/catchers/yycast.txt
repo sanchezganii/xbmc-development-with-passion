@@ -1,0 +1,41 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=YYCast - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.yycast.com/embed.php?fileid=%s&vw=640&vh=360
+
+item_info_name=redirect.tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*domain protected by the streamer<br>You can only watch it at .*?<a target="_blank" href="(http://www.(?!yycast)[^"]+)".*')
+item_info_build=%s
+
+item_info_name=redirect
+item_info_from=redirect.tmp || '@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=infos.tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(\'([^\']+)\'.*?\'file\',\s*\'([^\']+)\'.*?\'streamer\',\s*\'([^\']+)\'.*','@redirect@','swf.tmp|file.tmp|rtmp.tmp')
+item_info_build=%s
+
+item_info_name=file
+item_info_from=file.tmp || @PARAM1@
+item_info_build=%s
+
+item_info_name=swf
+item_info_from=swf.tmp || 'http://img.yycast.com:805/player-licensed.swf'
+item_info_build=%s
+
+item_info_name=rtmp
+#item_info_from=rtmp.tmp
+#item_info_convert=replace('%s','live.','')
+#item_info_convert=replace('%s','/lb','/live/_definst_')
+item_info_build=%s
+
+item_info_name=url
+item_info_from='rtmp://68.68.22.75/live/_definst_ playpath=' + file + ' live=true swfUrl=' + swf + ' pageUrl=http://www.yycast.com/' + @PARAM1@
+item_info_build=%s
+#rtmp://174.37.65.196/live/_definst_/%s swfurl=http://img.yycast.com:805/player-licensed.swf pageurl=http://www.yycast.com/marleau
+#rtmp://68.68.22.75 /TncHT1vPbkdv8eB

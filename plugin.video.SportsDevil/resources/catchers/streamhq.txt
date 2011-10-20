@@ -1,0 +1,22 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=StreamHQ - %s
+
+item_info_name=token
+item_info_build=1010
+#%Xr8e(nKa@#.
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://streamhq.tv/player.php?channel_id=%s&width=620&height=360
+
+item_info_name=rtmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*streamer=([^"&' ]+).*','@CURRENT_URL@')
+item_info_build=%s
+
+item_info_name=url
+item_info_from='rtmp://108.59.10.150/streamhq/' + @PARAM1@ + ' token=' + token + ' live=true swfUrl=http://streamhq.tv/player/player.swf pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+

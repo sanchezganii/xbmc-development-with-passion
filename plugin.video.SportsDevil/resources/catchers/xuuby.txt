@@ -1,0 +1,26 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=Xuuby - %s
+
+item_info_name=rtmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.xuuby.com/stream.php?stream=%s','.*(rtmp://[^<]+).*')
+item_info_convert=replace('%s','streamilive-','')
+item_info_build=%s
+
+item_info_name=file
+item_info_from=@PARAM1@
+item_info_build=stream%s
+
+item_info_name=swf
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.xuuby.com/playerp.php?chname=%s','.*src="player/([^"]+)".*')
+item_info_build=%s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.xuuby.com/playerp.php?chname=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfUrl=http://www.xuuby.com/player/' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s

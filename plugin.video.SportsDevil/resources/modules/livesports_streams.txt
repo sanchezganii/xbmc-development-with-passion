@@ -1,0 +1,1760 @@
+
+
+########################################################
+# SopCast - Videos
+########################################################
+item_infos=sop://[^:]+:3912/(\d+)
+item_order=video
+@CATCH(sopcast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# ZoneIn - Videos
+########################################################
+item_infos=id='([^']+)'; width='[^']+'; height = '[^']+';</script><script type='text/javascript' src='http://embed.zonein.tv/player.js'
+item_order=video
+@CATCH(zonein,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=["']http://embed.zonein.tv/[^\?]+\?id=([^&'"]+)
+item_order=video
+@CATCH(zonein,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################    
+item_infos=src='http://embed.zonein.tv/pl-([^\.]+)\.js'
+item_order=video
+@CATCH(zonein,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Guarapa - Videos
+########################################################
+item_infos=(http://tvguarapa.net/canais/([^/]+)/[^\.]+\.html)
+item_order=pageUrl|video
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*value="file=([^&]+).*?streamer=([^&]+).*?name="flashvars".*?value="([^"]+)" name="src".*','%s','fileTmp|rtmp|swf')
+item_info_build=%s
+
+item_info_name=file
+item_info_from=fileTmp
+item_info_convert=replace('%s','.flv','')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
+
+item_info_name=title
+item_info_from=video
+item_info_build=Guarapa - %s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=(http://www.brasileirao\d+.org/canais/([^\.]+)\.html)
+item_order=pageUrl|video
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*value=\'file=([^&]+).*?streamer=([^&]+).*?src=\'([^\']+.swf)\'.*','%s','fileTmp|rtmp|swf')
+item_info_build=%s
+
+item_info_name=file
+item_info_from=fileTmp
+item_info_convert=replace('%s','.flv','')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
+
+item_info_name=title
+item_info_from=video
+item_info_build=Brasileirao - %s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+#  Veemi - Videos
+########################################################
+item_infos=fid="([^"]+)".*?src="http://(?:www.)?veemi.com/javascript/embedPlayer.js"
+item_order=video
+@CATCH(veemi,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=http://(?:www.)?veemi.com/(?:embed\.php|watch)\?v=([^ &'"]+)
+item_order=video
+@CATCH(veemi,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s 
+
+
+########################################################
+#  Veetle - Videos
+########################################################
+item_infos="http://(?:www\.)?veetle.com/index.php/channel/view#([0-9a-z]+)[^"]*"
+item_order=video
+@CATCH(veetle,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s 
+########################################################
+item_infos=src="http://(?:www\.)?veetle.com/v/([^"]+)"
+item_order=video
+@CATCH(veetle,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s 
+########################################################
+item_infos=src="http://(?:www\.)?veetle.com/index.php/widget#([^/]+)/[^"]*"
+item_order=video
+@CATCH(veetle,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=veetleChannelId="([^"]+)"
+item_order=video
+@CATCH(veetle,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+#  YYCast - Videos
+########################################################
+item_infos=src="http://(?:www\.)?yycast.com/embed.php\?fileid=([^&]+)&[^"]*"
+item_order=video
+@CATCH(yycast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=sharing.link'\s*,\s*'http://(?:www\.)?yycast.com/([^']+)'
+item_order=video
+@CATCH(yycast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=fid="((?!%VAR_PLACE%)[^"]*)".*?src="http://www.yycast.com/javascript/embedPlayer.js"
+item_order=video
+@CATCH(yycast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=flashvars=".*?file=([^\.&]+(?!\.flv)).*?streamer=rtmp://live.yycast[^&]+.*?"[^"]+.swf"
+item_order=video
+@CATCH(yycast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+
+
+########################################################
+# SeeOn - Videos
+########################################################
+item_infos=[^']<script type="text/javascript" src="http://www.seeon.tv/embed/([^&]+)[^"]*"
+item_order=video
+@CATCH(seeon,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=["']http://(?:www.)?seeon.tv/embed(?:player)?(?:\.php)?\?[^"']*channel=([^&]+)[^"']*["']
+item_order=video
+@CATCH(seeon,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################  
+item_infos=<script src="http://www.directembed.com/embed.php\?channel=([^&]+)&amp;[^"]*" type="text/javascript"></script>
+item_order=video
+@CATCH(seeon,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Meevos - Videos
+########################################################
+item_infos=chid="([^"]+)";[^<]*</script><script (?:type="text/javascript" )?src="http://embed.meevos.tv/js/embed.js"(?: type="text/javascript")?>
+item_order=video
+@CATCH(meevos,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=src="http://embed.meevos.tv/embed.php\?id=([^&]+)[^"]*"
+item_order=video
+@CATCH(meevos,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# CastAMP - Videos
+########################################################
+item_infos=channel="([^"]+)"[^<]*</script><script type="text/javascript" src="http://(?:www.)?castamp.com/embed.js"
+item_order=video
+@CATCH(castamp,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos="http://(?:www.)?castamp.com/embed.php\?c=([^"&]+)
+item_order=video
+@CATCH(castamp,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# RaySon - Videos
+########################################################
+item_infos=src="http://www.rayson.tv/player/index.php\?ch=([^"]+)"
+item_order=video
+@CATCH(rayson,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# TVOpe - Videos
+########################################################
+item_infos=c="([^"]+)"[^<]*</script>[^<]*<script type="text/javascript" src="http://i\.tvope\.com/js/emb[^\.]*\.js"
+item_order=video
+@CATCH(tvope,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################  
+item_infos=src="[^"]*tvope.com/[^\?]+\?c=([^&]+)&[^"]*"
+item_order=video
+@CATCH(tvope,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# WebCastOn - Videos
+########################################################
+item_infos=fid="([^"]+)"[^<]*</script>\s*<script type="text/javascript" src="http://(?:www.)?webcaston.com/javascript/embedPlayer.js">
+item_order=video
+@CATCH(webcaston,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=<a href="http://www.webcaston.com/embed.php\?fileid=([^&]+)&vw=640&vh=360&domain=mypremium.tv" target="_BLANK">Play</a>
+item_order=video
+@CATCH(webcaston,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=src="http://www.webcaston.com/embed.php\?fileid=([^&]+)&[^"]*"
+item_order=video
+@CATCH(webcaston,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# LimeV - Videos
+########################################################
+item_infos=fid="([^"]+)".*? src="http://www.limev.com
+item_order=video
+@CATCH(limev,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=http://(?:www.)?limev.com/embed.php\?fileId=([^&"' ]+)
+item_order=video
+@CATCH(limev,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+# vStream - Videos
+########################################################
+item_infos=fid="([^"]+)".*?src="http://vstream.eu/player/embedPlayer.js"
+item_order=video
+@CATCH(vstream,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Globo - Videos
+########################################################
+item_infos=src="http://video.globo.com/Portal/videos/cda/player/player.swf\?midiaId=([^&"]+)
+item_order=video
+@CATCH(globo,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Freedocast - Categories
+########################################################
+#item_infos=src='(embedplayercustom[0-9]*\.aspx\?fid=[^']+)'
+#item_order=url
+#item_skill=rss
+#item_info_name=title
+#item_info_from=url
+#item_info_build=Freedocast - %s
+#item_url_build=http://www.freedocast.com/forms/%s
+########################################################
+# Freedocast - Videos
+########################################################
+item_infos=addParam\('flashvars','copylink=http://www.freedocast.com/([^&]+)&
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=FreedoCast - %s
+item_info_name=type
+item_info_build=direct.video
+item_url_build=plugin://plugin.video.freedocast/?play=%s
+########################################################
+item_infos=id='popoutplayer' src='(embedplayercustom[^']+)'
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_from=url
+item_info_build=FreedoCast - %s
+item_url_build=http://www.freedocast.com/forms/%s
+########################################################
+item_infos=<script type='text/javascript'>[\s]*fid='([^']+)';[^<]*</script>[^<]*<script type='text/javascript' src='http://www.freedocast.com/player/freedocast_Customembed.js'></script>
+item_order=url
+#item_skill=rss
+item_info_name=title
+item_info_from=url
+item_info_build=FreedoCast - %s 
+item_info_name=type
+item_info_build=direct.video
+item_url_build=plugin://plugin.video.freedocast/?play=%s
+#item_url_build=http://www.freedocast.com/forms/embedplayercustom.aspx?fid=%s&ftype=stream&domain=&width=&height=
+
+
+########################################################
+# StreamBig.eu Videos
+########################################################
+item_infos=f*id="([^"]*)"[^<]*</script><script type="text/javascript" src="http://streambig.eu
+item_order=video
+@CATCH(streambig,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# LiveView365 Videos
+########################################################
+item_infos=f*id=["']([^"']*)["'][^<]*</script>\s*<script type=["']text/javascript["'] src=["']http://liveview365.(?:com|tv)
+item_order=video
+@CATCH(liveview365,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=http://liveview365.(?:tv|com)/embedded\?id=([^&"]+)
+item_order=video
+@CATCH(liveview365,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Strmr Videos
+########################################################
+item_infos=chname="([^"]+)".*? src="http://www.strmr.tv
+item_order=video
+@CATCH(strmr,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# YaTV - Videos
+########################################################
+item_infos=\w{4}="http://yatv.ru/files/swf/container.swf\?cid=[^&]+.*&id=(\d+)"
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=YaTV - %s
+
+item_info_name=url
+item_info_from=video
+item_info_convert=getInfo('http://yatv.ru/ru//tv,dyn,channelRecords?record_id=%s','.*(http://s[0-9]\.d[0-9]\.yatv\.ru/[^"]*)\.[0-9]+\.jpg')
+item_info_build=%s.mp4
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=src="http://yatv.ru/files/swf/container.swf\?.*?cid=([^&"]+).*?"
+item_order=video
+
+item_info_name=url
+item_info_from=video
+item_info_convert=getInfo('http://yatv.ru/api/multi?objects={"servicelist":{"cid":"%s"},"me":{"cid":"%s"},"recordlist":{"cid":"%s"},"container":{"cid":"%s"},"player_template":{"rid":null,"tid":null,"cid":"%s"},"channel":{"cid":"%s"}}','.*"streamserver"\:"([^"]+)"')
+item_info_convert=replace('%s','\','')
+item_info_convert=replace('%s','ru/live','ru:1935/live')
+item_info_build=%s/record_246943_28 swfUrl=http://yatv.ru/files/swf/player.swf
+
+item_info_name=title
+item_info_from=url
+item_info_build=YaTV - %s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=<a target="_blank" href="(http://s\d*.d\d*.yatv.ru/[^\.]+\.mp4)">
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=YaTV - %s
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Livestream.com
+########################################################
+item_infos=document\.write\(unescape\('([^']*http://static.livestream.com[^']*)'\)\);
+item_order=url
+
+item_info_name=title
+item_info_from=url
+item_info_convert=parseText('%s','.*;channel=([^&]+)&.*')
+item_info_build=Livestream - %s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+########################################################
+item_infos=http://.*?livestream.com/embed/([^\?"]+)
+item_order=channel
+
+item_info_name=title
+item_info_from=channel
+item_info_build=Livestream - %s
+
+item_info_name=pageUrl
+item_info_from=channel
+item_info_convert=replace('%s','_','-')
+item_info_build=http://x%sx.api.channel.livestream.com/3.0/getstream.json
+
+item_info_name=url
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*"(rtsp://[^"]+)".*')
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+########################################################
+# StreamTorrent - Videos
+########################################################
+item_infos=["'](st://[^"']+)["']
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=StreamTorrent - %s
+
+item_info_name=url
+item_info_from=video
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# LiveVDO - Videos
+########################################################
+item_infos=http://(?:www.)?livevdo.tv/js/eloader.js\?token=([^&'"]+)
+item_order=video
+@CATCH(livevdo,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Ustream.tv - Videos
+########################################################
+item_infos="(http://www.ustream.tv/channel-popup/[^"]*[^\d"]+[^"]*)"
+item_order=tmpUrl
+item_skill=rss
+
+item_info_name=video
+item_info_from=tmpUrl
+item_info_convert=getInfo('%s','.*ustream.vars.channelId=([^;]+).*')
+item_info_build=%s
+
+item_info_name=title
+item_info_from=video
+item_info_build=UStream - %s
+
+item_info_name=cfg
+item_info_from=video
+item_info_build=ustream.cfg@%s
+
+item_info_name=url
+item_info_from=video
+item_info_build=http://cgw.ustream.tv/Viewer/getStream/1/%s.amf
+
+item_url_build=%s
+########################################################
+item_infos="http://www.ustream.tv/channel-popup/(\d+)"
+item_order=video
+item_skill=rss
+
+item_info_name=cfg
+item_info_from=video
+item_info_build=ustream.cfg@%s
+
+item_info_name=url
+item_info_from=video
+item_info_build=http://cgw.ustream.tv/Viewer/getStream/1/%s.amf
+
+item_info_name=title
+item_info_from=video
+item_info_build=UStream - %s
+
+item_url_build=%s
+
+
+########################################################
+# Mips.tv - Videos
+########################################################
+item_infos=id='([^']+).*?'http://www.mips.tv/player/doitlive_embed.js'
+item_order=video
+@CATCH(mips,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos="http://www.mips.tv/player/embedplayer.php\?id=([^&]+)&(?:amp;)?e=[0-9]&[^"]*"
+item_order=video
+@CATCH(mips,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# 786cast - Videos
+########################################################
+item_infos=fid="([^"]+)".*?src="http://www.786cast.(?:com|tv)/embed.js"
+item_order=video
+@CATCH(786cast,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos="http://www.786cast.(?:com|tv)?/embed\d*.php\?u=([^&"]+)
+item_order=video
+@CATCH(786cast,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# BoxLiveTV - Videos
+########################################################
+item_infos=u="([^"]+)"[^<]*</script><script type="text/javascript" src="http://www.cdn.boxlivetv.us/embed.js"[^>]*>
+item_order=video
+@CATCH(boxlivetv,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=http://boxlivetv.us/embed.php\?u=([^&"]+)
+item_order=video
+@CATCH(boxlivetv,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# iCastOn - Videos
+########################################################
+item_infos="http://www.icaston.tv/(?:embed|channel).php\?u=([^&"]+)
+item_order=video
+@CATCH(icaston,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Xuuby.com - Videos
+########################################################
+item_infos="http://www.xuuby.com/playerp.php\?chname=([^&"]+)
+item_order=video
+@CATCH(xuuby,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# HDCaster.net - Videos
+########################################################
+item_infos="http://hdcaster.net/.*?channel_id=(\d+)
+item_order=video
+@CATCH(hdcaster,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=id=["']([^'"]+)["'][^<]*</script><[^>]*src=["']http://hdcaster.net/player.js["']
+item_order=video
+@CATCH(hdcaster,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# StreamHQ.tv - Videos
+########################################################
+item_infos=id=[']?(\d+)[']?.*?src='http://streamhq.tv/player.js'
+item_order=video
+@CATCH(streamhq,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos="http://streamhq.tv/channel.php\?channel_id=(\d+)"
+item_order=video
+@CATCH(streamhq,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# VShare.tv - Videos
+########################################################
+item_infos="http://www.vshare.tv/js/eloader.js\?token=([^&"]+)
+item_order=video
+@CATCH(vshare,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# wiicast - Videos
+########################################################
+item_infos=src="http://(?:www.)?wii-cast.tv/embed[^\.]*\.php\?channel=([^&]+)[^"]*"
+item_order=video
+@CATCH(wiicast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=fid="([^"]+)".*?</script><script type="text/javascript" src="http://www.wii-cast.tv/js/embedplayer.js"
+item_order=video
+@CATCH(wiicast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# vip-live.tv - Videos
+########################################################
+item_infos=channel="([^"]+)".*?src="http://embed.vip-live.tv/(?:jw|fl)?player.js"
+item_order=video
+@CATCH(viplive,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Justin.tv - Videos
+########################################################
+#http://www.justin.tv/widgets/live_embed_player.swf?channel=cholillo_830
+item_infos="http://(?:www(?:-cdn)?.)?justin.tv/widgets/live_embed_player.*?.swf\?channel=([^"]+)"
+item_order=video
+@CATCH(justintv,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=justin.tv/((?!about_us|forums)[a-z_0-9]*)
+item_order=video
+@CATCH(justintv,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+########################################################
+# LiveFootballstream.net - Videos
+########################################################
+item_infos=src="(http://www.livefootballstream.net/zeze3.swf).*?"
+item_order=swf
+
+item_info_name=title
+item_info_from=swf
+item_info_build=LiveFootballstream - %s
+
+item_info_name=url
+item_info_from='rtmp://tonos.livefootballstream.net/streamilive-live/streamzezela-sntg swfUrl=' + swf + ' live=true'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+
+item_url_build=%s
+
+
+########################################################
+# Jimey - Videos
+########################################################
+item_infos="(http://jimey.tv/player/embedplayer.php\?[^"]*)"
+item_order=video
+@CATCH(jimey,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=(channel='[^']+'.+?)src='http://jimey.tv/player/jimeytv_embed.js'
+item_order=video
+@CATCH(jimey,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# ZeCast - Videos
+########################################################
+item_infos=file='([^']+)'.+?src='http://zecast.tv/embedPlayer.js'
+item_order=video
+@CATCH(zecast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=http://(?:www.)?zecast.tv/embed.php\?file=([^"'& ]+)
+item_order=video
+@CATCH(zecast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# TuTele - Videos
+########################################################
+item_infos=http://www.tutele.tv/embed.php\?c=([^&]+)
+item_order=video
+@CATCH(tutele,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# OwnCast - Videos
+########################################################
+item_infos="http://www.owncast.tv/embed.php\?u=([^&"]+)
+item_order=video
+@CATCH(owncast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=fid="([^"]+)".+?src="http://(?:www.)?owncast.tv/embed.js"
+item_order=video
+@CATCH(owncast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+
+########################################################
+# Sportozona.lt - Videos
+########################################################
+item_infos=(http://sportozona.lt/admin/jscripts/player/FlowPlayer.swf).*?streamingServerURL:%20%27(.*?)%27.*?url:%20%27(.*?)%27
+item_order=swf|rtmp|file
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file+ ' swfUrl=' + swf
+
+item_info_name=type
+item_info_build=direct.video
+
+item_url_build=%s
+
+
+########################################################
+# 24in.tv - Videos
+########################################################
+item_infos=fid=["']([^"']+)["'].*?src=["']http://24in.tv/player/embedPlayer.js["']
+item_order=video
+@CATCH(24in,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# Livebox.cz - Videos
+########################################################
+item_infos="http://player.livebox.cz/S-GambrinusLiga.*?value="token=([^,]+),videoId=([^,]+),
+item_order=token|id
+
+item_info_name=video
+item_info_from=token + '@@@' + id
+item_info_build=%s
+
+@CATCH(livebox,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# ReyHD.com - Videos
+########################################################
+item_infos=http://(?:www.)?reyhd.(?:com|tv)/(?:embed|view|channel).php\?(?:c|n|file)=([^ &"']+)
+item_order=video
+@CATCH(rey,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+
+########################################################
+# Megalive - Videos
+########################################################
+item_infos="movie" value="http://www.megalive.com/\w+/([^"]+)"
+item_order=video
+@CATCH(megalive,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# MMS
+########################################################
+item_infos=['" ](mms://[^'" ]+)['" ]
+item_order=url.tmp
+
+item_info_name=url1
+item_info_from=url.tmp
+item_info_convert=replace('%s','MMS:','http:')
+item_info_convert=ifExists('%s','%s','')
+item_info_build=%s
+
+item_info_name=url2
+item_info_from=url.tmp
+item_info_convert=replace('%s','MMS:','rtsp:')
+item_info_convert=ifExists('%s','%s','')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=url1 || url2 || url.tmp
+item_info_build=%s
+
+item_info_name=type
+item_info_from=url
+item_info_convert=parseText('%s','(\w{4}).*')
+item_info_convert=isEqual('%s','http','rss','direct.video')
+item_info_build=%s
+
+item_info_name=title
+item_info_from=url
+item_info_build=MMS - %s
+
+item_url_build=%s
+########################################################
+#item_infos=['"](http://(?!adserving|imstore)[^'"]*.aspx[^'"]*)['"]
+#item_order=url
+#item_skill=rss
+#item_info_name=title
+#item_info_from=url
+#item_info_build=ASPX - %s
+#item_url_build=%s
+########################################################
+
+
+########################################################
+# VeohCast - Videos
+########################################################
+item_infos=SWFObject\('(http://www.veohcast.tv/veohcast.tv.swf)'.*?'file',\s*'([^']+)'.*?'streamer',\s*'(rtmp://[^']+)'
+item_order=swf|stream|rtmp
+item_info_name=title
+item_info_from=stream
+item_info_build=VeohCast - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + stream + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# ASX
+########################################################
+item_infos="(HTTP://[^"]+.asx)"
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=ASX - %s
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# RTSP
+########################################################
+item_infos="(rtsp://[^"]+)"
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=RTSP - %s
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# RTMP
+########################################################
+item_infos=SWFObject\(['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"]
+item_order=swf|stream|rtmp
+
+item_info_name=title
+item_info_from=stream
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + stream + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=SWFObject\(['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"]
+item_order=swf|rtmp|file
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=src="([^"]+.swf)" .*?file=(rtmp://[^&]+nacevi[^&]+)
+item_order=swf|rtmp
+
+item_info_name=title
+item_info_from=rtmp
+item_info_build=Nacevi - %s
+
+item_info_name=url
+item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=flashvars=".*?file=([^\.&]+(?!\.flv)).*?streamer=((?!rtmp://live.yycast|rtmp://live.myp2p.in)[^&]+).*?"([^"]+.swf)"
+item_order=file|rtmp|swf
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos="([^"]+.swf)".*?file=([^\.]+)\.flv.*?streamer=([^&]+)
+item_order=swf|file|rtmp
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&]+&)[^'" ]*file=([^&]+)[^'" ]*)["' ]
+item_order=swf|rtmpTmp|file
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=rtmp
+item_info_from=rtmpTmp
+item_info_convert=replace('%s','/&','')
+item_info_convert=replace('%s','&','')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos="movie" value="([^"]+.swf)".*?"flashvars" value="src=(rtmp://[^&]+)&
+item_order=swf|rtmp
+
+item_info_name=title
+item_info_from=rtmp
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+# this is wha CooJah shows:     rtmp://95.100.249.196:1935/live?_fcs_vhost=cp67698.live.edgefcs.net&akmfv=1.8/SkyPoker_500k@9124
+# this is used:                 rtmp://cp67698.live.edgefcs.net/live/SkyPoker_500k@9124
+
+########################################################
+item_infos="(http://[^"]+.swf\?.*?file=(rtmp[^&]+)&.*?id=([^&"]+)[^"]*)"
+item_order=swf|rtmp|file
+
+item_info_name=title
+item_info_from=rtmp + '/' + file
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfUrl=' + swf + ' live=true swfVfy=1 pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos="(http://[^"]+.swf\?.*?streamName=([^&]+).*?(rtmp://[^&"]+)[^"]*)"
+item_order=swf|file|rtmp
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' live=true swfVfy=1 swfUrl=' + swf
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=['"]movie['"] value=['"]([^'"]+.swf)['"].*?['"]flashvars['"] value=['"].*?file=([^&]+)\.flv.*?streamer=(rtmp://[^'"&]+)
+item_order=swf|file|rtmp
+
+item_info_name=title
+item_info_from=rtmp
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=src="([^"]+.swf)".*?flashvars="streamUrl=([^"]+)"
+item_order=swf|rtmp.tmp
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','rtmpt:','rtmp:')
+item_info_build=%s
+
+item_info_name=title
+item_info_from=rtmp
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=streamer=([^&"]+).*?file=([^&"]+).*?src="([^"]+.swf)"
+item_order=rtmp|file|swf
+
+item_info_name=title
+item_info_from=rtmp
+item_info_build=RTMP - %s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# M3U8
+########################################################
+item_infos=(http://(?!IPhone)[^ "']+\.m3u8)
+item_order=url
+
+item_info_name=title
+item_info_from=url
+item_info_build=M3U8 - %s
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################  
+# ASF - Videos
+########################################################  
+item_infos=["']*(http://[^"'\s]+\.asf)["'\s]
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=WMP - %s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################  
+item_infos=src="([^"]+)"[^<]+type="[^"]*asf[^"]*"
+item_order=url.tmp
+item_skill=rss
+item_info_name=url
+item_info_from=url.tmp
+item_info_convert=urlMerge('@CURRENT_URL@','%s')
+item_info_build=%s
+item_info_name=title
+item_info_from=url
+item_info_build=WMP - %s
+item_url_build=%s
+
+
+########################################################  
+# VLC - Videos
+########################################################  
+item_infos=vlc_controls.play\(["']([^"']+)['"]\)
+item_order=url
+item_info_name=title
+item_info_from=url
+item_info_build=VLC - %s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+
+########################################################  
+# Aliez - Videos
+########################################################  
+item_infos=src="http://www.livefootballstream.net/alie.php\?cname=([^"]+)"
+item_order=video
+@CATCH(aliez,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################  
+# ProTV - Videos
+########################################################  
+item_infos=(http://web\d+.protv.ro/[^\.]+\.swf)\?&streamer=(rtmp://[^&"' ]+)&file=([^\.]+)\.([^&"' ]+)
+item_order=swf|rtmp|file|ext
+
+item_info_name=title
+item_info_from=file
+item_info_build=ProTV - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + ext + ':' + file + '.' + ext + ' live=true swfUrl=' + swf + ' pageUrl=' + swf
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################  
+item_infos=http://www.sport.ro/live/show-player/id_stream/([^"'& ]+)';\s*var current_div = 'live_player';
+item_order=id
+
+item_info_name=file
+item_info_from=id
+item_info_convert=getInfo('http://www.sport.ro/live/get-video/video_url_identifier/%s','.*"playlist":\[.*?"url":"([^"]+)".*')
+item_info_build=%s
+
+item_info_name=url
+item_info_from='rtmp://live.protv.ro/live1/' + file + ' live=true swfUrl=http://d1.a4w.ro/player/flowplayer.cluster-3.2.1.swf pageUrl=http://d1.a4w.ro/player/flowplayer.cluster-3.2.1.swf'
+item_info_build=%s
+
+item_info_name=title
+item_info_from=file
+item_info_build=ProTV - %s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################  
+# Streami - Videos
+########################################################  
+item_infos=["'](http://streami.tv/embed[^"']+)["']
+item_order=tmpUrl
+@CATCH(streami,tmpUrl)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+########################################################  
+# Laola1 - Videos
+########################################################  
+item_infos=http://(?:www.)?laola1.tv/[^"]+/video/[^"]+\D+(\d{5,}).html
+item_order=video
+@CATCH(laola1,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Hogy.tv - Videos
+########################################################
+item_infos=src="http://www.hogy.tv/channel.php\?file=([^&"]+)&[^"]+"
+item_order=video
+@CATCH(hogy,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=http://www.hogy.tv/live-channels/channel/([^']+)'
+item_order=video
+@CATCH(hogy,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Rede.tv - Videos
+########################################################
+item_infos=(http://www.redetv.com[^\?]+.swf\?file=([^&]+.smil)[^"]*)
+item_order=swf|tmpUrl
+
+item_info_name=tmp
+item_info_from=tmpUrl
+item_info_convert=getInfo('%s','.*"(rtmp://[^"]+)".*?<video src="([^"]+)".*','','rtmp|file')
+item_info_build=%s
+
+item_info_name=title
+item_info_from=file
+item_info_build=Rede.tv - %s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Myp2p.In - Videos
+########################################################
+item_infos=chname="([^"]+)"[^<>]+</script><script[^>]+src="http://www.myp2p.in/js/embed.js"
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=Myp2p.In - %s
+
+item_info_name=pageUrl
+item_info_from=video
+item_info_build=http://www.myp2p.in/player.php?chname=%s&width=640&height=490&a=1
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*flashvars="file=stream.php\?stream=([^&]+).*?src="([^"]+.swf)".*','','channel|swf')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=channel
+item_info_convert=getInfo('http://www.myp2p.in/stream.php?stream=%s','.*streamer">(rtmp://[^<]+)<.*')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/stream' + video + ' swfUrl=http://www.myp2p.in/' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos="file=([^&"]+)&streamer=(rtmp://live.myp2p.in[^&]+).*?src="([^"]+)"
+item_order=video|rtmp|swf
+
+item_info_name=swf
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + video + ' swfUrl=http://www.myp2p.in/' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=title
+item_info_from=url
+item_info_build=Myp2p.In - %s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# AlJazeera - Videos
+########################################################
+item_infos=aljazeera.*?eventId:(\d+),partnerId:"(\d+)".*?"([^"]+.swf)"
+item_order=event|partner|swfTmp
+
+item_info_name=title
+item_info_from=event
+item_info_build=AlJazeera - %s
+
+item_info_name=pageUrl
+item_info_from='http://www.ajsglobal.aljazeerasport.tv/streaming/multiformat/streaminfo/index.html?partnerId=' + partner + '&eventId=' + event + '&presentation=/InformAdaptiveXML.jsp&timestamp=318'
+item_info_build=%s
+
+item_info_name=swf
+item_info_from=swfTmp
+item_info_build=http://www.ajsglobal.aljazeerasport.tv%s
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*"(rtmp://[^"]+)".*?video src="([^"]+)".*','','rtmp|file')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + '?reportingKey=eventId-' + event + '_partnerId-' + partner + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+# Popler - Videos
+########################################################
+item_infos=src="http://www.popler.tv/(\w+)/([^"]+)"
+item_order=php|channel
+
+item_info_name=title
+item_info_from=channel
+item_info_build=Popler - %s
+
+item_info_name=pageUrl
+item_info_from='http://www.popler.tv/' + php +'.php,v' + channel + ',@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*\'([^\']+.swf)\'.*?\'host\':\'(rtmp://[^\']+)\'.*','','swf|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath='+ channel + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Wii-Stream - Videos
+########################################################
+item_infos=f*id=["']([^"']+)['"].*?src=["']http://(?:www.)?wii-stream.com/player/embedPlayer.js["']
+item_order=video
+@CATCH(wiistream,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=http://(?:www.)?wii-stream.(?:com|tv)/embed.php\?v=([^&]+)
+item_order=video
+@CATCH(wiistream,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# SportItalia24 - Videos
+########################################################
+item_infos="http://sportitalia24.twww.tv/\?v=([^"]+)"
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=SportItalia24 - %s
+
+item_info_name=pageUrl
+item_info_from=video
+item_info_build=http://sportitalia24.twww.tv/api_new/index.php?controller=videos&action=showdirect&md5=%s&api=json
+
+item_info_name=smil
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*"wsr%3A%2F([^"]+)".*')
+item_info_convert=unquote('%s')
+item_info_build=http://%s
+
+item_info_name=tmp
+item_info_from=smil
+item_info_convert=getInfo('%s','.*"(rtmp[^"]+)".*?<video src="([^"]+)".*','','rtmp|file')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' live=true'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+########################################################
+# Dinozap - Videos
+########################################################
+item_infos=http://dinozap.tv/embed.php\?c=(\d+)
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=Dinozap - %s
+
+item_info_name=pageUrl
+item_info_from=video
+item_info_build=http://dinozap.tv/embed.php?c=%s&width=580&height=400
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*'([^']*.swf)'.*?'file',\s*'([^']+)'.*?'streamer',\s*'(rtmp://[^']+).*','','swf|file|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath='+ file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+item_infos=http://www.dinozap.tv/ch.php\?file=([^"'& ]+)
+
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=Dinozap - %s
+
+item_info_name=pageUrl
+item_info_from=video
+item_info_build=http://dinozap.tv/embed.php?c=%s&width=580&height=400
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*'([^']*.swf)'.*?'file',\s*'([^']+)'.*?'streamer',\s*'(rtmp://[^']+).*','','swf|file|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from='rtmp://dinozap.tv:1935/vod/ playpath='+ file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+# NachoLive - Videos
+########################################################
+#item_infos="http://www.nacholive.tv/embed/([^"]+)"
+#item_order=video
+
+#item_info_name=title
+#item_info_from=video
+#item_info_build=NachoLive - %s
+
+#item_info_name=tmp
+#item_info_from=video
+#item_info_convert=getInfo('http://www.nacholive.tv/embed/%s','.*<embed src="([^"]+.swf)".*?xmlPath=(http://www.nacholive.tv/xml_for_embed/[^"]+)".*','','swf|xml')
+#item_info_build=%s
+
+
+#item_info_name=file
+#item_info_from=xml
+#item_info_convert=getInfo('%s','.*<fms>([^<]+)</fms>.*')
+#item_info_convert=decodeBase64('%s')
+#item_info_build=%s
+
+#item_info_name=url
+#item_info_from='/' + video + ' swfUrl=http://www.myp2p.in/' + swf + ' live=true pageUrl=' + pageUrl
+#item_info_build=%s
+
+#item_info_name=type
+#item_info_build=direct.video 
+#item_url_build=%s
+########################################################
+item_infos=embedChannelId\s*=\s*(\d+);.*?src="http://www.nacholive.tv/[^"]+.js"
+item_order=video
+
+item_info_name=title
+item_info_from=video
+item_info_build=NachoLive - %s
+
+item_info_name=url
+item_info_from=video
+item_info_build=rtmp://www.nacholive.tv:1935/fenixcast_video/%s app=fenixcast_video/1062 playpath=stream live=true swfVfy=1 swfUrl=http://www.nacholive.tv/embed.swf pageUrl=http://www.nacholive.tv/embed/1062/480/350
+
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# 110cast.com - Videos
+########################################################
+item_infos=fid="([^"]+)".*?src="http://(?:www.)?110cast.com/embed.js"
+item_order=video
+@CATCH(110cast,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=http://www.110cast.com/embed.php\?u=([^&]+)
+item_order=video
+@CATCH(110cast,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+########################################################
+# Cast365.tv - Videos
+########################################################
+item_infos=http://www.cast365.tv/channel.php\?u=([^"'& ]+)
+item_order=video
+@CATCH(cast365,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+########################################################
+# MexCast - Videos
+########################################################
+item_infos=(http://(?:www.)?mexcast.tv/mexcast.tv.swf\?.*?file=([^&"]+).*?streamer=([^&"]+)[^"]*)"
+item_order=swf|file|rtmp
+item_info_name=title
+item_info_from=file
+item_info_build=MexCast - %s
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' live=true swfVfy=1 swfUrl=' + swf
+item_info_build=%s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Tytele - Videos
+########################################################
+item_infos=displayFlash\("([^"]+)","lecteurSTRM",".*?video=([^&"]+)
+item_order=swf|file
+item_info_name=title
+item_info_from=file
+item_info_build=Tytele - %s
+item_info_name=url
+item_info_from='rtmp://streaming1.extrazimut.net/azimutlive/' + file + ' live=true swfVfy=1 swfUrl=' + swf
+item_info_build=%s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Tebeo - Videos
+########################################################
+item_infos=key:\s*'([^']+)',.*?url:\s*'([^']+)'.*?url:\s*'([^']+swf)',\s*netConnectionUrl:\s*'(rtmp://tebeo[^']+)'
+item_order=token|file|swf|rtmp
+item_info_name=title
+item_info_from=rtmp
+item_info_build=Tebeo - %s
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' token=' + token + ' live=true swfVfy=1 swfUrl=http://www.tebeotv.fr/' + swf
+item_info_build=%s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+# TVRennes35 - Videos
+########################################################
+item_infos=embedSWF\("([^"]+)"
+item_order=swf
+item_info_name=title
+item_info_build=TVRennes35
+item_info_name=url
+item_info_from=swf
+item_info_build=rtmpt://tvrennes35livefs.fplive.net:80/tvrennes35live-live/streamlive swfVfy=1 live=true swfUrl=http://www.tvrennes35bretagne.fr%s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
+# istreamlive.net - Videos
+########################################################
+#item_infos=<a href="live([0-9]).htm">
+#item_order=url
+#item_info_name=title
+#item_info_from=url
+#item_info_build=Istream - %s
+#item_info_name=type
+#item_info_build=direct.video 
+#item_url_build=rtmp://streamer.istreamlive.net/aliez/tvope playPath=flv:%s.flv swfurl=http://player.longtailvideo.com/player5.4.swf
+
+########################################################
+#item_infos=channel='([^']+)'; user='([^']+)'; width='[^']+'; height='[^']+';[^<]*</script>[^>]*<script type='text/javascript' src='http://jimey.tv/player/jimeytv_embed.js'
+#item_order=channel|user
+#item_skill=rss
+#item_info_name=temp
+#item_info_from=channel
+#item_info_build=channel=%s&user=bnpotyu
+#item_info_name=url
+#item_info_from=temp
+#item_info_build=%s
+#item_info_name=title
+#item_info_from=url
+#item_info_build=Jimey - %s
+#item_url_build=http://jimey.tv/player/embedplayer.php?%s
+########################################################
+#item_infos=vars='file=([^&]+)[^']*'
+#item_order=url
+#item_info_name=title
+#item_info_from=url
+#item_info_build=Jimey - %s
+#item_info_name=type
+#item_info_build=direct.video 
+#item_url_build=rtmp://174.37.65.216:1935/edge/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/player/embedplayer.php?channel=hwawshy40&user=hwawshy40&width=640&height=490 swfvfy=true
+##item_url_build=rtmp://80.82.64.49:1935/redirect/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/subscriber.php?channel=bnpotyu&user=bnpotyu
+########################################################
+#item_infos=flashvars='([^']*)'
+#item_order=url
+#item_info_name=title
+#item_info_from=url
+#item_info_build=Jimey - %s
+#item_info_name=type
+#item_info_build=direct.video 
+#item_url_build=rtmp://80.82.64.49/redirect/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/player/embedplayer.php?channel=looma236&user=looma236
+
+
+########################################################
+# SkySport1 - Videos
+########################################################
+#item_infos=src="http://(skysport1.info)/skys0port1.swf"
+#item_order=url
+#item_info_name=title
+#item_info_from=url
+#item_info_build=SkySport1 - %s
+#item_info_name=type
+#item_info_build=direct.video 
+#item_url_build=rtmpe://82.166.110.11:1935/live/ playpath=SkySport1.info swfurl=http://www.skysport1.info/player_hd.swf pageUrl=http://www.%s/box-11.htm

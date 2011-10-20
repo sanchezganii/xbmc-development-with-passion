@@ -1,0 +1,16 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=Mips - %s
+
+item_info_name=channel.tmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://mips.tv/channel.php?u=%s','.*<td class="Text_Bold_Orange_Large" align="right">([^<]+)</td>.*')
+item_info_build=%s
+
+item_info_name=channel
+item_info_from=channel.tmp || @PARAM1@
+item_info_build=%s
+
+item_info_name=url
+item_info_from=channel
+item_info_build=rtmp://mipscdn.tv/live/%s

@@ -1,0 +1,8 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=ZeCast - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://live.zecast.tv:1935/zecast/%s swfUrl=http://zecast.tv/player.swf swfVfy=1 live=true
+

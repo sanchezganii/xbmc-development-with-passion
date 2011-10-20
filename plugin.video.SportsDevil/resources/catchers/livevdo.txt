@@ -1,0 +1,20 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=LiveVDO - %s
+
+item_info_name=channel
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://livevdo.tv/feedXML.php?token=%s','.*<file>([^<]+)</file>.*')
+item_info_build=%s
+
+item_info_name=swfUrl
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://livevdo.tv/js/eloader.js?token=%s','.*"source"\s*\:\s*"([^"]+)".*')
+item_info_build=swfUrl=%s swfVfy=1 live=true
+
+item_info_name=pageUrl
+item_info_build=pageUrl=http://livevdo.tv/live/8aae375445ddc3411338225bd2692c40536b97b3dde46daf9aad/bbbb/1
+
+item_info_name=url
+item_info_from=channel + ' ' + swfUrl + ' ' + pageUrl
+item_info_build=rtmp://extradream.fc.llnwd.net:1935/extradream/%s

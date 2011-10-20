@@ -1,0 +1,22 @@
+item_info_name=tmp
+item_info_from=@PARAM1@
+item_info_convert=replace('%s',' ','')
+item_info_build=%s
+
+item_info_name=title
+item_info_from=tmp
+item_info_build=CastAMP - %s
+
+item_info_name=random
+item_info_from=''
+item_info_convert=random(1,19)
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=random
+item_info_build=rtmp://s%s.castamp.com/live/
+#item_info_build=rtmpe://cp96798.live.edgefcs.net/live/ChelTV_Ch01_1000k@26291
+
+item_info_name=url
+item_info_from=rtmp + tmp
+item_info_build=%s swfVfy=1 live=true swfUrl=http://live.castamp.com/player.swf pageUrl=http://www.castamp.com/channel/fvbrgbgrbr

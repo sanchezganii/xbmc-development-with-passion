@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=Rey - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.reyhd.tv/embed.php?c=%s&id=&width=640&height=385&autostart=true
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(\'([^\']+)\'.*?\'file\',\s*\'([^\']+)\'.*?\'streamer\',\s*\'([^\']+)\'.*','','swf|file|rtmpt')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmpt
+item_info_convert=replace('%s','/redirect',':1935/live')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
