@@ -25,14 +25,20 @@ class Generator:
             try:
                 # skip any file or .svn folder
                 if ( not os.path.isdir( addon ) or addon == ".svn" ): continue
+                zipfiles = []
                 for files in os.listdir(addon):
                     if files.endswith(".zip"):
-                        with ZipFile(addon + '/' + files, 'r') as myzip:
-                            myzip.extract(addon + '/addon.xml',addon)
-                            if os.path.isfile(addon + '/addon.xml'):
-                                os.remove(addon + '/addon.xml')
-                            os.rename(addon + '/' + addon + '/addon.xml', addon + '/addon.xml')
-                            os.rmdir(addon + '/' + addon + '/')
+                        zipfiles.append([os.path.getctime(addon + '/'+ files), files])
+                if len(zipfiles) > 0:
+                    zipfiles.sort(reverse=True)
+                    zipfiles = zipfiles[0]
+                    with ZipFile(addon + '/' + zipfiles[1], 'r') as myzip:
+                        myzip.extract(addon + '/addon.xml',addon)
+                        if os.path.isfile(addon + '/addon.xml'):
+                            os.remove(addon + '/addon.xml')
+                        os.rename(addon + '/' + addon + '/addon.xml', addon + '/addon.xml')
+                        os.rmdir(addon + '/' + addon + '/')
+
                 # create path
                 _path = os.path.join( addon, "addon.xml" )
                 # split lines for stripping
