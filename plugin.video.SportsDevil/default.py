@@ -9,7 +9,7 @@ __author__ = 'MaxMustermann'
 __url__ = ''
 __svn_url__ = ''
 __credits__ = 'VideoDevil developers'
-__version__ = '1.6.5'
+__version__ = '1.6.5.1'
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
 __cwd__ = __settings__.getAddonInfo('path')
 
