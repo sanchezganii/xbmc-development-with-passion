@@ -1,0 +1,375 @@
+########################################################
+# Firstrowsports Blogspot - Redirect
+########################################################
+item_infos=src="(http://firstrowsports.blogspot.com.*?.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Firstrowsports Blogspot
+item_url_build=%s
+
+
+########################################################
+# Zef - Redirect
+########################################################
+item_infos=src="(http://[^"]+/zef/)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Zef
+item_url_build=%s
+
+########################################################
+# Twiz - Redirect
+########################################################
+item_infos=src="(http://[^/]+/~streams/twiz/)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Twiz
+item_url_build=%s
+
+
+########################################################
+# Tinyurl - Redirect
+########################################################
+item_infos="(http://tinyurl.com/[^"]+)"
+item_order=code
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Tinyurl
+item_info_name=cfg
+item_info_build=tinyurl.cfg
+item_info_name=url
+item_info_build=@CURRENT_URL@
+item_info_name=plot
+item_info_from=url
+item_info_build=%s
+item_url_build=%s
+########################################################
+
+########################################################
+# XFilmesonline - Redirect
+########################################################
+item_infos="(http://www.xfilmesonline.net/[^"]+ch\d+.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - XFilmesonline
+item_url_build=%s
+
+########################################################
+# Unixteacher - Redirect
+########################################################
+item_infos="(http://core.unixteacher.de/[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Unixteacher
+item_url_build=%s
+
+
+########################################################
+# Dream-Viewing.com - Redirect
+########################################################
+item_infos="[/]*([^"]*/player.html)"
+item_order=url.tmp
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Dream-Viewing.com
+
+item_info_name=prefix.tmp
+item_info_from=url.tmp
+item_info_convert=parseText('%s','(^.{4}).*')
+item_info_convert=ifEqual('%s','http','','http://www.dream-viewing.com/')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=prefix + url.tmp
+item_info_build=%s
+
+item_url_build=%s
+
+########################################################
+# Eugoals.com - Redirect
+########################################################
+item_infos="([^"]*yayin.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Eugoals.com
+item_url_build=http://www.eugoals.com/%s
+
+
+########################################################
+# Firstlivesport.com - Redirect
+########################################################
+item_infos="(http://(?:first|from)livesport.com/(?!chat)[^"]*).html"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Firstlivesport.com
+item_url_build=%s
+
+
+########################################################
+# Funsports.tv - Redirect
+########################################################
+item_infos="(http://f--f--b.blogspot.com/p/channel-\d+.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Funsports.tv
+item_url_build=%s
+
+########################################################
+# PirloTV - Redirect
+########################################################
+item_infos=src="(http://www.channel\d+.pirlotv.me/*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - PirloTV
+item_url_build=%s
+########################################################
+item_infos=src="(http://canal\d+ptv[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect2 - PirloTV
+item_url_build=%s
+
+
+
+########################################################
+# Ucoz - Redirect
+########################################################
+item_infos=(http://hdtv.ucoz.es/player.htm)
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Ucoz
+item_url_build=%s
+
+
+########################################################
+# FabianaAndrea24 - Redirect
+########################################################
+item_infos=iframe[^>]+(http://fabianaandrea24c.blogspot.com/)" vspace="0"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - FabianaAndrea24
+item_url_build=%s
+
+
+########################################################
+# Livesport1org - Redirect
+########################################################
+item_infos=(http://livesport1org.ucoz.com/[^"' ]+)
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Livesport1org
+item_url_build=%s
+
+
+########################################################
+# VewrFew - Redirect
+########################################################
+item_infos=<iframe src="(http://vewrfew.blogspot.com/[^"]*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - VewrFew
+item_url_build=%s
+
+
+########################################################
+# Nannanaq - Redirect
+########################################################
+item_infos=<iframe src="(http://nannanaq.blogspot.com/[^"]*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Nannanaq
+item_url_build=%s
+
+
+########################################################
+# Nacevi - Redirect
+########################################################
+item_infos=src="(http://cdn\d+.nacevi.cz/[^"]*(?!.asf))"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Nacevi
+item_url_build=%s
+
+
+########################################################
+# FPLeagueHD - Redirect
+########################################################
+item_infos=src="(http://www.fpleaguehd.info/vb[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - FPLeagueHD
+item_url_build=%s
+########################################################
+item_infos=(http://www.fpleaguehd.com/schedulesoccerjumbo_\d+.htm)
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - FPLeagueHD
+item_url_build=%s
+
+
+########################################################
+# Shortn/Bodyzone - Redirect
+########################################################
+item_infos=<iframe[^<]+"(bodyzone.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Shortn/Bodyzone
+item_url_build=http://shortn.in/%s
+
+
+########################################################
+# Yolasite - Redirect
+########################################################
+item_infos=frame src="(http://[^\.]+\.yolasite.com[/]*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Yolasite
+item_url_build=%s
+
+
+########################################################
+# Superddd - Redirect
+########################################################
+item_infos=frame[^>]+src="(http://superddd.ucoz.com/(?!ads)[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Superddd
+item_url_build=%s
+
+
+########################################################
+# Strompl - Redirect
+########################################################
+item_infos=<iframe\s*id="videoiframe"[^>]+src="([^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Strompl
+item_url_build=http://web.zone.ee/strompl/%s
+
+
+########################################################
+# KiwiiSports - Redirect
+########################################################
+item_infos=<iframe[^>]+src="(http://kiwiisports.blogspot.com/[^"]+channel\d+.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - KiwiiSports
+item_url_build=%s
+
+
+########################################################
+# Ofuxico - Redirect
+########################################################
+item_infos=<iframe src="(http://www.ofuxico.net/[^"]+.html)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Ofuxico
+item_url_build=%s
+
+
+########################################################
+# LivestreamGoals - Redirect
+########################################################
+item_infos=frame src="(http://livestreamgoals[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - LivestreamGoals
+item_url_build=%s
+
+########################################################
+# LivestreamGoals/Channel - Redirect
+########################################################
+item_infos=frame[^>]+src="(http://livestreamingch\d+.blogspot.com/)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - LivestreamGoals/Channel
+item_url_build=%s
+
+
+########################################################
+# TheJoker - Redirect
+########################################################
+item_infos=name="TheJoker"\s*src="([^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - TheJoker
+item_url_build=%s
+
+
+########################################################
+# GoalP2PTV - Redirect
+########################################################
+item_infos=content="[^"]*(http://www.goalp2ptv[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - GoalP2PTV
+item_url_build=%s
+
+
+########################################################
+# InterrogacaoDigital - Redirect
+########################################################
+item_infos="(HTTP://stream\d+.interrogacaodigital.net/[^"]+)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - InterrogacaoDigital
+item_url_build=%s
+
+
+
+########################################################
+# MyPremium.tv - Redirect
+########################################################
+item_infos=http://(?:www.)?mypremium.tv/em/(\d+)
+item_order=id
+item_skill=rss
+
+item_info_name=title
+item_info_from=id
+item_info_build=MyPremium.tv - %s
+
+item_info_name=url
+item_info_from='http://mypremium.tv/em/' + id + '/s1.shtml'
+item_info_build=%s
+
+item_url_build=%s
+
+########################################################
+# LivesportsTVs - Redirect
+########################################################
+item_infos=(http://livesportstvs.com/.*?)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - LivesportsTVs
+item_url_build=%s
+

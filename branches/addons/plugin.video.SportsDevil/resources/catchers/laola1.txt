@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=Laola1 - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@ + '_high.xml?partnerid=1&streamid=' + @PARAM1@
+item_info_build=http://streamaccess.laola1.tv/flash/1/%s
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*auth="([^"]+)"\s*url="([^"]+)"\s*stream="([^"]+)".*?aifp="([^"]+)".*','@CURRENT_URL@','token|rtmp|file|suffix')
+item_info_build=%s
+
+item_info_name=tmpRtmp
+item_info_from=rtmp
+item_info_convert=replace('%s','/live','/')
+item_info_build=%s
+
+item_info_name=url
+item_info_from='rtmp://' + rtmp + '?_fcs_vhost=' + tmpRtmp + file + '?auth=' + token + '&aifp=' + suffix + ' live=true swfVfy=1 swfUrl=http://www.laola1.tv/swf/player.v12.3.swf pageUrl=www.laola1.tv'
+item_info_build=%s

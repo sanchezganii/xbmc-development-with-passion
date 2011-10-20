@@ -1,0 +1,16 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=OwnCast - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.owncast.tv/embed.php?u=%s&vw=700&vh=480
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*file:\s*"([^"]+)".*?flashplayer:\s*"([^"]+)".*?streamer:\s*"([^"]+)".*','','file|swf|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfUrl=http://www.owncast.tv/' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
