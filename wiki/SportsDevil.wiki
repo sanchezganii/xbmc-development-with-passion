@@ -162,8 +162,7 @@ This new option allows you to:
       <li> make a simulcast of several matches</li>
       <li> easily change to another stream if the current one is
 overloaded</li>
-      <li> create a playlist of tv channels and save it for later
-usage</li>
+      <li> create a playlist of tv channels and save it for later usage</li>
     </ul>
 A known bug of this new feature is, that the current playlist is
 cleared by xbmc whenever an error occurs while trying to play a certain
