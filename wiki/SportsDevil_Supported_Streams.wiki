@@ -5,7 +5,7 @@
  
   <ul>
   <li> Veetle</li>
-  <li> FreedoCast</li>
+  <li> Freedocast</li>
   <li> MMS</li>
   <li> VLC</li>
   <li> ASF</li>
