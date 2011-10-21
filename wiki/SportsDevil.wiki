@@ -160,17 +160,15 @@ item. <br>
 This new option allows you to:
     <ul>
       <li> make a simulcast of several matches</li>
-      <li> easily change to another stream if the current one is
-overloaded</li>
+      <li> easily change to another stream if the current one is overloaded</li>
       <li> create a playlist of tv channels and save it for later usage</li>
     </ul>
 A known bug of this new feature is, that the current playlist is
 cleared by xbmc whenever an error occurs while trying to play a certain
 stream. I don't know why it doesn't just skip this item like it does
-with offline streams.</li>
+with offline streams.
   <li> new context menu option 'Download'</li>
   <li> new sites:
-    <ul>
       <li>TV
         <ul>
           <li> LiveSportsOnWeb</li>
@@ -180,8 +178,6 @@ with offline streams.</li>
           <li> MyPremium.tv</li>
         </ul>
       </li>
-    </ul>
-    <ul>
       <li>Live Sports
         <ul>
           <li> SoccerHD.info</li>
