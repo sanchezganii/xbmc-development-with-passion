@@ -57,24 +57,19 @@ You can browse the content of:
   </li>
 </ul>
 
-<ul>
-  <li> External players needed:
- 
+External players needed for:
   <ul>
   <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
   <li> !StreamTorrent (<a href="http://forum.xbmc.org/showthread.php?t=108539">Howto use !StreamTorrent as external player</a>)</li>
   </ul>
-  </li>
 
-  <li> Other addons needed:
-
+Other addons needed for:
   <ul>
   <li> Veetle (needs Veetle addon)</li>
   <li> !YouTube (needs !YouTube addon)</li>
   <li> Freedocast (needs Freedocast addon)</li>
   </ul>
-  </li>
-</ul>
+
 <br>
 Installation:
 <ol style="list-style-type: decimal;">
