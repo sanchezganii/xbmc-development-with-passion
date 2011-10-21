@@ -99,10 +99,9 @@ V1.4.0:
   * Syntax:
     * new: 'section' (only parse a part of the page)
     * new methods for 'item_info_convert':
-replaceFromDict(dictfile), getInfo(page,regex)
+    replaceFromDict(dictfile), getInfo(page,regex)
     * new: call cfg with more than one parameter
-    * new: @CATCH(zonein,channel)@ defines a catcher per
-stream
+    * new: @CATCH(zonein,channel)@ defines a catcher per stream
     * ...
   
 <br>
