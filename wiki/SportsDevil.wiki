@@ -1,9 +1,9 @@
-=SportsDevil=
+=!SportsDevil=
 
 <img align="center" src="http://s1.directupload.net/images/110424/he54f4fc.png">
 <br>
-SportsDevil is a video addon for live sports and highlights, blogs and
-TV. It's based on VideoDevil, so big thanks to the developers. <br>
+!SportsDevil is a video addon for live sports and highlights, blogs and
+TV. It's based on !VideoDevil, so big thanks to the developers. <br>
 Please try it out and give me some feedback. <br>
 <br>
 <a href="http://www.mediafire.com/download.php?15ora2jm9cro7nj"><font size="4">Download</font></a>
@@ -20,11 +20,11 @@ You can browse the content of:
 
   <ul>
   <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
-  <li> <a href="http://www.firstrowsports.eu">FirstRowSports.eu</a></li>
-  <li> <a href="http://www.chanfeed.com">ChanFeed.com</a></li>
+  <li> <a href="http://www.firstrowsports.eu">!FirstRowSports.eu</a></li>
+  <li> <a href="http://www.chanfeed.com">!ChanFeed.com</a></li>
   <li> <a href="http://www.lshunter.tv">LSHunter.tv</a></li>
   <li> <a href="http://www.soccerhd.info">SoccerHD.info</a></li>
-  <li> <a href="http://www.rojadirecta.me">RojaDirecta.me</a></li>
+  <li> <a href="http://www.rojadirecta.me">!RojaDirecta.me</a></li>
   </ul>
   </li>
 
@@ -47,12 +47,12 @@ You can browse the content of:
   <li> TV
   
   <ul>
-  <li> <a href="http://www.livesportsonweb.com">LiveSportsOnWeb.com</a></li>
+  <li> <a href="http://www.livesportsonweb.com">!LiveSportsOnWeb.com</a></li>
   <li> <a href="http://www.twww.tv">Twww.tv</a></li>
-  <li> <a href="http://www.putpat.tv">PutPat.tv</a></li>
-  <li> <a href="http://www.shadownet.ro">ShadowNet.ro</a></li>
+  <li> <a href="http://www.putpat.tv">!PutPat.tv</a></li>
+  <li> <a href="http://www.shadownet.ro">!ShadowNet.ro</a></li>
   <li> <a href="http://www.tvembed.eu">TVEmbed.eu</a></li>
-  <li> <a href="http://www.mypremium.tv">MyPremium.tv</a></li>
+  <li> <a href="http://www.mypremium.tv">!MyPremium.tv</a></li>
   </ul>
   </li>
 </ul>
@@ -61,8 +61,8 @@ You can browse the content of:
   <li> External players needed:
  
   <ul>
-  <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use SopCast as external player</a>)</li>
-  <li> StreamTorrent (<a href="http://forum.xbmc.org/showthread.php?t=108539">Howto use StreamTorrent as external player</a>)</li>
+  <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
+  <li> !StreamTorrent (<a href="http://forum.xbmc.org/showthread.php?t=108539">Howto use !StreamTorrent as external player</a>)</li>
   </ul>
   </li>
 
@@ -70,7 +70,7 @@ You can browse the content of:
 
   <ul>
   <li> Veetle (needs Veetle addon)</li>
-  <li> YouTube (needs YouTube addon)</li>
+  <li> !YouTube (needs !YouTube addon)</li>
   <li> Freedocast (needs Freedocast addon)</li>
   </ul>
   </li>
