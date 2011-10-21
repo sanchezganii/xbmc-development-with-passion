@@ -57,6 +57,10 @@ You can browse the content of:
   </li>
 </ul>
 
+
+[https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams List of currently supported streams]
+
+
 External players needed for:
   <ul>
   <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
