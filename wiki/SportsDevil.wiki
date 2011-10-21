@@ -7,7 +7,7 @@ TV. It's based on !VideoDevil, so big thanks to the developers. <br>
 Please try it out and give me some feedback. <br>
 <br>
 <a href="http://www.mediafire.com/download.php?15ora2jm9cro7nj"><font size="4">Download</font></a>
-or install via <a href="http://repository-xbmcnerds.googlecode.com/files/repository.xbmcnerds.zip">repo</a><br>
+or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip">repo</a><br>
 <br>
 <br>
 [http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg]<br>
