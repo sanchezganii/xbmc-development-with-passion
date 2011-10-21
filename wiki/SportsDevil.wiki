@@ -1,23 +1,11 @@
-=!SportsDevil=
 
-<img align="center" src="http://s1.directupload.net/images/110424/he54f4fc.png">
-<br>
-!SportsDevil is a video addon for live sports and highlights, blogs and
-TV. It's based on !VideoDevil, so big thanks to the developers. <br>
-Please try it out and give me some feedback. <br>
-<br>
-<a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.SportsDevil/"><font size="4">Download</font></a>
-or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip"><font size="4">repo</font></a><br>
-<br>
-<br>
-[http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg]<br>
-<br>
-[http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg]<br>
+=!SportsDevil=
+||<img align="center" width=150 height=150 src="http://s1.directupload.net/images/110424/he54f4fc.png">||!SportsDevil is a video addon for live sports and highlights, blogs and TV.<br>It's based on !VideoDevil, so big thanks to the developers.<br>Please try it out and give me some feedback.||
+
 <br>
 You can browse the content of:
 <ul>
   <li> Live Sports
-
   <ul>
   <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
   <li> <a href="http://www.firstrowsports.eu">!FirstRowSports.eu</a></li>
@@ -29,7 +17,6 @@ You can browse the content of:
   </li>
 
   <li> Highlights
-    
   <ul>
   <li> <a href="http://www.goalsarena.com">Goalsarena.com</a></li>
   <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
@@ -37,7 +24,6 @@ You can browse the content of:
   </li>
   
   <li> Blogs
-  
   <ul>
   <li> <a href="http://www.sport1.de">Sport1.de (german)</a></li>
   <li> <a href="http://www.captain-trikot.de">Captain-Trikot.de (german)</a></li>
@@ -45,7 +31,6 @@ You can browse the content of:
   </li>
   
   <li> TV
-  
   <ul>
   <li> <a href="http://www.livesportsonweb.com">!LiveSportsOnWeb.com</a></li>
   <li> <a href="http://www.twww.tv">Twww.tv</a></li>
@@ -57,31 +42,39 @@ You can browse the content of:
   </li>
 </ul>
 
-
-
-<a href="https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams"><font size="4">List of currently supported streams</font></a>
-
-
-
+<br>
+<br>
+==List of currently supported streams==
+See [https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams]
+<br>
+<br>
 External players needed for:
   <ul>
   <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
   <li> !StreamTorrent (<a href="http://forum.xbmc.org/showthread.php?t=108539">Howto use !StreamTorrent as external player</a>)</li>
   </ul>
-
 Other addons needed for:
   <ul>
   <li> Veetle (needs Veetle addon)</li>
   <li> !YouTube (needs !YouTube addon)</li>
   <li> Freedocast (needs Freedocast addon)</li>
   </ul>
-
 <br>
-=Installation=
+<br>
+==Download==
+<a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.SportsDevil/"><font size="4">Download</font></a>
+or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip"><font size="4">repo</font></a><br>
+<br>
+<br>
+==Installation==
 <ol style="list-style-type: decimal;">
   <li> Go to addon browser</li>
   <li> Install from zip or via repo</li>
 </ol>
 <br>
 <br>
+==Screenshots==
+[http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg]<br>
+<br>
+[http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg]<br>
 <br>
