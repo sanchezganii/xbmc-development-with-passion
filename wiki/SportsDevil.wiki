@@ -58,7 +58,9 @@ You can browse the content of:
 </ul>
 
 
-[https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams List of currently supported streams]
+
+<a href="https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams"><font size="4">List of currently supported streams</font></a>
+
 
 
 External players needed for:
@@ -75,7 +77,7 @@ Other addons needed for:
   </ul>
 
 <br>
-Installation:
+=Installation=
 <ol style="list-style-type: decimal;">
   <li> Go to addon browser</li>
   <li> Install from zip or via repo</li>
