@@ -46,6 +46,7 @@
 
 Some divx hosters cannot be played due to codec problems (look into log file). This seams to be rather a Windows- than a Linux problem.
 <br>
+<br>
 ==Download==
 <a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.xstream/"><font size="4">Download</font></a>
 or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip"><font size="4">repo</font></a><br>
