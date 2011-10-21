@@ -1,0 +1,75 @@
+=xStream=
+||<img align="center" width=150 height=150 src="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.xstream/icon.png">||xStream is a video addon for different websites. Most of them are german and list movie and tvshow streams.<br>Please try it out and give me some feedback.||
+
+<br>
+==List of supported sites==
+<ul>
+  <li> Live Sports
+  <ul>
+  <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
+  <li> <a href="http://www.firstrowsports.eu">!FirstRowSports.eu</a></li>
+  <li> <a href="http://www.chanfeed.com">!ChanFeed.com</a></li>
+  <li> <a href="http://www.lshunter.tv">LSHunter.tv</a></li>
+  <li> <a href="http://www.soccerhd.info">SoccerHD.info</a></li>
+  <li> <a href="http://www.rojadirecta.me">!RojaDirecta.me</a></li>
+  </ul>
+  </li>
+
+  <li> Highlights
+  <ul>
+  <li> <a href="http://www.goalsarena.com">Goalsarena.com</a></li>
+  <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
+  </ul>
+  </li>
+  
+  <li> Blogs
+  <ul>
+  <li> <a href="http://www.sport1.de">Sport1.de (german)</a></li>
+  <li> <a href="http://www.captain-trikot.de">Captain-Trikot.de (german)</a></li>
+  </ul>
+  </li>
+  
+  <li> TV
+  <ul>
+  <li> <a href="http://www.livesportsonweb.com">!LiveSportsOnWeb.com</a></li>
+  <li> <a href="http://www.twww.tv">Twww.tv</a></li>
+  <li> <a href="http://www.putpat.tv">!PutPat.tv</a></li>
+  <li> <a href="http://www.shadownet.ro">!ShadowNet.ro</a></li>
+  <li> <a href="http://www.tvembed.eu">TVEmbed.eu</a></li>
+  <li> <a href="http://www.mypremium.tv">!MyPremium.tv</a></li>
+  </ul>
+  </li>
+</ul>
+<br>
+==List of supported streams==
+See [https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams]
+<br>
+<br>
+External players needed for:
+  <ul>
+  <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
+  <li> !StreamTorrent (<a href="http://forum.xbmc.org/showthread.php?t=108539">Howto use !StreamTorrent as external player</a>)</li>
+  </ul>
+Other addons needed for:
+  <ul>
+  <li> Veetle (needs Veetle addon)</li>
+  <li> !YouTube (needs !YouTube addon)</li>
+  <li> Freedocast (needs Freedocast addon)</li>
+  </ul>
+<br>
+==Download==
+<a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.xstream/"><font size="4">Download</font></a>
+or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip"><font size="4">repo</font></a><br>
+<br>
+<br>
+==Installation==
+<ol style="list-style-type: decimal;">
+  <li> Go to addon browser</li>
+  <li> Install from zip or via repo</li>
+</ol>
+<br>
+==Screenshots==
+
+<br>
+<br>
+==Changelog==
