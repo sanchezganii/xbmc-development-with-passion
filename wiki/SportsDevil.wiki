@@ -6,7 +6,7 @@
 TV. It's based on !VideoDevil, so big thanks to the developers. <br>
 Please try it out and give me some feedback. <br>
 <br>
-<a href="http://www.mediafire.com/download.php?15ora2jm9cro7nj"><font size="4">Download</font></a>
+<a href="http://xbmc-development-with-passion.googlecode.com/files/plugin.video.SportsDevil-1.6.5.1.zip"><font size="4">Download</font></a>
 or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip">repo</a><br>
 <br>
 <br>
