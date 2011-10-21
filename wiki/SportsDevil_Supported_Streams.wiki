@@ -1,78 +1,69 @@
 =Currently supported streams=
 
-<ul>
-  <li> Livestreams
- 
-  <ul>
-  <li> Veetle</li>
-  <li> Freedocast</li>
-  <li> MMS</li>
-  <li> VLC</li>
-  <li> ASF</li>
-  <li> M3U8</li>
-  <li> ZoneIn</li>
-  <li> Meevos</li>
-  <li> SeeOn</li>
-  <li> LimeV</li>
-  <li> Veemi</li>
-  <li> CastAMP</li>
-  <li> WiiCast</li>
-  <li> RaySon</li>
-  <li> TVope</li>
-  <li> Aliez</li>
-  <li> YYCast</li>
-  <li> WebCastOn</li>
-  <li> LiveView365</li>
-  <li> Strmr</li>
-  <li> Mips</li>
-  <li> StreamBig</li>
-  <li> LiveVDO</li>
-  <li> UStream</li>
-  <li> ZeCast</li>
-  <li> StreamHQ</li>
-  <li> HDCaster</li>
-  <li> VShare</li>
-  <li> iCastOn</li>
-  <li> BoxLiveTV</li>
-  <li> 786Cast</li>
-  <li> OwnCast</li>
-  <li> VStream</li>
-  <li> Xuuby</li>
-  <li> JimeyTV</li>
-  <li> Rey</li>
-  <li> 24in</li>
-  <li> Hogy</li>
-  <li> Laola1</li>
-  <li> LiveBox</li>
-  <li> MegaLive</li>
-  <li> Streami (stopping after some seconds. xbmc doesn't support rtmpdump parameters 'swfsize' and 'swfhash')</li>
-  <li> TuTele</li>
-  <li> VipLive</li>
-  <li> Rede.tv</li>
-  <li> Myp2p.in</li>
-  <li> ProTV</li>
-  <li> Nacevi</li>
-  <li> Guarapa</li>
-  <li> Globo</li>
-  <li> NCAA streams for chanfeed</li>
-  <li> Livefootballstreams.net for firstrowsports.eu</li>
-  <li> JustinTV</li>
-  </ul>
-  </li>
- 
-  <li> Highlights
+Livestreams:  
+  * Veetle
+  * Freedocast
+  * MMS
+  * VLC
+  * ASF
+  * M3U8
+  * ZoneIn
+  * Meevos
+  * SeeOn
+  * LimeV
+  * Veemi
+  * CastAMP
+  * WiiCast
+  * RaySon
+  * TVope
+  * Aliez
+  * YYCast
+  * WebCastOn
+  * LiveView365
+  * Strmr
+  * Mips
+  * StreamBig
+  * LiveVDO
+  * UStream
+  * ZeCast
+  * StreamHQ
+  * HDCaster
+  * VShare
+  * iCastOn
+  * BoxLiveTV
+  * 786Cast
+  * OwnCast
+  * VStream
+  * Xuuby
+  * JimeyTV
+  * Rey
+  * 24in
+  * Hogy
+  * Laola1
+  * LiveBox
+  * MegaLive
+  * Streami
+  * TuTele
+  * VipLive
+  * Rede.tv
+  * Myp2p.in
+  * ProTV
+  * Nacevi
+  * Guarapa
+  * Globo
+  * NCAA streams for chanfeed
+  * Livefootballstreams.net for firstrowsports.eu
+  * JustinTV
   
-  <ul>
-  <li> Videa.hu</li>
-  <li> Sapo</li>
-  <li> VKontakte</li>
-  <li> Yandex</li>
-  <li> SVTPlay</li>
-  <li> RuTube.ru</li>
-  <li> NBA.com</li>
-  <li> YaTV.ru</li>
-  <li> Dailymotion</li>
-  <li> YouTube</li>
-  </ul>
-  </li>
-</ul>
+<br>
+Highlights:
+  * Videa.hu
+  * Sapo
+  * VKontakte
+  * Yandex
+  * SVTPlay
+  * RuTube.ru
+  * NBA.com
+  * YaTV.ru
+  * Dailymotion
+  * YouTube
