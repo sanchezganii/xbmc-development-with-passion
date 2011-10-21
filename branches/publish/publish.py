@@ -28,7 +28,10 @@ class Packer:
             try:
                 xmlfile = os.path.join(relPath, 'addon.xml')
                 version = self._get_version(xmlfile)
-                zipfile = os.path.join(repoPath, addon, addon + '-' + version + '.zip')
+                targetPath = os.path.join(repoPath, addon)
+                if not os.path.isdir(targetPath):
+                    os.mkdir(targetPath)
+                zipfile = os.path.join(targetPath, addon + '-' + version + '.zip')
                 zipdir(relPath, zipfile, False, addonsPath)
 
             except Exception, e:
