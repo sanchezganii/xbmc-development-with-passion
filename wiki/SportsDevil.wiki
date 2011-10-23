@@ -1,5 +1,9 @@
 =!SportsDevil=
-||<img align="center" width=150 height=150 src="http://s1.directupload.net/images/110424/he54f4fc.png">||!SportsDevil is a video addon for live sports and highlights, blogs and TV.<br>It's based on !VideoDevil, so big thanks to the developers.<br>Please try it out and give me some feedback.||
+||<img align="center" width=150 height=150 src="http://s1.directupload.net/images/110424/he54f4fc.png">||!SportsDevil is a video addon for live sports and highlights, blogs and TV.<br>It's based on !VideoDevil, so big thanks to the developers.<br>!SportsDevil scrapes and resolves embedded streams from websites so that they can be played with xbmc.<br>It dynamically parses cfg files that contain regular expressions used for scraping.<br>Please try it out and give me some feedback.||
+
+
+||<a href="http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html"><img src="http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg" width=500></a>||<a href="http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html "><img src="http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg" width=500></a>||
+
 
 <br>
 ==List of supported sites==
@@ -73,12 +77,6 @@ or install via <a href="http://xbmc-development-with-passion.googlecode.com/file
 
 <a href="http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_FAQ"><font size="4"><b>Frequently Asked Questions</b></font></a>
 <br>
-<br>
-<br>
-==Screenshots==
-[http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg]<br>
-<br>
-[http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg]<br>
 <br>
 <br>
 <br>
