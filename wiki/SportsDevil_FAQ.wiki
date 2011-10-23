@@ -1,0 +1,18 @@
+Q: I often get 'No streams available' but there is definitely a stream on the website.
+
+A:
+'No streams available' means one of the following:
+
+  * There is no stream
+  * The streams are not supported
+  * The streams are supported but not recognized
+
+
+If a stream is not recognized, this can have one or several reasons:
+
+  * The regular expression is wrong
+  * The html source code is encrypted (escape sequences like %xx and custom javascript)
+  * The website embeds the stream from another site by means of (i)frames
+
+
+I have already written a 'demystification' function that is called if no stream is found on a first try. Most of the iframes are auto-selected and in addition to that I have implemented some of the javascript functions. The latter is hardcoded and very hard to keep up-to-date, so I would need a python function that parses javascript code. Any help appreciated. 
