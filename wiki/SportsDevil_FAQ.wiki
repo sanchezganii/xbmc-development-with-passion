@@ -18,6 +18,26 @@ I have already written a 'demystification' function that is called if no stream 
 
 ----
 
-==_The plugin says 'Error running SportsDevil'. What can I do?_==
+==_The plugin says 'Error running !SportsDevil'. What can I do?_==
 
 Please put your debug log file (xbmc.log) at [http://pastebin.com/ Pastebin.com] and post it in my support thread at [http://forum.xbmc.org/showthread.php?p=919416].
+
+----
+
+==_JustinTV streams do not work. Do I need to install something?_==
+
+XBMC uses a library called librtmp to play rtmp streams. This library is maintained by Andrej Stepanchuk and Howard Chu as part of their [http://rtmpdump.mplayerhq.hu/ RTMPDump toolkit]. 
+
+JustinTV streams are rtmp streams that require a special token. The RTMPDump team has added support of this token to librtmp after the release of Dharma, so you need a nightly build of xbmc for JustinTV streams. Official nightly builds are available at http://mirrors.xbmc.org/nightlies/. There are also unofficial sources.
+
+----
+
+==_Freedocast streams do not work although I have installed t0mm0's Freedocast addon. Do I have to do something else?_==
+
+I only fetch the channel id of a Freedocast stream and call t0mm0's addon with this id as parameter. Many of the channels can't be played. Please post thse issues at t0mm0's corresponding thread.
+
+----
+
+==_Some of the Veetle streams do not work although I have installed t0mm0's Veetle addon. Do I have to do something else?_==
+
+I only fetch the channel id of a Veetle stream and call t0mm0's addon with this id as parameter. Channels that do not have a flash representation but require the Veetle client (external software that is available at their website) are not supported by this addon and will probably never be. This is because nobody knows what the client does to resolve the stream url from a channel id.
