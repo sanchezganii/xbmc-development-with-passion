@@ -38,7 +38,7 @@
 	<extension point="xbmc.addon.repository" name="MaxMustermann's add-on repository">
 		<info compressed="true">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml</info>
 		<checksum>http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml.md5</checksum>
-		<datadir zip="true">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/</datadir>
+		<datadir zip="true">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Install add-ons from MaxMustermann's repository</summary>
