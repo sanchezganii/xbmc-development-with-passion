@@ -41,10 +41,12 @@
   </li>
 </ul>
 <br>
-==List of supported streams==
-See [https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams]
+
+<a href="https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams"><font size="4"><b>List of supported streams</b></font></a>
 <br>
 <br>
+<br>
+==Requirements==
 External players needed for:
   <ul>
   <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
@@ -68,11 +70,16 @@ or install via <a href="http://xbmc-development-with-passion.googlecode.com/file
   <li> Install from zip or via repo</li>
 </ol>
 <br>
+
+<a href="http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_FAQ"><font size="4"><b>Frequently Asked Questions</b></font></a>
+<br>
+<br>
+<br>
 ==Screenshots==
 [http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg]<br>
 <br>
 [http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg]<br>
 <br>
 <br>
-==Changelog==
-See [https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Changelog]
+<br>
+<a href="https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Changelog"><font size="4"><b>Changelog</b></font></a>
