@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.MaxMustermann.xbmc" name="MaxMustermann's add-ons" version="1.0.0" provider-name="MaxMustermann">
+<addon id="repository.MaxMustermann.xbmc" name="MaxMustermann's add-ons" version="1.0.1" provider-name="MaxMustermann">
 	<extension point="xbmc.addon.repository" name="MaxMustermann's add-on repository">
-		<info compressed="true">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml</info>
+		<info compressed="false">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml</info>
 		<checksum>http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml.md5</checksum>
 		<datadir zip="true">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo</datadir>
 	</extension>
