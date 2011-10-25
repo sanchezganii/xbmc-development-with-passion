@@ -11,6 +11,8 @@ from xbmc import log
 from xbmc import LOGERROR
 from xbmc import LOGDEBUG
 
+import robot
+
 try:
   from json import loads
 except ImportError:
@@ -50,7 +52,7 @@ class cHoster(iHoster):
 
   def getHosterLinkPattern(self):
     return '<a href="(http://www.putlocker.com/[^"]+)"'
-  
+
   def setUrl(self, sUrl):
     self.__sUrl = sUrl
 
@@ -63,35 +65,116 @@ class cHoster(iHoster):
   def getMediaLink(self):
     return self.__getMediaLinkForGuest()
 
+
   def __getMediaLinkForGuest(self):
+    log('HELLO')
+    r = robot.Robot()
+
+    URL = self.__sUrl
+
+	r.GET(URL)
+
+##	key = '<input type="hidden" value="'		# load page, get session hash
+##	p = r.Page.find(key)
+##	if p > -1:
+##		p += len(key)
+##		q = r.Page.find('"', p)
+##		hash = r.Page[p:q]
+##	else:
+##		print "key not found"
+##		return ""
+##
+##	for i in range(0,5):				# wait 5 seconds
+##		sleep(1)
+##		print str(i+1)
+##							# POST '...Free Download'
+##	r.POST(URL, {'hash':hash, 'confirm':'Continue as Free User'})
+##
+##	key = "playlist: '"
+##	p = r.Page.find(key)
+##	if p > -1:
+##		p += len(key)
+##		q = r.Page.find("'", p)
+##		site = r.Page[p:q]
+##	else:
+##		print "key not found"
+##		return ""
+##
+##	XML = "http://www.putlocker.com"+site		# download the XML containing the video URL
+##	r.GET(XML)
+##
+##	key = '<media:content url="'			# extract URL
+##	p = r.Page.find(key)
+##	if p > -1:
+##		p += len(key)
+##		q = r.Page.find('"', p)
+##		URL = r.Page[p:q]
+##	else:
+##		print "key not found"
+##		return ""
+##
+##	s = URL.split("/")
+##	Filename = s[len(s)-3]
+##    return Filename
+
+
+  def __getMediaLinkForGuestOld(self):
     log("Generate direct media link from %s" % self.__sUrl)
-    
+
     # Get the video id from the link
     sPattern = '(?:http://www.putlocker.com)?/(?:file|embed)?/(.*?)$'
     oParser = cParser()
     aResult = oParser.parse(self.__sUrl, sPattern)
-    
+
     if not aResult[0]:
       log("The link does not contain a media id.", LOGERROR)
       return [False, ""]
-      
+
     log("Media ID: %s" % aResult[1][0])
-    
+
     sMediaID = aResult[1][0]
-    
-    # We have to click on a button and create a valid cookie before we can call the settings with
-    # the video link.
-    
+
     # First call the main page for the media.
     oRequest = cRequestHandler(self.__sUrl)
     sHtmlContent = oRequest.request()
-    
+
+    # We have to click on a button and create a valid cookie before we can call the settings with
+    # the video link.
+
+    # First call the main page for the media.
+    oRequest = cRequestHandler(self.__sUrl)
+    sHtmlContent = oRequest.request()
+
+
+    #get session_hash
+    hashPattern = 'value="([0-9a-f]+?)" name="hash"'
+    aResult = oParser.parse(sHtmlContent, hashPattern)
+
+    if aResult[0]:
+        sPhpSessionId = aResult[1][0]
+    else:
+        log('putlocker: session hash not found')
+        return False
+
+    #post session_hash
+    try:
+        oRequest = cRequestHandler(self.__sUrl)
+        oRequest.setRequestType(cRequestHandler.REQUEST_TYPE_POST)
+        oRequest.addParameters('hash', sPhpSessionId)
+        oRequest.addParameters('confirm', 'Continue as Free User')
+        sHtmlContent = oRequest.request()
+        log(sHtmlContent)
+    except Exception, e:
+        log('putlocker: got http error %d posting %s' % (e, self.__sUrl))
+        return False
+
     # Get the session id of the last request.
-    aHeader = oRequest.getResponseHeader()
-    sPhpSessionId = self.__getPhpSessionId(aHeader)
-    if sPhpSessionId == False:
-        return [False,""]
-    
+    #aHeader = oRequest.getResponseHeader()
+    #sPhpSessionId = self.__getPhpSessionId(aHeader)
+    #if sPhpSessionId == False:
+    #    log('BU')
+    #    return [False,""]
+
     # Parse all needed data from the submit form. (Cause of the damn waiting button.)
     sPostName = ""
     sPostValue = ""
@@ -104,27 +187,27 @@ class cHoster(iHoster):
             sPostValue = aEntry[0]
             sPostName = aEntry[1]
             sPostButtonName = aEntry[2]
-            
+
     log("Form data: %s %s %s" % (sPostName, sPostValue, sPostButtonName), LOGDEBUG)
 
     sPattern = 'var countdownNum.*?=(.*?);'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
+
     if not aResult[0]:
         log("No Time value found.", LOGERROR)
         sSecondsForWait = 5
-    else:  
-        log("Seconds to wait: %s" % str(aResult[1][0]).replace(' ', ''), LOGDEBUG)          
+    else:
+        log("Seconds to wait: %s" % str(aResult[1][0]).replace(' ', ''), LOGDEBUG)
         sTicketValue = str(aResult[1][0]).replace(' ', '');
         sSecondsForWait = int(sTicketValue)
-        
+
     # Waiting until we are allowed to go on.
     oGui = cGui()
     for i in range(sSecondsForWait,1,-1):
-        oGui.showNofication(i, 1) 
+        oGui.showNofication(i, 1)
         sleep(1)
-    oGui.showNofication(1, 1) 
+    oGui.showNofication(1, 1)
 
     # Calculate the cookie values.
     rndX = randint(1, 99999999 - 10000000) + 10000000
@@ -136,9 +219,9 @@ class cHoster(iHoster):
     ts5 = float(time())
 
     sCookieValue = sPhpSessionId +'; '
-    
+
     sCookieValue += '__utma=163708862.877577721.1313656417.1315132063.1318190394.10; __utmz=163708862.1318190394.10.10.utmcsr=iload.to|utmccn=(referral)|utmcmd=referral|utmcct=/de/title/388823-Alles-koscher-/; __utmb=163708862.2.10.1318190394; __utmc=163708862'
-    
+
     #sCookieValue = sCookieValue + '__utma=' + str(rndY) + '.' + str(rndX) + '.' + str(ts1) + '.' + str(ts2) + '.' + str(ts3) + '.1; '
     #sCookieValue = sCookieValue + '__utmz=' + str(rndY) + '.' + str(ts4) + '.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); '
     #sCookieValue = sCookieValue + '__utmb=' + str(rndY) + '.1.10.' + str(ts3) + '; '
@@ -175,9 +258,9 @@ class cHoster(iHoster):
 
     return [True, aResult[1][0]]
 
-  def __getPhpSessionId(self, aHeader):       
+  def __getPhpSessionId(self, aHeader):
     sReponseCookie = aHeader.getheader("Set-Cookie")
-    try:    
+    try:
         aResponseCookies = sReponseCookie.split(";")
         return aResponseCookies[0]
     except:
