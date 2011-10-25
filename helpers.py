@@ -37,3 +37,10 @@ def setFileContent(data, filename):
     except Exception, e:
         # oops
         print "An error occurred saving %s file!\n%s" % ( filename, e, )
+
+
+def yn_choice(message, default='y'):
+    choices = 'Y/n' if default.lower() in ('y', 'yes') else 'y/N'
+    choice = raw_input("%s (%s) " % (message, choices))
+    values = ('y', 'yes', '') if default == 'y' else ('y', 'yes')
+    return True if choice.strip().lower() in values else False
