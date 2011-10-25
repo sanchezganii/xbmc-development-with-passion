@@ -65,7 +65,7 @@ Other addons needed for:
 <br>
 ==Download==
 <a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.SportsDevil/"><font size="4">Download</font></a>
-or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.0.zip"><font size="4">repo</font></a><br>
+or install via <a href="http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.1.zip"><font size="4">repo</font></a><br>
 <br>
 <br>
 ==Installation==
