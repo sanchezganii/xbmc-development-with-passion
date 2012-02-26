@@ -16,7 +16,7 @@ item_info_convert=getInfo('%s','.*streamer=([^"&' ]+).*','@CURRENT_URL@')
 item_info_build=%s
 
 item_info_name=url
-item_info_from='rtmp://108.59.10.150/streamhq/' + @PARAM1@ + ' token=' + token + ' live=true swfUrl=http://streamhq.tv/player/player.swf pageUrl=@CURRENT_URL@'
+item_info_from='rtmp://50.7.242.106/streamhq/' + @PARAM1@ + ' token=' + token + ' live=true swfUrl=http://streamhq.tv/player/skin2/player.swf pageUrl=' + pageUrl
 item_info_build=%s
 
 

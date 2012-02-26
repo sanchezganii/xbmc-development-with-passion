@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=Cast3D - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.cast3d.tv/embed.php?u=%s&vw=640&vh=490
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*'file=([^&]+)&streamer=([^&]+)&.*?src='([^']+\.swf)'.*','@CURRENT_URL@','file|rtmp.tmp|swf')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','stream.cast3d.tv/redirect','46.165.196.208:1935/live')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s

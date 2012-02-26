@@ -11,8 +11,6 @@ from xbmc import log
 from xbmc import LOGERROR
 from xbmc import LOGDEBUG
 
-import robot
-
 try:
   from json import loads
 except ImportError:
@@ -66,59 +64,8 @@ class cHoster(iHoster):
     return self.__getMediaLinkForGuest()
 
 
+
   def __getMediaLinkForGuest(self):
-    log('HELLO')
-    r = robot.Robot()
-
-    URL = self.__sUrl
-
-	r.GET(URL)
-
-##	key = '<input type="hidden" value="'		# load page, get session hash
-##	p = r.Page.find(key)
-##	if p > -1:
-##		p += len(key)
-##		q = r.Page.find('"', p)
-##		hash = r.Page[p:q]
-##	else:
-##		print "key not found"
-##		return ""
-##
-##	for i in range(0,5):				# wait 5 seconds
-##		sleep(1)
-##		print str(i+1)
-##							# POST '...Free Download'
-##	r.POST(URL, {'hash':hash, 'confirm':'Continue as Free User'})
-##
-##	key = "playlist: '"
-##	p = r.Page.find(key)
-##	if p > -1:
-##		p += len(key)
-##		q = r.Page.find("'", p)
-##		site = r.Page[p:q]
-##	else:
-##		print "key not found"
-##		return ""
-##
-##	XML = "http://www.putlocker.com"+site		# download the XML containing the video URL
-##	r.GET(XML)
-##
-##	key = '<media:content url="'			# extract URL
-##	p = r.Page.find(key)
-##	if p > -1:
-##		p += len(key)
-##		q = r.Page.find('"', p)
-##		URL = r.Page[p:q]
-##	else:
-##		print "key not found"
-##		return ""
-##
-##	s = URL.split("/")
-##	Filename = s[len(s)-3]
-##    return Filename
-
-
-  def __getMediaLinkForGuestOld(self):
     log("Generate direct media link from %s" % self.__sUrl)
 
     # Get the video id from the link
