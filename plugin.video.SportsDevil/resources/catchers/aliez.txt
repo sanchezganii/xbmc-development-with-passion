@@ -2,7 +2,20 @@ item_info_name=title
 item_info_from=@PARAM1@
 item_info_build=Aliez - %s 
 
-item_info_name=url
+item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://aliez.com/media/embedc.php?id=%s','.*channel: "aliez",[^s]*stream: "([^"]+)".*')
-item_info_build=rtmp://streamer.istreamlive.net/aliez/%s swfurl=http://i.aliez.com/ISLplayer/ISLplayer2.swf pageUrl=http://aliez.com/media/embedc.php?id=19594
+item_info_build=http://emb.aliez.com/player/embed.php?id=%s&w=700&h=480
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*'([^']+\.swf)'.*?file',\s*'([^']+)'.*?streamer',\s*'([^']+)'.*','','swf|file|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' live=true swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl
+item_info_build=%s
+
+#item_info_from=@PARAM1@
+#item_info_convert=getInfo('http://aliez.com/media/embedc.php?id=%s','.*channel: "aliez",[^s]*stream: "([^"]+)".*')
+#item_info_build=rtmp://streamer.istreamlive.net/aliez/%s swfurl=http://i.aliez.com/ISLplayer/ISLplayer2.swf pageUrl=http://aliez.com/media/embedc.php?id=19594
+#rtmp://play.aliez.com/aliezlive-live/stream4644?tstart=20120226172223&tend=20120226173323&ip=178.203.157.90&token=3e195c100e2e85f0a0510
