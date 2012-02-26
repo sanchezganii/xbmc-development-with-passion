@@ -44,6 +44,6 @@ I only fetch the channel id of a Veetle stream and call t0mm0's addon with this 
 
 ----
 
-==_How can I play SopCast streams on UNIX?_==
+==_How can I play SopCast streams on Linux?_==
 
 See this [http://forum.xbmc.org/showpost.php?p=871519&postcount=2 HowTo] (thanks to deckoff)
