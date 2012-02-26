@@ -1,5 +1,13 @@
 =Changelog=
 
+V1.6.5.3:
+  * fixed streamers: veemi, yycast, streamhq, xuuby, zonein, limev, justintv, aliez, castamp
+  * new streamers: ilive, castalba, 24cast, 04stream, tvcaston, liveflash, scity, ucaster (no working stream found so far), mybcast, xstit, yourlivetv, letontv, cast3d, zcast
+  * fixed site firstrowsports
+  * changed site livetv.ru so new streamers are recognized
+  * removed site soccerhd.info (site doesn't provide streams anymore)
+
+<br>
 V1.6.5:
   * much of the code rewritten and cleaned
   * added streamers: JustinTV
