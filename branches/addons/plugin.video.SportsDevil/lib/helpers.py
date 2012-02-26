@@ -799,6 +799,28 @@ def pbbfa0(s):
     	r += chr((int(k[i%len(k)])^ord(s[i]))+7)
     return r
 
+# used by 24cast
+def destreamer(s):
+    #remove all but[0-9A-Z]
+    str = re.sub("[^0-9A-Z]", "", s.upper())
+    result = ""
+    nextchar = ""
+    for i in range(0,len(str)-1):
+        nextchar += str[i]
+        if len(nextchar) == 2:
+            result += ntos(int(nextchar,16))
+            nextchar = ""
+    return result
+
+def ntos(n):
+    n = hex(n)[2:]
+    if len(n) == 1:
+        n = "0" + n
+    n = "%" + n
+    return urllib.unquote(n)
+
+def getUnixTimestamp():
+    return int(time.time())
 
 def getSource(page, referer='', demystify=False):
 
@@ -900,6 +922,15 @@ def doDemystify(data):
         if gs:
             for g in gs:
                 data = data.replace(g,g.decode('base64'))
+
+    # 24cast
+    if data.find('destreamer(') > -1:
+        r = re.compile("destreamer\(\"(.+?)\"\)")
+        gs = r.findall(data)
+        if gs:
+            for g in gs:
+                data = data.replace(g,destreamer(g))
+
 
     # Tiny url
     r = re.compile('[\'"](http://(?:www.)?tinyurl.com/[^\'"]+)[\'"]',re.IGNORECASE + re.DOTALL)

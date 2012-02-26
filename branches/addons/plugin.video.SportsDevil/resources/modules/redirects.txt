@@ -173,6 +173,31 @@ item_info_name=title
 item_info_build=Redirect - Livesport1org
 item_url_build=%s
 
+########################################################
+# Livesport2477.blogspot.com - Redirect
+########################################################
+item_infos="(http://livesport2477.blogspot.com/)"
+item_order=tmpurl
+item_skill=rss
+
+item_info_name=title
+item_info_build=Redirect - Livesport2477
+
+item_info_name=url
+item_info_from=tmpurl
+item_info_build=%sfeeds/posts/default
+item_url_build=%s
+
+########################################################
+# Livefgd - Redirect
+########################################################
+item_infos=iframe src="(http://livefgd.ucoz.com/.*?)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Livefgd
+item_url_build=%s
+
 
 ########################################################
 # VewrFew - Redirect

@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=LetOnTV - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://leton.tv/player.php?streampage=%s&width=640&height=490
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"].*','@CURRENT_URL@','swf|rtmp.tmp|file')
+item_info_build=%s
+          
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','streampoint.leton.tv','174.36.231.19')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s

@@ -642,12 +642,18 @@ item_order=video
 item_info_name=type
 item_info_build=direct.video
 item_url_build=%s
-
+########################################################
+item_infos=chname="([^"]+)".*?xuuby.com/js/embed\d*.js
+item_order=video
+@CATCH(xuuby,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
 
 ########################################################
 # HDCaster.net - Videos
 ########################################################
-item_infos="http://hdcaster.net/.*?channel_id=(\d+)
+item_infos=['"]http://hdcaster.net/.*?channel_id=(\d+)
 item_order=video
 @CATCH(hdcaster,video)@
 item_info_name=type
@@ -724,6 +730,7 @@ item_url_build=%s
 # Justin.tv - Videos
 ########################################################
 #http://www.justin.tv/widgets/live_embed_player.swf?channel=cholillo_830
+#data="http://www-cdn.justin.tv/widgets/live_embed_player.rc9251ecd4e4e2b08e8931777d11f2f9c69ed7db2.swf?channel=ritmoysabor4"
 item_infos="http://(?:www(?:-cdn)?.)?justin.tv/widgets/live_embed_player.*?.swf\?channel=([^"]+)"
 item_order=video
 @CATCH(justintv,video)@
@@ -731,7 +738,7 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=justin.tv/((?!about_us|forums)[a-z_0-9]*)
+item_infos=justin.tv/((?!about_us|forums)[a-z_0-9]*)['"]
 item_order=video
 @CATCH(justintv,video)@
 item_info_name=type
@@ -848,6 +855,15 @@ item_url_build=%s
 item_infos=fid=["']([^"']+)["'].*?src=["']http://24in.tv/player/embedPlayer.js["']
 item_order=video
 @CATCH(24in,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+# 24cast.eu - Videos
+########################################################
+item_infos=fid=["']([^"']+)["'].*?src=["']http://24cast.(?:info|eu)?/player/embedPlayer.js["']
+item_order=video
+@CATCH(24cast,video)@
 item_info_name=type
 item_info_build=direct.video
 item_url_build=%s
@@ -1006,7 +1022,7 @@ item_info_from=file
 item_info_build=RTMP - %s
 
 item_info_name=url
-item_info_from=rtmp + '/' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
 item_info_build=%s
 
 item_info_name=type
@@ -1098,15 +1114,15 @@ item_url_build=%s
 # this is used:                 rtmp://cp67698.live.edgefcs.net/live/SkyPoker_500k@9124
 
 ########################################################
-item_infos="(http://[^"]+.swf\?.*?file=(rtmp[^&]+)&.*?id=([^&"]+)[^"]*)"
+item_infos="([^"]+.swf\?.*?file=(rtmp[^&]+)&.*?id=([^&"]+)[^"]*)"
 item_order=swf|rtmp|file
 
 item_info_name=title
-item_info_from=rtmp + '/' + file
+item_info_from=rtmp + ' playPath=' + file
 item_info_build=RTMP - %s
 
 item_info_name=url
-item_info_from=rtmp + '/' + file + ' swfUrl=' + swf + ' live=true swfVfy=1 pageUrl=@CURRENT_URL@'
+item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' live=true swfVfy=1 pageUrl=@CURRENT_URL@'
 item_info_build=%s
 
 item_info_name=type
@@ -1177,6 +1193,8 @@ item_info_build=%s
 item_info_name=type
 item_info_build=direct.video
 item_url_build=%s
+########################################################
+
 
 
 ########################################################
@@ -1238,6 +1256,13 @@ item_url_build=%s
 # Aliez - Videos
 ########################################################  
 item_infos=src="http://www.livefootballstream.net/alie.php\?cname=([^"]+)"
+item_order=video
+@CATCH(aliez,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################  
+item_infos=aliez.com/player/embed.php\?id=(\d+)
 item_order=video
 @CATCH(aliez,video)@
 item_info_name=type
@@ -1541,7 +1566,7 @@ item_info_build=direct.video
 item_url_build=%s
 
 ########################################################
-item_infos=http://www.dinozap.tv/ch.php\?file=([^"'& ]+)
+item_infos=http://(?:www.)?dinozap.tv/ch.php\?file=([^"'& ]+)
 
 item_order=video
 
@@ -1549,9 +1574,34 @@ item_info_name=title
 item_info_from=video
 item_info_build=Dinozap - %s
 
-item_info_name=pageUrl
+item_info_name=tmpPageUrl
 item_info_from=video
-item_info_build=http://dinozap.tv/embed.php?c=%s&width=580&height=400
+item_info_build=http://www.dinozap.tv/ch.php?file=%s&width=580&height=400&autostart=true
+
+item_info_name=pageUrl
+item_info_from=tmpPageUrl
+item_info_convert=getInfo('%s','.*iframe src=\"([^\"]+)\".*','@CURRENT_URL@')
+item_info_build=%s
+
+item_info_name=block
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*function getURL03\(\)\{\s*var sUrl.*?'([^']+)'.*?cod1.*?'([^']+)'.*?cod2.*?'([^']+)'.*','@CURRENT_URL@','sUrl|cod1|cod2')
+item_info_build=%s
+
+item_info_name=unixTS
+item_info_from=video
+item_info_convert=unixTimestamp
+item_info_build=%s
+
+item_info_name=query
+item_info_from=sUrl + '?callback=jQuery17039323633074989195_1330025601577&v_cod1=' + cod1 + '&v_cod2=' + cod2 + '&_=' + unixTS
+item_info_convert=debug
+item_info_build=%s
+
+item_info_name=test
+item_info_from=query
+item_info_convert=getInfo('%s','.*(rtmp).*','@CURRENT_URL@')
+item_info_build=%s
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -1696,6 +1746,152 @@ item_info_build=TVRennes35
 item_info_name=url
 item_info_from=swf
 item_info_build=rtmpt://tvrennes35livefs.fplive.net:80/tvrennes35live-live/streamlive swfVfy=1 live=true swfUrl=http://www.tvrennes35bretagne.fr%s
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# 04stream - Videos
+########################################################
+item_infos=04stream.com/embed.js\?stream=([^ "'&]+)
+item_order=video
+@CATCH(04stream,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# tvcaston - Videos
+########################################################
+item_infos=fid="([^"]+)".*?tvcaston.com/javascript/embedPlayer.js
+item_order=video
+@CATCH(tvcaston,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# LiveFlash - Videos
+########################################################
+item_infos=channel=['" ]*([^'" ]+)['" ]*.*?g=['" ]*(\d+)['" ]*.*?liveflash.tv/resources/scripts/liveFlashEmbed.js
+item_order=video|g
+@CATCH(liveflash,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# UCaster - Videos
+########################################################
+item_infos=channel=['" ]*([^'" ]+)['" ]*.*?ucaster.eu/static/scripts/ucaster.js
+item_order=video
+@CATCH(ucaster,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# SCity - Videos
+########################################################
+item_infos=fid="(\d+)".*?live.scity.tv/js/embedplayer.js
+item_order=video
+@CATCH(scity,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# MyBcast - Videos
+########################################################
+item_infos=id="([^"]+)";.*?mybcast.com/embed.js
+item_order=video
+@CATCH(mybcast,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+
+
+########################################################
+# iLive - Videos
+########################################################
+item_infos=ilive.to/embed(?!player).php.*?channel=(\d+)
+item_order=video
+@CATCH(ilive,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=ilive.to/embed/(\d+)
+item_order=video
+@CATCH(ilive,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# CastAlba - Videos
+########################################################
+item_infos=castalba.tv/embed(?!player).php.*?cid=(\d+)
+item_order=video
+@CATCH(castalba,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=id="(\d+)".*?castalba.tv/js/embed
+item_order=video
+@CATCH(castalba,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Xstit - Videos
+########################################################
+item_infos=xstit.me/channel.php\?file=([^&]+)
+item_order=video
+@CATCH(xstit,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# LetOnTV - Videos
+########################################################
+item_infos=leton.tv/player.php\?streampage=([^&]+)&
+item_order=video
+@CATCH(letontv,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# YourLiveTV - Videos
+########################################################
+item_infos=id='([^']+)'.*?yourlive.tv/player.js
+item_order=video
+@CATCH(yourlivetv,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# Cast3D - Videos
+########################################################
+item_infos=cast3d.tv/embed.php\?u=([^&]+)&
+item_order=video
+@CATCH(cast3d,video)@
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s

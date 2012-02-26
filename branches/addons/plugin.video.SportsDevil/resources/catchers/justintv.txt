@@ -15,7 +15,7 @@ item_info_build=%s
 
 item_info_name=swf
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://www.justin.tv/%s','.*swfobject.embedSWF\("(http://www-cdn.justin.tv/widgets/live_site_player.+?)".*')
+item_info_convert=getInfo('http://www.justin.tv/%s','.*swfobject.embedSWF\("(.*?/widgets/live_site_player.+?)".*')
 item_info_build=%s
 
 item_info_name=url

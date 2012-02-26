@@ -347,10 +347,10 @@ def showSeason():
         for aEntry in aResult[1]:
             oGuiElement = cGuiElement()
             oGuiElement.setSiteName(SITE_IDENTIFIER)
-            if (cUtil().removeHtmlTags(aEntry[1]).startswith('Season')):
-                oGuiElement.setFunction('showEpisodes')
+            if (aEntry[0].count('category') > 0):
+              oGuiElement.setFunction('showEpisodes')
             else:
-                oGuiElement.setFunction('showRelease')
+              oGuiElement.setFunction('showRelease')              
             oGuiElement.setTitle(cUtil().removeHtmlTags(aEntry[1]) + __getLanguageTitle(str(aEntry[2])))
 
             oOutputParameterHandler = cOutputParameterHandler()

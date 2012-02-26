@@ -342,6 +342,14 @@ def customConversion(item, src, convCommands):
             param = param.replace('%s', src)
             src = encryptJimey(param)
 
+        elif convCommand.startswith('destreamer'):
+            param = convCommand[11:-1].strip("'")
+            param = param.replace('%s', src)
+            src = destreamer(param)
+
+        elif convCommand.startswith('unixTimestamp'):
+            src = getUnixTimestamp()
+
         elif convCommand.startswith('urlMerge'):
             params = convCommand[9:-1].strip("'")
             paramArr = params.split("','")

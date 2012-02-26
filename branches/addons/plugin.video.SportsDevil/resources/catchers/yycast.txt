@@ -25,7 +25,7 @@ item_info_from=file.tmp || @PARAM1@
 item_info_build=%s
 
 item_info_name=swf
-item_info_from=swf.tmp || 'http://img.yycast.com:805/player-licensed.swf'
+item_info_from=swf.tmp || 'http://www.streamiton.tv/player/player.swf'
 item_info_build=%s
 
 item_info_name=rtmp
@@ -35,7 +35,8 @@ item_info_name=rtmp
 item_info_build=%s
 
 item_info_name=url
-item_info_from='rtmp://68.68.22.75/live/_definst_ playpath=' + file + ' live=true swfUrl=' + swf + ' pageUrl=http://www.yycast.com/' + @PARAM1@
+item_info_from='rtmp://83.149.125.70/live/_definst_ playpath=' + file + ' live=true swfUrl=' + swf + ' pageUrl=http://www.yycast.com/' + @PARAM1@
 item_info_build=%s
 #rtmp://174.37.65.196/live/_definst_/%s swfurl=http://img.yycast.com:805/player-licensed.swf pageurl=http://www.yycast.com/marleau
 #rtmp://68.68.22.75 /TncHT1vPbkdv8eB
+#rtmp://83.149.125.70:1935/live/_definst_/d4MqAZpEzqoWx6a
