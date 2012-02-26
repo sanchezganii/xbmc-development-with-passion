@@ -14,7 +14,6 @@
   <li> <a href="http://www.firstrowsports.eu">!FirstRowSports.eu</a></li>
   <li> <a href="http://www.chanfeed.com">!ChanFeed.com</a></li>
   <li> <a href="http://www.lshunter.tv">LSHunter.tv</a></li>
-  <li> <a href="http://www.soccerhd.info">SoccerHD.info</a></li>
   <li> <a href="http://www.rojadirecta.me">!RojaDirecta.me</a></li>
   </ul>
   </li>
