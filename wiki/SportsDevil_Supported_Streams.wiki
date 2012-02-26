@@ -54,6 +54,20 @@ Livestreams:
   * NCAA streams for chanfeed
   * Livefootballstreams.net for firstrowsports.eu
   * JustinTV
+  * ilive
+  * castalba
+  * 24cast
+  * 04stream
+  * tvcaston
+  * liveflash
+  * scity
+  * ucaster (no working stream found so far)
+  * mybcast
+  * xstit
+  * yourlivetv
+  * letontv
+  * cast3d
+  * zcast
   
 <br>
 Highlights:
