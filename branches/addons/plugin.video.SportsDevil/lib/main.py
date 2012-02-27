@@ -416,16 +416,14 @@ class Main:
                     log('Creating cache directory ' + str(cacheDir))
                     os.mkdir(cacheDir)
                     log('Cache directory created')
+                else:
+                    log('Purging cache directory')
+                    self.purgeCache()
+                    log('Cache directory purged')
 
-                log('Purging cache directory')
-                self.purgeCache()
-                log('Cache directory purged')
 
-
-
-                # Get Main Menu
+                # Show Main Menu
                 self.parseView('sites.list')
-                del self.currentlist.items[:]
                 log('End of directory')
                 xbmcplugin.endOfDirectory(self.handle)
             else:

@@ -1,7 +1,7 @@
 
 item_info_name=tmp
 item_info_from=@PARAM1@
-item_info_convert=getInfo('%s','(.*?)@@@(.*?)','','token|id')
+item_info_convert=parseText('%s','(.*?)@@@(.*?)','','token|id')
 item_info_build=%s
 
 item_info_name=title

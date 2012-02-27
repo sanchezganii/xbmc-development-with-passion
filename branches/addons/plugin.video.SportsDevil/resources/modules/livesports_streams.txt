@@ -143,7 +143,7 @@ item_url_build=%s
 ########################################################
 #  YYCast - Videos
 ########################################################
-item_infos=src="http://(?:www\.)?yycast.com/embed.php\?fileid=([^&]+)&[^"]*"
+item_infos="http://(?:www\.)?yycast.com/embed.php\?fileid=([^&]+)&[^"]*"
 item_order=video
 @CATCH(yycast,video)@
 item_info_name=type
@@ -872,7 +872,7 @@ item_url_build=%s
 ########################################################
 # Livebox.cz - Videos
 ########################################################
-item_infos="http://player.livebox.cz/S-GambrinusLiga.*?value="token=([^,]+),videoId=([^,]+),
+item_infos="http://player.livebox.cz/S-GambrinusLiga.*?token=([^,]+),videoId=([^,]+),
 item_order=token|id
 
 item_info_name=video
@@ -1059,7 +1059,7 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos="([^"]+.swf)".*?file=([^\.]+)\.flv.*?streamer=([^&]+)
+item_infos=['"]([^'"]+.swf)['"].*?file=([^&]+).*?streamer=([^&]+)
 item_order=swf|file|rtmp
 
 item_info_name=title
@@ -1076,6 +1076,27 @@ item_url_build=%s
 ########################################################
 item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&]+&)[^'" ]*file=([^&]+)[^'" ]*)["' ]
 item_order=swf|rtmpTmp|file
+
+item_info_name=title
+item_info_from=file
+item_info_build=RTMP - %s
+
+item_info_name=rtmp
+item_info_from=rtmpTmp
+item_info_convert=replace('%s','/&','')
+item_info_convert=replace('%s','&','')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_build=%s
+
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=["'=](http://[^'" ]*.swf[^'" ]*file=([^&]+)[^'" ]*&streamer=([^&]+))
+item_order=swf|file|rtmpTmp
 
 item_info_name=title
 item_info_from=file
@@ -1776,8 +1797,8 @@ item_url_build=%s
 ########################################################
 # LiveFlash - Videos
 ########################################################
-item_infos=channel=['" ]*([^'" ]+)['" ]*.*?g=['" ]*(\d+)['" ]*.*?liveflash.tv/resources/scripts/liveFlashEmbed.js
-item_order=video|g
+item_infos=channel=['" ]*([^'" ]+)['" ]*.*?liveflash.tv/resources/scripts/liveFlashEmbed.js
+item_order=video
 @CATCH(liveflash,video)@
 item_info_name=type
 item_info_build=direct.video
@@ -1895,6 +1916,92 @@ item_order=video
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
+########################################################
+item_infos=fid=['"]([^'"]+)['"].+?cast3d.tv/embed.js
+item_order=video
+@CATCH(cast3d,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+
+########################################################
+# SawLive - Videos
+########################################################
+item_infos=sawlive.tv/embed/([^"' /]+)
+item_order=video
+@CATCH(sawlive,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# MeGom - Videos
+########################################################
+item_infos=megom.tv/player-inside.php\?id=([^&]+)
+item_order=video
+@CATCH(megom,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# CastUp - Videos
+########################################################
+item_infos=fid="([^"]+)".*?castup.tv/embed.js
+item_order=video
+@CATCH(castup,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# ZCast - Videos
+########################################################
+item_infos=sid="([^"]+)".*?zcast.us/embed.js
+item_order=video
+@CATCH(zcast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# SurkTV - Videos
+########################################################
+item_infos=id=['"]([^'"]+)['"].*?surk.tv/player.js
+item_order=video
+@CATCH(surktv,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# HQCast - Videos
+########################################################
+item_infos=fid=['"]([^'"]+)['"].*?hqcast.tv/PlayerEmbed.js
+item_order=video
+@CATCH(hqcast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+
+########################################################
+# RedCast - Videos
+########################################################
+item_infos=redcast.org/iframe.html\?[^'"]+&c=([^&]+)&
+item_order=video
+@CATCH(redcast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
 
 ########################################################
 # istreamlive.net - Videos

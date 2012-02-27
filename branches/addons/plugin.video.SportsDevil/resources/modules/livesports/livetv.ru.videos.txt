@@ -85,13 +85,22 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=href="(/webplayer\d*.php\?t=mms[^&]*&c=([^&]+))[^"]*">
-item_order=url|channel
+item_infos=href="(http://www\d*.livetv.ru)?(/webplayer\d*.php\?t=mms[^&]*&c=([^&]+)[^"]*)">
+item_order=prefix.tmp|link|channel
 item_skill=rss
 item_info_name=title
 item_info_from=channel
 item_info_build=MMS - %s
-item_url_build=http://www.livetv.ru%s
+
+item_info_name=prefix
+item_info_from=prefix.tmp || 'http://www.livetv.ru'
+item_info_build=%s
+
+item_info_name=url
+item_info_from=prefix + link
+item_info_build=%s
+ 
+item_url_build=%s
 ########################################################
 item_infos=<PARAM NAME='URL' VALUE='(mms://[^']+)'>
 item_order=url
@@ -147,6 +156,13 @@ item_url_build=%s
 item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=livevdo[^&]*&c=([^&]+)[^"]*">
 item_order=video
 @CATCH(livevdo,video)@
+item_info_name=type
+item_info_build=direct.video
+item_url_build=%s
+########################################################
+item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=megom[^&]*&c=([^&]+)[^"]*">
+item_order=video
+@CATCH(megom,video)@
 item_info_name=type
 item_info_build=direct.video
 item_url_build=%s
@@ -223,6 +239,13 @@ item_url_build=%s
 item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=wiicast&c=([^&]+)[^"]*">
 item_order=video
 @CATCH(wiicast,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=wiistream&c=([^&]+)[^"]*">
+item_order=video
+@CATCH(wiistream,video)@
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
@@ -311,6 +334,13 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
+item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=castup&c=([^&]+)[^"]*">
+item_order=video
+@CATCH(castup,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+########################################################
 item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=jimey&c=([^&]+)&d=([^&]+)[^"]*">
 item_order=channel|user
 item_info_name=video
@@ -319,6 +349,25 @@ item_info_build=%s
 @CATCH(jimey,video)@
 item_info_name=type
 item_info_build=direct.video 
+item_url_build=%s
+########################################################
+item_infos=href="(http://www\d*.livetv.ru)?(/webplayer\d*.php\?t=swf&[^"]+)"
+item_order=prefix.tmp|link
+item_skill=rss
+
+item_info_name=prefix
+item_info_from=prefix.tmp
+item_info_convert=ifEmpty('%s','http://www.livetv.ru','%s')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=prefix + link
+item_info_build=%s
+
+item_info_name=title
+item_info_from=link
+item_info_build=Other - %s
+
 item_url_build=%s
 ########################################################
 item_infos=href="(http://www\d*.livetv.ru)?(/webplayer\d*.php\?t=rtmp[^&]*&c=([^&]+)[^"]*)">
@@ -352,18 +401,20 @@ item_url_build=%s
 
 
 ########################################################
-item_infos="/redirects/play.php\?id=(\d+)"
-item_order=video
+item_infos="(/redirects/play.php\?id=\d+)"
+item_order=redirect
 item_skill=rss
 
+item_info_name=url
+item_info_from=redirect
+item_info_convert=getRedirect('http://livetv.ru%s')
+item_info_build=%s
+
 item_info_name=title
-item_info_from=video
+item_info_from=url
 item_info_build=Redirect - %s
 
-item_info_name=cfg
-item_info_build=livetv.ru.streams.cfg
-
-item_url_build=http://livetv.ru%s
+item_url_build=%s
 
 
 
