@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=CastUp - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.castup.tv/embed.php?u=%s&vw=700&vh=480&domain=www8.livetv.ru
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*'([^']+\.swf)'.*?file=([^&]+)&streamer=([^&]+).*','%s','swf|file|rtmp.tmp')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','stream.castup.tv/redirect','159.253.131.94:1935/live')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_build=%s

@@ -2,6 +2,7 @@
 
 from string import *
 from helpers import *
+import customConversions as cc
 
 import xbmcplugin, xbmcaddon
 import sys, os.path
@@ -13,8 +14,6 @@ import cookielib, htmlentitydefs
 import socket, base64
 
 import customCfg
-
-#import locale
 
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
 __language__ = __settings__.getLocalizedString
@@ -42,7 +41,6 @@ def setCurrentUrl(url):
     f.close()
 
 
-
 def setLastUrl(url):
     f = open(os.path.join(cacheDir, 'lasturl'), 'w')
     f.write(url)
@@ -61,12 +59,6 @@ def setCurrentCfg(path):
 def getCurrentCfg():
     path = getFileContent(os.path.join(cacheDir, 'currentcfg'))
     return path
-
-
-
-
-
-
 
 def replaceFromDict(filename, wrd):
     pathImp = xbmc.translatePath(os.path.join(dictsDir, filename + '.txt'))
@@ -124,260 +116,110 @@ def getHTML(url, referer='', ignoreCache=False, demystify=False):
         f.close()
     return data
 
-def ifStringEmpty(str, trueStr, falseStr):
-    if str == '':
-        return trueStr
-    else:
-        return falseStr
 
-def isOnline(url):
-    txheaders = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 5.2; en-GB; rv:1.8.1.18) Gecko/20081029 Firefox/2.0.0.18', 'Accept-Charset':'ISO-8859-1,utf-8;q=0.7,*;q=0.7'}
-    req = Request(url, None, txheaders)
-    try:
-        handle = urlopen(req)
-        return True
-    except:
-        return False
+def parseCommand(txt):
+    command = {"command": txt, "params": ""}
+    if txt.find("(") > -1:
+        command["command"] = txt[0:txt.find("(")]
+        command["params"] = txt[len(command["command"]) + 1:-1]
+    return command
 
-
-def ifExists(url, trueStr, falseStr):
-    if isOnline(url):
-        return trueStr
-    else:
-        return falseStr
 
 def customConversion(item, src, convCommands):
     for convCommand in convCommands:
-        if convCommand.startswith('convDate'):
-            params = convCommand[9:-1]
-            if params.find("','") != -1:
-                paramArr = params.split("','")
-                oldfrmt = paramArr[0].strip('\'')
-                newfrmt = paramArr[1].strip('\'')
-                src = convDate(src,str(oldfrmt), str(newfrmt))
-            else:
-                params = params.strip('\'')
-                src = convDate(src,params)
+        pComm = parseCommand(convCommand)
+        command = pComm["command"]
+        params = pComm["params"]
 
-        elif convCommand == 'smart_unicode':
-            src = smart_unicode(convCommand[14:-1].strip('\'').replace('%s', src))
+        if command == 'convDate':
+            src = cc.convDate(params, src)
 
-        elif convCommand == 'safeGerman':
+        elif command == 'smart_unicode':
+            src = smart_unicode(params.strip('\'').replace('%s', src))
+
+        elif command == 'safeGerman':
             src = safeGerman(src)
 
-        elif convCommand.startswith('safeRegex'):
-            src = safeRegexEncoding(convCommand[10:-1].strip("'").replace('%s',smart_unicode(src)))
+        elif command == 'safeRegex':
+            src = safeRegexEncoding(params.strip("'").replace('%s',smart_unicode(src)))
 
-        elif convCommand.startswith('replaceFromDict('):
-            params = convCommand[16:-1]
-            params = params.strip('\'')
-            src = replaceFromDict(str(params),src)
+        elif command == 'replaceFromDict':
+            src = replaceFromDict(str(params.strip('\'')),src)
 
-        elif convCommand.startswith('time('):
+        elif command == 'time':
             src = time.time()
 
-        elif convCommand.startswith('timediff'):
-            params = convCommand[9:-1]
-            params = params.strip('\'')
-            src = timediff(src,params)
+        elif command == 'timediff':
+            src = timediff(src,params.strip('\''))
 
-        elif convCommand.startswith('offset'):
+        elif command == 'offset':
             if __settings__.getSetting('timeoffset') == 'true':
-                params = convCommand[7:-1]
-                paramArr = params.split("','")
-                t = paramArr[0].strip("'").replace('%s', src)
-                o = paramArr[1].strip("'").replace('%s', src)
+                src = cc.offset(params, src)
 
-                fak = 1
-                if o[0] == '-':
-                    fak = -1
-                    o = o[1:]
+        elif command == 'getSource':
+            src = cc.getSource(params, src)
 
-                pageOffSeconds = fak*(int(o.split(':')[0]) * 3600 + int(o.split(':')[1])*60)
-                localOffSeconds = -1 * time.timezone
-                offSeconds = localOffSeconds - pageOffSeconds
+        elif command == 'getRedirect':
+            src = get_redirected_url(params.strip("'").replace('%s', src))
 
-                ti = datetime.datetime(2000,1,1,int(t.split(':')[0]),int(t.split(':')[1]))
+        elif command == 'quote':
+            src = urllib.quote(params.strip("'").replace('%s', urllib.quote(src)))
 
-                offset=ti + datetime.timedelta(seconds=offSeconds)
+        elif command == 'unquote':
+            src = urllib.unquote(params.strip("'").replace('%s', src))
 
-                src = offset.strftime('%H:%M')
+        elif command == 'regex':
+            src = cc.regex(params, src)
 
+        elif command == 'parseText':
+            src = cc.parseText(params, src)
 
+        elif command == 'getInfo':
+            src = cc.getInfo(item, params, src)
 
-        elif convCommand.startswith('getSource'):
-            params = convCommand[10:-1]
-            paramPage = ''
-            paramReferer = ''
-            if params.find('\',\'') > -1:
-                paramArr = params.split('\',\'')
-                paramPage = paramArr[0].strip('\'')
-                paramReferer = paramArr[1].strip('\'')
-            else:
-                paramPage = params.strip('\',\'')
+        elif command == 'decodeBase64':
+            src = cc.decodeBase64(src)
 
-            paramPage = paramPage.replace('%s', src)
-            return getHTML(paramPage,paramReferer)
+        elif command == 'replace':
+            src = cc.replace(params, src)
 
-        elif convCommand.startswith('getRedirect'):
-            param = convCommand[12:-1].strip("'")
-            src = get_redirected_url(param.replace('%s', src))
+        elif command == 'replaceRegex':
+            src = cc.replaceRegex(params, src)
 
-        elif convCommand.startswith('quote'):
-            param = convCommand[6:-1].strip("'")
-            src = urllib.quote(param.replace('%s', urllib.quote(src)))
-        elif convCommand.startswith('unquote'):
-            param = convCommand[8:-1].strip("'")
-            src = urllib.unquote(param.replace('%s', src))
+        elif command == 'ifEmpty':
+            src = cc.ifEmpty(params, src)
 
-        elif convCommand.startswith('regex'):
-            src = smart_unicode(src)
-            params = convCommand[6:-1]
-            paramArr = params.split("','")
-            paramText = paramArr[0].strip("'").replace('%s', src)
-            paramRegex = paramArr[1].strip("'").replace('%s', src)
-            p = re.compile(paramRegex, re.IGNORECASE + re.DOTALL + re.MULTILINE)
-            m = p.match(paramText)
-            if m:
-              src = m.group(1)
+        elif command == 'isEqual':
+            src = cc.isEqual(params, src)
 
-        elif convCommand.startswith('parseText'):
-            src = smart_unicode(src)
-            params = convCommand[10:-1]
-            paramArr = params.split("','")
+        elif command == 'ifExists':
+            src = cc.ifExists(params, src)
 
-            text = paramArr[0].strip("'").replace('%s',src)
-            regex = paramArr[1].strip("'").replace('%s', src)
-            vars = []
-            if len(paramArr) > 2:
-                vars = paramArr[2].strip("'").split('|')
-            src = parseText(text, regex, vars)
+        elif command == 'encryptJimey':
+            src = encryptJimey(params.strip("'").replace('%s', src))
 
-        elif convCommand.startswith('getInfo'):
-            src = smart_unicode(src)
-            params = convCommand[8:-1]
-            paramArr = params.split("','")
-            paramPage = paramArr[0].strip("'").replace('%s', src)
-            paramPage = urllib.unquote(paramPage)
-            paramRegex = paramArr[1].strip("'").replace('%s', src)
-            referer = ''
-            vars=[]
-            if len(paramArr) > 2:
-                referer = paramArr[2].strip("'")
-                referer = referer.replace('%s', src)
-                if referer.startswith('@') and referer.endswith('@'):
-                    referer = item.getInfo(referer.strip('@'))
-            if len(paramArr) > 3:
-                vars = paramArr[3].strip("'").split('|')
-            log('Get Info from: "'+ paramPage + '" from "' + referer + '"')
-            data = getHTML(paramPage, referer, referer!='')
-            src = parseText(data, paramRegex,vars)
+        elif command == 'destreamer':
+            src = destreamer(params.strip("'").replace('%s', src))
 
-        elif convCommand.startswith('decodeBase64'):
-            src = src.strip('.js').replace('%3D','=')
-            try:
-                src = src.decode('base-64').replace('qo','')
-            except:
-                src = src
-
-        elif convCommand.startswith('replace('):
-            src = smart_unicode(src)
-            params = convCommand[8:-1]
-            paramArr = params.split('\',\'')
-            paramstr = paramArr[0].replace('%s', src).strip('\'')
-            paramSrch = paramArr[1].strip('\'')
-            paramRepl = paramArr[2].strip('\'')
-            src = paramstr.replace(paramSrch,paramRepl)
-        elif convCommand.startswith('replaceRegex'):
-            src = smart_unicode(src)
-            params = convCommand[13:-1]
-            paramArr = params.split('\',\'')
-            paramStr = paramArr[0].replace('%s', src).strip('\'')
-            paramSrch = paramArr[1].strip('\'')
-            paramRepl = paramArr[2].strip('\'')
-
-            r = re.compile(paramSrch, re.DOTALL + re.IGNORECASE)
-            ms = r.findall(paramStr)
-            if ms:
-                for m in ms:
-                    paramStr = paramStr.replace(m, paramRepl,1)
-                src = paramStr
-
-        elif convCommand.startswith('ifEmpty'):
-            params = convCommand[8:-1]
-            paramArr = params.split("','")
-
-            paramSource = paramArr[0].strip("'").replace('%s', src)
-            paramTrue = paramArr[1].strip("'").replace('%s', src)
-            paramFalse = paramArr[2].strip("'").replace('%s', src)
-
-            src = ifStringEmpty(paramSource, paramTrue, paramFalse)
-
-        elif convCommand.startswith('isEqual'):
-            params = convCommand[8:-1]
-            paramArr = params.split("','")
-
-            paramSource = paramArr[0].strip("'").replace('%s', src)
-            paramComp = paramArr[1].strip("'").replace('%s', src)
-            paramTrue = paramArr[2].strip("'").replace('%s', src)
-            paramFalse = paramArr[3].strip("'").replace('%s', src)
-
-            if (paramSource == paramComp):
-                src = paramTrue
-            else:
-                src = paramFalse
-
-        elif convCommand.startswith('ifExists'):
-            params = convCommand[9:-1]
-            paramArr = params.split("','")
-
-            paramSource = paramArr[0].strip("'").replace('%s', src)
-            paramTrue = paramArr[1].strip("'").replace('%s', src)
-            paramFalse = paramArr[2].strip("'").replace('%s', src)
-
-            src = ifExists(paramSource, paramTrue, paramFalse)
-
-        elif convCommand.startswith('encryptJimey'):
-            param = convCommand[13:-1].strip("'")
-            param = param.replace('%s', src)
-            src = encryptJimey(param)
-
-        elif convCommand.startswith('destreamer'):
-            param = convCommand[11:-1].strip("'")
-            param = param.replace('%s', src)
-            src = destreamer(param)
-
-        elif convCommand.startswith('unixTimestamp'):
+        elif command == 'unixTimestamp':
             src = getUnixTimestamp()
 
-        elif convCommand.startswith('urlMerge'):
-            params = convCommand[9:-1].strip("'")
-            paramArr = params.split("','")
-            paramTrunk = paramArr[0].strip("'").replace('%s', src)
-            paramFile= paramArr[1].strip("'").replace('%s', src)
+        elif command == 'urlMerge':
+            src = cc.urlMerge(params, src)
 
-            if not paramFile.startswith('http'):
-                from urlparse import urlparse
-                up = urlparse(urllib.unquote(paramTrunk))
-                if paramFile.startswith('/'):
-                    src = urllib.basejoin(up[0] + '://' + up[1],paramFile)
-                else:
-                    src = urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],paramFile)
-
-        elif convCommand == 'translate':
+        elif command == 'translate':
             try:
                 src = __language__(int(src))
             except:
                 src = src
 
-        elif convCommand.startswith('random'):
-            params = convCommand[7:-1]
+        elif command == 'random':
             paramArr = params.split(',')
             min = int(paramArr[0])
             max = int(paramArr[1])
             src = str(random.randrange(min,max))
 
-        elif convCommand == 'debug':
+        elif command == 'debug':
             log('Debug from cfg file: ' + src)
     return src
 
@@ -747,7 +589,8 @@ class CItemsList:
                 else:
                     log('section could not be found:' + self.section)
             count = self.parseItems(data,lItem)
-
+            if count == 0:
+                count = self.parseItems('"' + curr_url + '"', lItem)
         return 0
 
 
