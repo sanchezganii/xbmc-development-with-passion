@@ -1,7 +1,7 @@
 =Changelog=
 
 V1.6.5.4:
-  * fixed streamers: justintv, livebox, livevdo, vshare
+  * fixed streamers: justintv (fallback flashplayer), livebox, livevdo, vshare
   * new streamers: castup, hqcast, megom, redcast, sawlive, surktv
   * fixed site rojadirecta.me (some links were not scraped)
   * changed site livetv.ru so new streamers are recognized
