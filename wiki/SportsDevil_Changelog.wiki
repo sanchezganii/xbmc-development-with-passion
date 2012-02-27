@@ -1,5 +1,12 @@
 =Changelog=
 
+V1.6.5.4:
+  * fixed streamers: justintv, livebox, livevdo, vshare
+  * new streamers: castup, hqcast, megom, redcast, sawlive, surktv
+  * fixed site rojadirecta.me (some links were not scraped)
+  * changed site livetv.ru so new streamers are recognized
+
+<br>
 V1.6.5.3:
   * fixed streamers: veemi, yycast, streamhq, xuuby, zonein, limev, justintv, aliez, castamp
   * new streamers: ilive, castalba, 24cast, 04stream, tvcaston, liveflash, scity, ucaster (no working stream found so far), mybcast, xstit, yourlivetv, letontv, cast3d, zcast
