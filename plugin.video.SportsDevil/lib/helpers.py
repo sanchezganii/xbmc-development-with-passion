@@ -978,7 +978,7 @@ def findRedirect(page):
                                         link = urllib.basejoin(up[0] + '://' + up[1],link)
                                     else:
                                         link = urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],link)
-                                return link
+                                return link.strip()
 
         # Alternative 1
         r = re.compile("(frame[^>]*[\"; ]height:\s*(\d+)[^>]*>)", re.IGNORECASE + re.DOTALL)
@@ -998,7 +998,7 @@ def findRedirect(page):
                                 link = m[0]
                                 if not link.startswith('http://'):
                                     link = urllib.basejoin(page,link)
-                                return link
+                                return link.strip()
 
         # Alternative 2 (Frameset)
         r = re.compile('<FRAMESET[^>]+100%[^>]+>\s*<FRAME[^>]+src="([^"]+)"', re.IGNORECASE + re.DOTALL)
@@ -1007,7 +1007,7 @@ def findRedirect(page):
             link = iframes[0]
             if not link.startswith('http://'):
                 link = urllib.basejoin(page,link)
-            return link
+            return link.strip()
 
 
 
@@ -1095,3 +1095,24 @@ def log(msg):
     if enable_debug:
         xbmc.log(msg)
         #xbmc.output(msg)
+
+def ifStringEmpty(str, trueStr, falseStr):
+    if str == '':
+        return trueStr
+    else:
+        return falseStr
+
+def isOnline(url):
+    txheaders = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 5.2; en-GB; rv:1.8.1.18) Gecko/20081029 Firefox/2.0.0.18', 'Accept-Charset':'ISO-8859-1,utf-8;q=0.7,*;q=0.7'}
+    req = Request(url, None, txheaders)
+    try:
+        handle = urlopen(req)
+        return True
+    except:
+        return False
+
+def ifExists(url, trueStr, falseStr):
+    if isOnline(url):
+        return trueStr
+    else:
+        return falseStr

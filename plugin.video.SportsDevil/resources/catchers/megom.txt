@@ -1,0 +1,23 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=MeGom - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://distro.megom.tv/player-inside.php?id=%s&width=600&height=450
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*"([^"]+.swf)".*?'playlistfile',\s*'([^']+)'.*','@CURRENT_URL@','swf|playlist')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=playlist
+item_info_convert=getInfo('%s','.*streamer>\s*(rtmp.*?)\s*<.*','@CURRENT_URL@')
+item_info_convert=replace('%s','live.megom.tv','188.122.91.8')
+#213.163.76.24
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + @PARAM1@ + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s

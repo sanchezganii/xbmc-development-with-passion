@@ -13,9 +13,17 @@ item_info_convert=replace('%s','"','\22')
 item_info_convert=replace('%s',' ','\20')
 item_info_build=%s
 
-item_info_name=swf
+item_info_name=swf.tmp
 item_info_from=@PARAM1@
 item_info_convert=getInfo('http://www.justin.tv/%s','.*swfobject.embedSWF\("(.*?/widgets/live_site_player.+?)".*')
+item_info_build=%s
+
+item_info_name=swf2.tmp
+item_info_from=@PARAM1@
+item_info_build=http://www.justin.tv/widgets/live_facebook_embed_player.swf?channel=%s
+
+item_info_name=swf
+item_info_from= swf.tmp || swf2.tmp
 item_info_build=%s
 
 item_info_name=url
