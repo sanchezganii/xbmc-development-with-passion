@@ -1,5 +1,10 @@
 =Changelog=
 
+V1.6.5.5:
+  * added site: vipbox.tv (thanks to Gainesway1 for the icon)
+  * some small fixes and improvements
+
+<br>
 V1.6.5.4:
   * fixed streamers: justintv (fallback flashplayer), livebox, livevdo, vshare
   * new streamers: castup, hqcast, megom, redcast, sawlive, surktv
