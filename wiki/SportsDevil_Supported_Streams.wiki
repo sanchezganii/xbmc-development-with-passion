@@ -68,6 +68,12 @@ Livestreams:
   * letontv
   * cast3d
   * zcast
+  * castup
+  * hqcast
+  * megom
+  * redcast
+  * sawlive
+  * surktv
   
 <br>
 Highlights:
