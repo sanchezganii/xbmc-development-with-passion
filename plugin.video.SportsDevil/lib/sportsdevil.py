@@ -213,6 +213,9 @@ def customConversion(item, src, convCommands):
             except:
                 src = src
 
+        elif command == 'camelcase':
+            src = string.capwords(string.capwords(src,'-'))
+
         elif command == 'random':
             paramArr = params.split(',')
             min = int(paramArr[0])
@@ -364,8 +367,10 @@ class CItemsList:
                 except:
                     keyValPair = smart_unicode(info_name) + ':' + smart_unicode(info_value)
                 params += '&' + keyValPair
-
-        params += '&url:' + smart_unicode(urllib.quote_plus(item.getInfo('url')))
+        try:
+            params += '&url:' + smart_unicode(urllib.quote_plus(item.getInfo('url')))
+        except:
+            params += '&url:' + item.getInfo('url')
 
         if len(suffix) > 0:
             params += '.' + suffix

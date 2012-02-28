@@ -707,7 +707,7 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=fid="([^"]+)".*?</script><script type="text/javascript" src="http://www.wii-cast.tv/js/embedplayer.js"
+item_infos=fid="([^"]+)".*?</script><script type="text/javascript" src="http://www.wii-cast.(?:tv|eu)/js/embed(?:player)?.js"
 item_order=video
 @CATCH(wiicast,video)@
 item_info_name=type
@@ -744,7 +744,6 @@ item_order=video
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
-
 
 
 ########################################################
@@ -1059,22 +1058,28 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=['"]([^'"]+.swf)['"].*?file=([^&]+).*?streamer=([^&]+)
-item_order=swf|file|rtmp
+item_infos=["'=](http://[^'" ]*.swf[^'" ]*file=([^&"']+)[^'" ]*&streamer=([^"'&]+))
+item_order=swf|file|rtmpTmp
 
 item_info_name=title
 item_info_from=file
 item_info_build=RTMP - %s
 
+item_info_name=rtmp
+item_info_from=rtmpTmp
+item_info_convert=replace('%s','/&','')
+item_info_convert=replace('%s','&','')
+item_info_build=%s
+
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
+item_info_from=rtmp + ' playPath=' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
 item_info_build=%s
 
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&]+&)[^'" ]*file=([^&]+)[^'" ]*)["' ]
+item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&"' ]+&)[^'" ]*file=([^&'" ]+)[^'" ]*)["' ]
 item_order=swf|rtmpTmp|file
 
 item_info_name=title
@@ -1094,27 +1099,7 @@ item_info_build=%s
 item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
-########################################################
-item_infos=["'=](http://[^'" ]*.swf[^'" ]*file=([^&]+)[^'" ]*&streamer=([^&]+))
-item_order=swf|file|rtmpTmp
 
-item_info_name=title
-item_info_from=file
-item_info_build=RTMP - %s
-
-item_info_name=rtmp
-item_info_from=rtmpTmp
-item_info_convert=replace('%s','/&','')
-item_info_convert=replace('%s','&','')
-item_info_build=%s
-
-item_info_name=url
-item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
-item_info_build=%s
-
-item_info_name=type
-item_info_build=direct.video 
-item_url_build=%s
 ########################################################
 item_infos="movie" value="([^"]+.swf)".*?"flashvars" value="src=(rtmp://[^&]+)&
 item_order=swf|rtmp
@@ -1848,7 +1833,7 @@ item_info_name=type
 item_info_build=direct.video 
 item_url_build=%s
 ########################################################
-item_infos=ilive.to/embed/(\d+)
+item_infos=ilive.to/embed/\s*(\d+)
 item_order=video
 @CATCH(ilive,video)@
 item_info_name=type

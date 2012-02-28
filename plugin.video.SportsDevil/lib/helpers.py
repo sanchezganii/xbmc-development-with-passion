@@ -846,7 +846,7 @@ def getSource(page, referer='', demystify=False):
 
     if not demystify:
         # remove comments
-        r = re.compile('<!--.*?(?!//)-->', re.IGNORECASE + re.DOTALL)
+        r = re.compile('<!--.*?(?!//)-->', re.IGNORECASE + re.DOTALL + re.MULTILINE)
         m = r.findall(data)
         if m:
             for comment in m:
@@ -948,8 +948,8 @@ def get_redirected_url(url):
     request = opener.open(url)
     return request.url
 
-def findRedirect(page):
-    data = getSource(page,'',True)
+def findRedirect(page, demystify=False):
+    data = getSource(page, '', demystify)
     if data.find('frame') > -1 or data.find('FRAME') > -1:
         r = re.compile("(frame[^>]* height=[\"']*(\d+)[\"']*[^>]*>)", re.IGNORECASE + re.DOTALL)
         iframes = r.findall(data)
@@ -1009,7 +1009,8 @@ def findRedirect(page):
                 link = urllib.basejoin(page,link)
             return link.strip()
 
-
+    if not demystify:
+        return findRedirect(page, True)
 
     return page
 

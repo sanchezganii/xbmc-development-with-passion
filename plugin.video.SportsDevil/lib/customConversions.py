@@ -154,7 +154,7 @@ def ifExists(params, src):
     paramFalse = paramArr[2].strip("'").replace('%s', src)
     return helpers.ifExists(paramSource, paramTrue, paramFalse)
 
-def urlMerge(params, url):
+def urlMerge(params, src):
     params = params.strip("'")
     paramArr = params.split("','")
     paramTrunk = paramArr[0].strip("'").replace('%s', src)
