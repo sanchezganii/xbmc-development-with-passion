@@ -76,6 +76,8 @@ or install via <a href="http://xbmc-development-with-passion.googlecode.com/file
 
 <a href="http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_FAQ"><font size="4"><b>Frequently Asked Questions</b></font></a>
 <br>
+<br>
+<br>
 <a href="http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Favourites"><font size="4"><b>!HowTo: Favourites Management</b></font></a>
 <br>
 <br>
