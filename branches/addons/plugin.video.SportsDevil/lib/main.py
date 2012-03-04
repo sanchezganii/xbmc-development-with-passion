@@ -9,19 +9,18 @@ import xbmc, xbmcgui
 import re, os, time, datetime, traceback
 import cookielib, htmlentitydefs
 
+from globals import *
+from CListItem import CListItem
 from sportsdevil import *
 from helpers import *
 from downloader import Downloader
+from favouritesManager import FavouritesManager
 
 enable_debug = True
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
 __language__ = __settings__.getLocalizedString
 
-class Mode:
-    VIEW = 1
-    PLAY = 2
-    QUEUE = 3
-    DOWNLOAD = 4
+
 
 class Main:
 
@@ -34,6 +33,7 @@ class Main:
         self.selectionList = []
         self.videoExtension = '.flv'
         self.currentlist = CItemsList()
+        self.favouritesManager = FavouritesManager(favouritesFolder)
         log('SportsDevil initialized')
         self.run()
 
@@ -41,23 +41,21 @@ class Main:
     def playVideo(self, videoItem, isAutoplay = False):
         if videoItem == None:
             return
+
         url = videoItem.getInfo('url')
+        url = urllib.unquote_plus(url)
+
         title = videoItem.getInfo('videoTitle')
         if not title:
             title = videoItem.getInfo('title')
             if not title:
-                title = '...'
+                title = 'unknown'
 
-        if url.startswith('call://'):
-            call_url = url.replace('call://','')
-            xbmc.executebuiltin('XBMC.RunPlugin(' + call_url +')')
-            if call_url.startswith('plugin://plugin.program.jdownloader'):
-              xbmc.executebuiltin('Notification(Sent to JDownloader:,' + str(title) + ')')
-            return;
         try:
             icon = videoItem.getInfo('icon')
         except:
             icon = os.path.join(imgDir, 'video.png')
+
         try:
             urllib.urlretrieve(icon, os.path.join(cacheDir, 'thumb.tbn'))
             icon = os.path.join(cacheDir, 'thumb.tbn')
@@ -66,15 +64,8 @@ class Main:
                 traceback.print_exc(file = sys.stdout)
             icon = os.path.join(imgDir, 'video.png')
 
-        url = urllib.unquote_plus(url)
-        flv_file = url
-
         listitem = xbmcgui.ListItem(title, title, icon, icon)
         listitem.setInfo('video', {'Title':title})
-        #if url.startswith('plugin://'):
-            #listitem.setProperty('IsFolder','false')
-            #listitem.setProperty('IsPlayable','true')
-            #xbmcplugin.setResolvedUrl(handle=self.handle, succeeded=False, listitem=listitem)
 
         for video_info_name in videoItem.infos_names:
             try:
@@ -82,19 +73,17 @@ class Main:
             except:
                 pass
 
-        downloaded_file = None
+        # download video and take this file for playback
         if self.currentlist.skill.find('nodownload') == -1:
+            downloaded_file = None
             if __settings__.getSetting('download') == 'true':
                 downloaded_file = self.downloadVideo(urllib.unquote(url), title)
             elif __settings__.getSetting('download') == 'false' and __settings__.getSetting('download_ask') == 'true':
                 dia = xbmcgui.Dialog()
                 if dia.yesno('', __language__(30052)):
                     downloaded_file = self.downloadVideo(urllib.unquote(url), title)
-        else:
-            downloaded_file = None
-
-        if downloaded_file:
-            url = downloaded_file
+            if downloaded_file:
+                url = downloaded_file
 
         listitem.setPath(url)
         if not isAutoplay:
@@ -190,74 +179,77 @@ class Main:
 
         if ext == 'cfg' or ext == 'list':
             result = self.currentlist.loadLocal(url, lItem = lItem)
+            self.curr_file = url
         else:
             result = self.currentlist.loadRemote(url, lItem = lItem)
 
-        i = 0
-        maxIt = 3
-        condition = True
-        startUrl = getLastUrl()
-        while condition:
+        # if there is nothing to scrape
+        if not ((ext == 'cfg' or ext == 'list') and self.currentlist.start == ''):
+            i = 0
+            maxIt = 3
+            condition = True
+            startUrl = getLastUrl()
+            while condition:
 
-            # Find Redirect automatically
-            if len(self.currentlist.items) == 0:
-                red = findRedirect(startUrl)
-                if startUrl == red:
-                    log('No redirect found')
-                    condition = False
+                # Find Redirect automatically
+                if len(self.currentlist.items) == 0:
+                    red = findRedirect(startUrl)
+                    if startUrl == red:
+                        log('No redirect found')
+                        condition = False
+                    else:
+                        log('Redirect: ' + red)
+                        try:
+                            tmpCfg = lItem.getInfo('cfg')
+                            if tmpCfg:
+                                result = self.currentlist.loadLocal(tmpCfg, lItem = lItem)
+                            else:
+                                tmpCfg = getCurrentCfg()
+                            self.currentlist.rules = []
+                        except:
+                            traceback.print_exc(file = sys.stdout)
+
+                        result = self.currentlist.loadRemote(red,lItem = lItem)
+                        if result == -1:
+                            break
+                        log(str(len(self.currentlist.items)) + ' items ' + tmpCfg + ' -> ' + red)
+                        startUrl = red
+
+                # Autoselect single folder
+                tmpItem = self.autoselect(self.currentlist)
+                if tmpItem:
+                    lItem = tmpItem
+                    startUrl = lItem.getInfo('url')
+
+                condition = condition and (len(self.currentlist.items) == 0 and i < maxIt)
+                i += 1
+
+
+            # Remove double entries
+            urls = []
+            for i in range(len(self.currentlist.items)-1,-1,-1):
+                item = self.currentlist.items[i]
+                tmpUrl = item.getInfo('url')
+                tmpCfg = item.getInfo('cfg')
+                if not tmpCfg:
+                    tmpCfg = ''
+                if not urls.__contains__(tmpUrl + '|' + tmpCfg):
+                    urls.append(tmpUrl + '|' + tmpCfg)
                 else:
-                    log('Redirect: ' + red)
-                    try:
-                        tmpCfg = lItem.getInfo('cfg')
-                        if tmpCfg:
-                            result = self.currentlist.loadLocal(tmpCfg, lItem = lItem)
-                        else:
-                            tmpCfg = getCurrentCfg()
-                        self.currentlist.rules = []
-                    except:
-                        traceback.print_exc(file = sys.stdout)
+                    self.currentlist.items.remove(item)
 
-                    result = self.currentlist.loadRemote(red,lItem = lItem)
-                    if result == -1:
-                        break
-                    log(str(len(self.currentlist.items)) + ' items ' + tmpCfg + ' -> ' + red)
-                    startUrl = red
+            # Autoplay single Video
+            if __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 1 and self.currentlist.videoCount() == 1:
+                videoItem = self.currentlist.getVideo()
+                #u = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(videoItem))
+                #xbmc.executebuiltin(u)
+                result = self.playVideo(videoItem, True)
+                return -2
 
-            # Autoselect single folder
-            tmpItem = self.autoselect(self.currentlist)
-            if tmpItem:
-                lItem = tmpItem
-                startUrl = lItem.getInfo('url')
-
-            condition = condition and (len(self.currentlist.items) == 0 and i < maxIt)
-            i += 1
-
-
-        # Remove double entries
-        urls = []
-        for i in range(len(self.currentlist.items)-1,-1,-1):
-            item = self.currentlist.items[i]
-            tmpUrl = item.getInfo('url')
-            tmpCfg = item.getInfo('cfg')
-            if not tmpCfg:
-                tmpCfg = ''
-            if not urls.__contains__(tmpUrl + '|' + tmpCfg):
-                urls.append(tmpUrl + '|' + tmpCfg)
-            else:
-                self.currentlist.items.remove(item)
-
-        # Autoplay single Video
-        if __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 1 and self.currentlist.videoCount() == 1:
-            videoItem = self.currentlist.getVideo()
-            #u = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(videoItem))
-            #xbmc.executebuiltin(u)
-            result = self.playVideo(videoItem, True)
-            return -2
-
-        elif __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 0:
-            dialog = xbmcgui.Dialog()
-            dialog.ok('SportsDevil Info', 'No stream available')
-            return
+            elif __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 0:
+                dialog = xbmcgui.Dialog()
+                dialog.ok('SportsDevil Info', 'No stream available')
+                return
 
 
         # Add items to XBMC list
@@ -287,6 +279,8 @@ class Main:
 
 
         for m in self.currentlist.items:
+            m.setInfo('definedIn',self.curr_file)
+
             try:
                 m_type = m.getInfo('type')
             except:
@@ -297,6 +291,7 @@ class Main:
                 m_reg = p_reg.match(unquote_safe(url))
                 if  (m_reg is None):
                     continue
+
             self.addListItem(m, len(self.currentlist.items))
 
         return result
@@ -331,20 +326,26 @@ class Main:
         return item
 
     def createListItem(self, item):
+        liz = None
         title = clean_safe(item.getInfo('title'))
+
         icon = item.getInfo('icon')
-        liz = xbmcgui.ListItem(title, iconImage=icon, thumbnailImage=icon)
+        if icon:
+            liz = xbmcgui.ListItem(title, iconImage=icon, thumbnailImage=icon)
+        else:
+            liz = xbmcgui.ListItem(title)
+
         fanart = item.getInfo('fanart')
         if not fanart:
-            fanart = os.path.join(rootDir, 'fanart.jpg')
+            fanart = pluginFanart
         liz.setProperty('fanart_image', fanart)
 
         for video_info_name in item.infos_names:
             if video_info_name.find('context.') != -1:
                 try:
                     cItem = item
-                    cItem,setInfo('url', item.getInfo(video_info_name))
                     cItem.setInfo('type', 'rss')
+                    cItem.setInfo('url', item.getInfo(video_info_name))
                     action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?url=' + self.currentlist.codeUrl(cItem))
                     liz.addContextMenuItems([(video_info_name[video_info_name.find('.') + 1:], action)])
                 except:
@@ -370,19 +371,38 @@ class Main:
             m_type = 'rss'
 
         contextMenuItems = []
+
+        # Queue
         action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.QUEUE) + '&url=' + self.currentlist.codeUrl(lItem))
         #action = 'XBMC.Action(Queue)'
         contextMenuItems.append(("Queue",action))
+
+        if self.curr_file.endswith('favourites.cfg') or self.curr_file.startswith("favfolders/"):
+            # Remove from favourites
+            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.REMOVEFROMFAVOURITES) + '&url=' + self.currentlist.codeUrl(lItem))
+            contextMenuItems.append(("Remove",action))
+            # Edit label
+            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.EDITITEM) + '&url=' + self.currentlist.codeUrl(lItem))
+            contextMenuItems.append(("Edit",action))
+
+        else:
+            if lItem.getInfo('title') != "Favourites":
+                # Add to favourites
+                action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.ADDTOFAVOURITES) + '&url=' + self.currentlist.codeUrl(lItem))
+                contextMenuItems.append(("Add to SportsDevil favourites",action))
+
 
 
         if m_type.find('video') > -1:
             #u = lItem.getInfo('url')
             u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(lItem)
-
             action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.DOWNLOAD) + '&url=' + self.currentlist.codeUrl(lItem))
             contextMenuItems.append(("Download",action))
 
             liz.setProperty('IsPlayable','true')
+            isFolder = False
+        elif m_type.find('command') > -1:
+            u = sys.argv[0] + '?mode=' + str(Mode.EXECUTE) + '&url=' + self.currentlist.codeUrl(lItem)
             isFolder = False
         else:
             u = sys.argv[0] + '?mode=' + str(Mode.VIEW) + '&url=' + self.currentlist.codeUrl(lItem)
@@ -397,11 +417,12 @@ class Main:
                 if not name == 'cookies.lwp':
                     os.remove(os.path.join(root, name))
 
+
     def run(self):
         log('SportsDevil running')
         try:
             self.handle = int(sys.argv[1])
-            xbmcplugin.setPluginFanart(self.handle, os.path.join(rootDir, 'fanart.jpg'))
+            xbmcplugin.setPluginFanart(self.handle, pluginFanart)
             paramstring = sys.argv[2]
             if len(paramstring) <= 2:
                 if __settings__.getSetting('hide_warning') == 'false':
@@ -421,7 +442,6 @@ class Main:
                     self.purgeCache()
                     log('Cache directory purged')
 
-
                 # Show Main Menu
                 self.parseView('sites.list')
                 log('End of directory')
@@ -435,6 +455,41 @@ class Main:
                     result = self.parseView(codedItem)
                     if result == -2:
                         return
+
+                if mode == Mode.ADDITEM:
+                    self.favouritesManager.addItem()
+                    xbmc.executebuiltin('Container.Refresh()')
+
+                elif mode in [Mode.ADDTOFAVOURITES, Mode.REMOVEFROMFAVOURITES, Mode.EDITITEM]:
+                    item = self.currentlist.decodeUrl(codedItem)
+                    if mode == Mode.ADDTOFAVOURITES:
+                        self.favouritesManager.addToFavourites(item)
+                    elif mode == Mode.REMOVEFROMFAVOURITES:
+                        self.favouritesManager.removeItem(item)
+                        xbmc.executebuiltin('Container.Refresh()')
+                    elif mode == Mode.EDITITEM:
+                        if self.favouritesManager.editItem(item):
+                            xbmc.executebuiltin('Container.Refresh()')
+                    return
+
+
+                if mode == Mode.EXECUTE:
+                    item = self.currentlist.decodeUrl(codedItem)
+                    url = item.getInfo('url')
+                    if url.find('(') > -1:
+                        xbmcCommand = parseText(url,'([^\(]*).*')
+                        if xbmcCommand.lower() in ['activatewindow', 'runscript', 'runplugin', 'playmedia']:
+                            if xbmcCommand.lower() == 'activatewindow':
+                                params = parseText(url, '.*\(\s*(.+?)\s*\).*').split(',')
+                                for i in range(len(params)-1,-1,-1):
+                                    p = params[i]
+                                    if p == 'return':
+                                        params.remove(p)
+                                path = unescape(params[len(params)-1])
+                                xbmc.executebuiltin('Container.Update(' + path + ')')
+                                return
+                            xbmc.executebuiltin(unescape(url))
+                            return
 
                 if mode == Mode.PLAY:
                     videoItem = self.currentlist.decodeUrl(codedItem)
