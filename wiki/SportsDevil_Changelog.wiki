@@ -1,5 +1,10 @@
 =Changelog=
+V1.7:
+  * fixed streamer megom
+  * added favourites management for both SportsDevil and xbmc favourites; favourites can be organized in folders (only one level)
+  * some refactoring
 
+<br>
 V1.6.5.5:
   * added site: vipbox.tv (thanks to Gainesway1 for the icon)
   * some small fixes and improvements
