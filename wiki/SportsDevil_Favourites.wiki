@@ -1,0 +1,52 @@
+#summary How to manage favourites
+
+= Add a folder =
+Custom virtual folders inside your favourites can be added by selecting the list item "Add item..." in your favourites root folder. Select "Add folder" in the selection dialog. You will be asked for a name of the new folder. Please bear in mind that all virtual folders have to be labeled differently.
+
+picListItem picSelectionBox picOSK picNewList
+
+
+= Add a favourite =
+You can add two kinds of favourite items:
+  # SportsDevil items
+  # xbmc commands (like used in xbmc favourites)
+
+SportsDevil items can be added by using the context menu entry "Add to SportsDevil favourites". If you have created virtual folders, you will be asked for a destination folder afterwards.
+
+picContextMenu picDestFolder
+
+Xbmc commands in the form of xbmc favourites can be added via the list item "Add item..." in your favourites root folder. Select "Add xbmc favourite" in the selection dialog. A list of your xbmc favourites will pop up. You will possibly be asked for a virtual destination folder.
+
+picListFavourites
+
+
+= Edit a favourite =
+
+You can edit the label, icon and fanart for both virtual folders and favourite items. Favourite items can additionally be moved to another virtual folder.
+All these options are accessible through the context menu entry "Edit".
+
+picEditSelection picDestFolder
+
+Images have to be inside one of your picture sources.
+
+
+= Edit favourites manually =
+
+If you want to edit your favourites manually, you will find the relevant files in "/userdata/addon_data/plugin.video.SportsDevil/favourites". Such a file contains simple entries like:
+{{{
+########################################################
+# TV
+########################################################
+title=TV
+type=rss
+url=favfolders/TV.cfg
+
+########################################################
+# ESPN
+########################################################
+title=ESPN
+type=command
+icon=F:\XBMC\portable_data\addons\plugin.video.espn3\icon.png
+url=ActivateWindow(10025,"plugin://plugin.video.espn3")
+}}}
+Entries are seperated by empty lines.
