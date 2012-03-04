@@ -14,7 +14,7 @@ You can add two kinds of favourite items:
 
 !SportsDevil items can be added by using the context menu entry "Add to !SportsDevil favourites". If you have created virtual folders, you will be asked for a destination folder afterwards.
 
-|| <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ContextMenuAddFavourite.jpg"/> || <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/SelectDestinationFolder.jpg"/> ||
+|| <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ContextMenuAddFavourite.jpg"/> || <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/SelectVirtualFolder.jpg"/> ||
 
 Xbmc commands in the form of xbmc favourites can be added via the list item "Add item..." in your favourites root folder. Select "Add xbmc favourite" in the selection dialog. A list of your xbmc favourites will pop up. You will possibly be asked for a virtual destination folder.
 
