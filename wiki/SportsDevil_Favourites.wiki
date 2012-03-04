@@ -37,7 +37,7 @@ Images have to be inside one of your picture sources.
 
 = Edit favourites manually =
 
-If you want to edit your favourites manually, you will find the relevant files in "/userdata/addon_data/plugin.video.SportsDevil/favourites". Such a file contains simple entries like:
+If you want to edit your favourites manually, you will find the relevant files in "/userdata/addon_data/plugin.video.!SportsDevil/favourites". Such a file contains simple entries like:
 {{{
 ########################################################
 # TV
