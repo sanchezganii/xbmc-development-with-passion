@@ -1,7 +1,10 @@
 # -*- coding: latin-1 -*-
 
+from globals import *
 from string import *
 from helpers import *
+from CListItem import CListItem
+
 import customConversions as cc
 
 import xbmcplugin, xbmcaddon
@@ -30,6 +33,9 @@ dictsDir = os.path.join(resDir,'dictionaries')
 
 pluginFanart = os.path.join(rootDir, 'fanart.jpg')
 
+pluginDataDir = xbmc.translatePath('special://profile/addon_data/plugin.video.SportsDevil')
+favouritesFolder = os.path.join(pluginDataDir, 'favourites')
+favouritesFile = os.path.join(favouritesFolder, 'favourites.cfg')
 #socket.setdefaulttimeout(20)
 
 
@@ -40,12 +46,10 @@ def setCurrentUrl(url):
     f.write(url)
     f.close()
 
-
 def setLastUrl(url):
     f = open(os.path.join(cacheDir, 'lasturl'), 'w')
     f.write(url)
     f.close()
-
 
 def getLastUrl():
     url = getFileContent(os.path.join(cacheDir, 'lasturl'))
@@ -226,25 +230,6 @@ def customConversion(item, src, convCommands):
             log('Debug from cfg file: ' + src)
     return src
 
-
-
-class CListItem:
-    def __init__(self):
-        self.infos_names = []
-        self.infos_values = []
-
-    def getInfo(self, key):
-        if self.infos_names.__contains__(key):
-            return self.infos_values[self.infos_names.index(key)]
-        return None
-
-    def setInfo(self, key, value):
-        if self.infos_names.__contains__(key):
-            self.infos_values[self.infos_names.index(key)] = value
-        else:
-            self.infos_names.append(key)
-            self.infos_values.append(value)
-
 class CItemInfo:
     def __init__(self):
         self.name = ''
@@ -394,7 +379,6 @@ class CItemsList:
 
         return item
 
-
     def loadLocal(self, filename, lItem = None):
         params = []
 
@@ -404,15 +388,27 @@ class CItemsList:
             filename = params[0]
             params.pop(0)
 
-        self.cfg = xbmc.translatePath(os.path.join(modulesDir, filename))
+        cfg = filename
+        if not os.path.exists(cfg):
+            cfg = xbmc.translatePath(os.path.join(modulesDir, filename))
+            if not os.path.exists(cfg):
+                tmpPath = os.path.dirname(getCurrentCfg())
+                cfg = xbmc.translatePath(os.path.join(tmpPath ,filename))
+                if not os.path.exists(cfg):
+                    if filename.find('/') > -1:
+                        filename = filename.split('/')[1]
+                    try:
+                        cfg = findInSubdirectory(filename, modulesDir)
+                    except:
+                        try:
+                            cfg = findInSubdirectory(filename, favouritesFolder)
+                        except:
+                            showMessage('File not found: ' + filename)
+                            return
 
-        if not os.path.exists(self.cfg):
-            tmpPath = os.path.dirname(getCurrentCfg())
-            self.cfg = xbmc.translatePath(os.path.join(tmpPath ,filename))
-        else:
-            setCurrentCfg(self.cfg)
 
-
+        self.cfg = cfg
+        setCurrentCfg(self.cfg)
 
         #load file and apply parameters
         data = getFileContent(self.cfg)
@@ -429,6 +425,16 @@ class CItemsList:
 
         items = []
         tmp = None
+
+        if filename == 'sites.list':
+            # Add Favourites
+            tmp = CListItem()
+            tmp.setInfo('title', 'Favourites')
+            tmp.setInfo('type', u'rss')
+            tmp.setInfo('url', str(favouritesFile))
+            items.append(tmp)
+            tmp = None
+
         for m in data:
             if m and m[0] != '#':
                 index = m.find('=')
@@ -509,6 +515,17 @@ class CItemsList:
                         tmp = None
                     elif tmp != None:
                         tmp.setInfo(key, value)
+
+
+        if filename == favouritesFile:
+            tmp = CListItem()
+            tmp.setInfo('title','Add item...')
+            tmp.setInfo('type','command')
+            action = 'RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.ADDITEM) + '&url=')
+            tmp.setInfo('url',action)
+            items.append(tmp)
+            tmp = None
+
         self.items = items
 
         if self.start != '':

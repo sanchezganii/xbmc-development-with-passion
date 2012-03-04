@@ -561,13 +561,29 @@ def timediff(mytime, unit='seconds'):
 def getFileContent(filename):
     try:
         f = open(filename,'r')
-        txt = smart_unicode(f.read())
+        txt = f.read()
         f.close()
         return txt
     except:
         return ''
 
+def setFileContent(filename, txt):
+    try:
+        f = open(filename, 'w')
+        f.write(smart_unicode(txt).encode('utf-8'))
+        f.close()
+        return True
+    except:
+        return False
 
+def appendFileContent(filename, txt):
+    try:
+        f = open(filename, 'a')
+        f.write(smart_unicode(txt).encode('utf-8'))
+        f.close()
+        return True
+    except:
+        return False
 
 
 def convDate(datestr, frmt, newfrmt = ''):
@@ -1117,3 +1133,13 @@ def ifExists(url, trueStr, falseStr):
         return trueStr
     else:
         return falseStr
+
+def findInSubdirectory(filename, subdirectory=''):
+    if subdirectory:
+        path = subdirectory
+    else:
+        path = os.getcwd()
+    for root, dirs, names in os.walk(path):
+        if filename in names:
+            return os.path.join(root, filename)
+    raise 'File not found'
