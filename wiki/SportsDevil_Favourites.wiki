@@ -8,10 +8,10 @@ picListItem picSelectionBox picOSK picNewList
 
 = Add a favourite =
 You can add two kinds of favourite items:
-  # SportsDevil items
+  # !SportsDevil items
   # xbmc commands (like used in xbmc favourites)
 
-SportsDevil items can be added by using the context menu entry "Add to SportsDevil favourites". If you have created virtual folders, you will be asked for a destination folder afterwards.
+!SportsDevil items can be added by using the context menu entry "Add to !SportsDevil favourites". If you have created virtual folders, you will be asked for a destination folder afterwards.
 
 picContextMenu picDestFolder
 
