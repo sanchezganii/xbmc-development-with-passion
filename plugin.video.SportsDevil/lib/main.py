@@ -26,6 +26,8 @@ class Main:
 
     def __init__(self):
         log('Initializing SportsDevil')
+        if not os.path.exists(pluginDataDir):
+            os.makedirs(pluginDataDir)
         self.pDialog = None
         self.curr_file = ''
         self.urlList = []
@@ -441,6 +443,7 @@ class Main:
                     log('Purging cache directory')
                     self.purgeCache()
                     log('Cache directory purged')
+
 
                 # Show Main Menu
                 self.parseView('sites.list')
