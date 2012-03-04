@@ -29,7 +29,8 @@ If you have created virtual folders, you will be asked for a destination folder 
 You can edit the label, icon and fanart for both virtual folders and favourite items. Favourite items can additionally be moved to another virtual folder.
 All these options are accessible through the context menu entry "Edit".
 
-|| <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/EditFavourite.jpg"/> ||
+
+|| <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ContextMenuEditFavourite.jpg"/> || <img width="538" height="358" src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/EditFavourite.jpg"/> ||
 
 Images have to be inside one of your picture sources.
 
