@@ -3,7 +3,7 @@
 = Add a folder =
 Custom virtual folders inside your favourites can be added by selecting the list item "Add item..." in your favourites root folder. Select "Add folder" in the selection dialog. You will be asked for a name of the new folder. Please bear in mind that all virtual folders have to be labeled differently.
 
-picListItem picSelectionBox picOSK picNewList
+picListItem <img align="center" width=150 height=150 src="http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/AddItemSelection.jpg"> picOSK picNewList
 
 
 = Add a favourite =
