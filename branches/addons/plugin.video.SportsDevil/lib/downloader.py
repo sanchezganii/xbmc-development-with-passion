@@ -13,6 +13,11 @@ class Downloader:
         self.pDialog = None
         self.language = language
 
+    def downloadWithJDownloader(self, url, title):
+        xbmc.executebuiltin('XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=' + url +')')
+        xbmc.executebuiltin('Notification(Sent to JDownloader:,' + str(title) + ')')
+        #xbmc.executebuiltin('XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=reconnect)')
+
     def downloadMovie(self, url, path, title, extension):
         if not os.path.exists(path):
             log('Path does not exist')
