@@ -1989,6 +1989,16 @@ item_url_build=%s
 
 
 ########################################################
+# Buzzin - Videos
+########################################################
+item_infos=fid="(.*?)".*?buzzin.tv/player/embedPlayer.js
+item_order=video
+@CATCH(buzzin,video)@
+item_info_name=type
+item_info_build=direct.video 
+item_url_build=%s
+
+########################################################
 # istreamlive.net - Videos
 ########################################################
 #item_infos=<a href="live([0-9]).htm">

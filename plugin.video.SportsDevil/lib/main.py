@@ -58,13 +58,13 @@ class Main:
         except:
             icon = os.path.join(imgDir, 'video.png')
 
-        try:
-            urllib.urlretrieve(icon, os.path.join(cacheDir, 'thumb.tbn'))
-            icon = os.path.join(cacheDir, 'thumb.tbn')
-        except:
-            if enable_debug:
-                traceback.print_exc(file = sys.stdout)
-            icon = os.path.join(imgDir, 'video.png')
+##        try:
+##            urllib.urlretrieve(icon, os.path.join(cacheDir, 'thumb.tbn'))
+##            icon = os.path.join(cacheDir, 'thumb.tbn')
+##        except:
+##            if enable_debug:
+##                traceback.print_exc(file = sys.stdout)
+##            icon = os.path.join(imgDir, 'video.png')
 
         listitem = xbmcgui.ListItem(title, title, icon, icon)
         listitem.setInfo('video', {'Title':title})
@@ -185,7 +185,7 @@ class Main:
         else:
             result = self.currentlist.loadRemote(url, lItem = lItem)
 
-        # if there is nothing to scrape
+        # if there is something to scrape at all
         if not ((ext == 'cfg' or ext == 'list') and self.currentlist.start == ''):
             i = 0
             maxIt = 3
@@ -252,7 +252,6 @@ class Main:
                 dialog = xbmcgui.Dialog()
                 dialog.ok('SportsDevil Info', 'No stream available')
                 return
-
 
         # Add items to XBMC list
 
@@ -365,53 +364,58 @@ class Main:
                     pass
         return liz
 
-    def addListItem(self,  lItem, totalItems):
-        liz = self.createListItem(lItem)
+    def _createContextMenuItem(self, label, mode, codedItem):
+        action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(mode) + '&url=' + codedItem)
+        return (label, action)
 
+    def addListItem(self,  lItem, totalItems):
         m_type = lItem.getInfo('type')
+
         if not m_type:
-            m_type = 'rss'
+            m_type = u'rss'
 
         contextMenuItems = []
 
+        codedItem = self.currentlist.codeUrl(lItem)
+
         # Queue
-        action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.QUEUE) + '&url=' + self.currentlist.codeUrl(lItem))
-        #action = 'XBMC.Action(Queue)'
-        contextMenuItems.append(("Queue",action))
+        contextMenuItem = self._createContextMenuItem('Queue', Mode.QUEUE, codedItem)
+        contextMenuItems.append(contextMenuItem)
 
         if self.curr_file.endswith('favourites.cfg') or self.curr_file.startswith("favfolders/"):
             # Remove from favourites
-            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.REMOVEFROMFAVOURITES) + '&url=' + self.currentlist.codeUrl(lItem))
-            contextMenuItems.append(("Remove",action))
+            contextMenuItem = self._createContextMenuItem('Remove', Mode.REMOVEFROMFAVOURITES, codedItem)
+            contextMenuItems.append(contextMenuItem)
+
             # Edit label
-            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.EDITITEM) + '&url=' + self.currentlist.codeUrl(lItem))
-            contextMenuItems.append(("Edit",action))
+            contextMenuItem = self._createContextMenuItem('Edit', Mode.EDITITEM, codedItem)
+            contextMenuItems.append(contextMenuItem)
 
         else:
             if lItem.getInfo('title') != "Favourites":
                 # Add to favourites
-                action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.ADDTOFAVOURITES) + '&url=' + self.currentlist.codeUrl(lItem))
-                contextMenuItems.append(("Add to SportsDevil favourites",action))
+                contextMenuItem = self._createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
+                contextMenuItems.append(contextMenuItem)
 
 
+        liz = self.createListItem(lItem)
 
         if m_type.find('video') > -1:
-            #u = lItem.getInfo('url')
-            u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(lItem)
-            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.DOWNLOAD) + '&url=' + self.currentlist.codeUrl(lItem))
-            contextMenuItems.append(("Download",action))
-
+            u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
+            contextMenuItem = self._createContextMenuItem('Download', Mode.DOWNLOAD, codedItem)
+            contextMenuItems.append(contextMenuItem)
             liz.setProperty('IsPlayable','true')
             isFolder = False
         elif m_type.find('command') > -1:
-            u = sys.argv[0] + '?mode=' + str(Mode.EXECUTE) + '&url=' + self.currentlist.codeUrl(lItem)
+            u = sys.argv[0] + '?mode=' + str(Mode.EXECUTE) + '&url=' + codedItem
             isFolder = False
         else:
-            u = sys.argv[0] + '?mode=' + str(Mode.VIEW) + '&url=' + self.currentlist.codeUrl(lItem)
+            u = sys.argv[0] + '?mode=' + str(Mode.VIEW) + '&url=' + codedItem
             isFolder = True
 
         liz.addContextMenuItems(contextMenuItems)
         xbmcplugin.addDirectoryItem(handle = self.handle, url = u, listitem = liz, isFolder = isFolder, totalItems = totalItems)
+
 
     def purgeCache(self):
         for root, dirs, files in os.walk(cacheDir , topdown = False):
