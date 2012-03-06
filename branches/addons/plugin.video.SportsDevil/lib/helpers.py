@@ -601,6 +601,10 @@ def convDate(datestr, frmt, newfrmt = ''):
         return time.strftime("%m/%d",c)
     '''
 
+    try:
+        datestr = datestr.encode('utf-8')
+    except:
+        datestr = datestr
 
     monthsEN = {
         'January':  1,
