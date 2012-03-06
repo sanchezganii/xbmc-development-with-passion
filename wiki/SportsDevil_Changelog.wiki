@@ -1,4 +1,13 @@
 =Changelog=
+V1.7.1:
+  * added streamer buzzin
+  * fixed site livetv.ru (live sports)
+
+<br>
+V1.7.0.1:
+  * fix: create SportsDevil addon_data folder if it doesn't exist
+
+<br>
 V1.7:
   * fixed streamer megom
   * added favourites management for both SportsDevil and xbmc favourites; favourites can be organized in folders (only one level)
