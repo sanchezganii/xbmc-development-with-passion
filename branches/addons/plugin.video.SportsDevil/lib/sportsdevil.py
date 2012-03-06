@@ -68,7 +68,7 @@ def replaceFromDict(filename, wrd):
     pathImp = xbmc.translatePath(os.path.join(dictsDir, filename + '.txt'))
     if not (os.path.exists(pathImp)):
         log('Skipped Replacement: ' + filename)
-    dict = getFileContent(pathImp)
+    dict = smart_unicode(getFileContent(pathImp))
     dict = dict.replace('\r\n','\n')
 
     p_reg = re.compile('^[^\r\n]+$', re.IGNORECASE + re.DOTALL + re.MULTILINE)
@@ -107,17 +107,16 @@ def getHTML(url, referer='', ignoreCache=False, demystify=False):
 
     if url == getLastUrl() and not ignoreCache:
         log('Get source of \'' + url + '\' from Cache')
-        data = getFileContent(cache)
+        data = smart_unicode(getFileContent(cache))
     else:
-        data = getSource(url, referer, demystify)
+        data = smart_unicode(getSource(url, referer, demystify))
 
         # Cache url
         setLastUrl(url)
 
         # Cache page
-        f = open(cache, 'w')
-        f.write(data)
-        f.close()
+        setFileContent(cache, data)
+
     return data
 
 
@@ -348,7 +347,7 @@ class CItemsList:
             if info_name != 'url' and info_name.find('.tmp') == -1:
                 info_value = item.getInfo(info_name)
                 try:
-                    keyValPair = smart_unicode(info_name) + ':' + urllib.quote(smart_unicode(info_value))
+                    keyValPair = smart_unicode(info_name) + ':' + urllib.quote(smart_unicode(info_value).encode('utf-8'))
                 except:
                     keyValPair = smart_unicode(info_name) + ':' + smart_unicode(info_value)
                 params += '&' + keyValPair
@@ -584,7 +583,7 @@ class CItemsList:
                 return -1
 
             if self.section != '':
-                p = re.compile('.*(' + self.section + ').*', re.IGNORECASE + re.DOTALL + re.MULTILINE)
+                p = re.compile('.*(' + self.section + ').*', re.IGNORECASE + re.DOTALL)
                 m = p.match(data)
                 if m:
                     data = m.group(1)
@@ -604,7 +603,7 @@ class CItemsList:
         if count == 0:
             data = getHTML(curr_url, self.reference, ignoreCache=True, demystify=True)
             if self.section != '':
-                p = re.compile('.*(' + self.section + ').*', re.IGNORECASE + re.DOTALL + re.MULTILINE)
+                p = re.compile('.*(' + self.section + ').*', re.IGNORECASE + re.DOTALL + re.UNICODE)
                 m = p.match(data)
                 if m:
                     data = m.group(1)
@@ -613,12 +612,12 @@ class CItemsList:
             count = self.parseItems(data,lItem)
             if count == 0:
                 count = self.parseItems('"' + curr_url + '"', lItem)
+
         return 0
 
 
     # Find list items
     def parseItems(self,data,lItem):
-
         lock = False
         for item_rule in self.rules:
             if item_rule.skill.find('lock') != -1 and lock:
