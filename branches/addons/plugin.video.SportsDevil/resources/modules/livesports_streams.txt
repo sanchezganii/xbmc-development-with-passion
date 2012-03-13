@@ -7,7 +7,7 @@ item_infos=sop://[^:]+:3912/(\d+)
 item_order=video
 @CATCH(sopcast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -18,21 +18,21 @@ item_infos=id='([^']+)'; width='[^']+'; height = '[^']+';</script><script type='
 item_order=video
 @CATCH(zonein,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=["']http://embed.zonein.tv/[^\?]+\?id=([^&'"]+)
 item_order=video
 @CATCH(zonein,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################    
 item_infos=src='http://embed.zonein.tv/pl-([^\.]+)\.js'
 item_order=video
 @CATCH(zonein,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -61,7 +61,7 @@ item_info_from=video
 item_info_build=Guarapa - %s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=(http://www.brasileirao\d+.org/canais/([^\.]+)\.html)
@@ -86,7 +86,7 @@ item_info_from=video
 item_info_build=Brasileirao - %s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -97,14 +97,14 @@ item_infos=fid="([^"]+)".*?src="http://(?:www.)?veemi.com/javascript/embedPlayer
 item_order=video
 @CATCH(veemi,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=http://(?:www.)?veemi.com/(?:embed\.php|watch)\?v=([^ &'"]+)
 item_order=video
 @CATCH(veemi,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s 
 
 
@@ -115,28 +115,28 @@ item_infos="http://(?:www\.)?veetle.com/index.php/channel/view#([0-9a-z]+)[^"]*"
 item_order=video
 @CATCH(veetle,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s 
 ########################################################
 item_infos=src="http://(?:www\.)?veetle.com/v/([^"]+)"
 item_order=video
 @CATCH(veetle,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s 
 ########################################################
 item_infos=src="http://(?:www\.)?veetle.com/index.php/widget#([^/]+)/[^"]*"
 item_order=video
 @CATCH(veetle,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=veetleChannelId="([^"]+)"
 item_order=video
 @CATCH(veetle,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -147,28 +147,28 @@ item_infos="http://(?:www\.)?yycast.com/embed.php\?fileid=([^&]+)&[^"]*"
 item_order=video
 @CATCH(yycast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=sharing.link'\s*,\s*'http://(?:www\.)?yycast.com/([^']+)'
 item_order=video
 @CATCH(yycast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=fid="((?!%VAR_PLACE%)[^"]*)".*?src="http://www.yycast.com/javascript/embedPlayer.js"
 item_order=video
 @CATCH(yycast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=flashvars=".*?file=([^\.&]+(?!\.flv)).*?streamer=rtmp://live.yycast[^&]+.*?"[^"]+.swf"
 item_order=video
 @CATCH(yycast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 
@@ -180,21 +180,21 @@ item_infos=[^']<script type="text/javascript" src="http://www.seeon.tv/embed/([^
 item_order=video
 @CATCH(seeon,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=["']http://(?:www.)?seeon.tv/embed(?:player)?(?:\.php)?\?[^"']*channel=([^&]+)[^"']*["']
 item_order=video
 @CATCH(seeon,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################  
 item_infos=<script src="http://www.directembed.com/embed.php\?channel=([^&]+)&amp;[^"]*" type="text/javascript"></script>
 item_order=video
 @CATCH(seeon,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -205,14 +205,14 @@ item_infos=chid="([^"]+)";[^<]*</script><script (?:type="text/javascript" )?src=
 item_order=video
 @CATCH(meevos,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=src="http://embed.meevos.tv/embed.php\?id=([^&]+)[^"]*"
 item_order=video
 @CATCH(meevos,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -223,14 +223,14 @@ item_infos=channel="([^"]+)"[^<]*</script><script type="text/javascript" src="ht
 item_order=video
 @CATCH(castamp,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos="http://(?:www.)?castamp.com/embed.php\?c=([^"&]+)
 item_order=video
 @CATCH(castamp,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -241,7 +241,7 @@ item_infos=src="http://www.rayson.tv/player/index.php\?ch=([^"]+)"
 item_order=video
 @CATCH(rayson,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -252,14 +252,14 @@ item_infos=c="([^"]+)"[^<]*</script>[^<]*<script type="text/javascript" src="htt
 item_order=video
 @CATCH(tvope,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################  
 item_infos=src="[^"]*tvope.com/[^\?]+\?c=([^&]+)&[^"]*"
 item_order=video
 @CATCH(tvope,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -270,21 +270,21 @@ item_infos=fid="([^"]+)"[^<]*</script>\s*<script type="text/javascript" src="htt
 item_order=video
 @CATCH(webcaston,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=<a href="http://www.webcaston.com/embed.php\?fileid=([^&]+)&vw=640&vh=360&domain=mypremium.tv" target="_BLANK">Play</a>
 item_order=video
 @CATCH(webcaston,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=src="http://www.webcaston.com/embed.php\?fileid=([^&]+)&[^"]*"
 item_order=video
 @CATCH(webcaston,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -295,14 +295,14 @@ item_infos=fid="([^"]+)".*? src="http://www.limev.com
 item_order=video
 @CATCH(limev,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=http://(?:www.)?limev.com/embed.php\?fileId=([^&"' ]+)
 item_order=video
 @CATCH(limev,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -312,7 +312,7 @@ item_infos=fid="([^"]+)".*?src="http://vstream.eu/player/embedPlayer.js"
 item_order=video
 @CATCH(vstream,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -323,7 +323,7 @@ item_infos=src="http://video.globo.com/Portal/videos/cda/player/player.swf\?midi
 item_order=video
 @CATCH(globo,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -346,7 +346,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=FreedoCast - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=plugin://plugin.video.freedocast/?play=%s
 ########################################################
 item_infos=id='popoutplayer' src='(embedplayercustom[^']+)'
@@ -364,7 +364,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=FreedoCast - %s 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=plugin://plugin.video.freedocast/?play=%s
 #item_url_build=http://www.freedocast.com/forms/embedplayercustom.aspx?fid=%s&ftype=stream&domain=&width=&height=
 
@@ -376,7 +376,7 @@ item_infos=f*id="([^"]*)"[^<]*</script><script type="text/javascript" src="http:
 item_order=video
 @CATCH(streambig,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -387,14 +387,14 @@ item_infos=f*id=["']([^"']*)["'][^<]*</script>\s*<script type=["']text/javascrip
 item_order=video
 @CATCH(liveview365,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=http://liveview365.(?:tv|com)/embedded\?id=([^&"]+)
 item_order=video
 @CATCH(liveview365,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -405,7 +405,7 @@ item_infos=chname="([^"]+)".*? src="http://www.strmr.tv
 item_order=video
 @CATCH(strmr,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -425,7 +425,7 @@ item_info_convert=getInfo('http://yatv.ru/ru//tv,dyn,channelRecords?record_id=%s
 item_info_build=%s.mp4
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=src="http://yatv.ru/files/swf/container.swf\?.*?cid=([^&"]+).*?"
@@ -443,7 +443,7 @@ item_info_from=url
 item_info_build=YaTV - %s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=<a target="_blank" href="(http://s\d*.d\d*.yatv.ru/[^\.]+\.mp4)">
@@ -452,7 +452,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=YaTV - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -468,7 +468,7 @@ item_info_convert=parseText('%s','.*;channel=([^&]+)&.*')
 item_info_build=Livestream - %s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 ########################################################
@@ -490,7 +490,7 @@ item_info_convert=getInfo('%s','.*"(rtsp://[^"]+)".*')
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 ########################################################
@@ -508,7 +508,7 @@ item_info_from=video
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -519,7 +519,7 @@ item_infos=http://(?:www.)?livevdo.tv/js/eloader.js\?token=([^&'"]+)
 item_order=video
 @CATCH(livevdo,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -575,14 +575,14 @@ item_infos=id='([^']+).*?'http://www.mips.tv/player/doitlive_embed.js'
 item_order=video
 @CATCH(mips,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos="http://www.mips.tv/player/embedplayer.php\?id=([^&]+)&(?:amp;)?e=[0-9]&[^"]*"
 item_order=video
 @CATCH(mips,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -593,14 +593,14 @@ item_infos=fid="([^"]+)".*?src="http://www.786cast.(?:com|tv)/embed.js"
 item_order=video
 @CATCH(786cast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos="http://www.786cast.(?:com|tv)?/embed\d*.php\?u=([^&"]+)
 item_order=video
 @CATCH(786cast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -611,14 +611,14 @@ item_infos=u="([^"]+)"[^<]*</script><script type="text/javascript" src="http://w
 item_order=video
 @CATCH(boxlivetv,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=http://boxlivetv.us/embed.php\?u=([^&"]+)
 item_order=video
 @CATCH(boxlivetv,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -629,7 +629,7 @@ item_infos="http://www.icaston.tv/(?:embed|channel).php\?u=([^&"]+)
 item_order=video
 @CATCH(icaston,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -640,14 +640,14 @@ item_infos="http://www.xuuby.com/playerp.php\?chname=([^&"]+)
 item_order=video
 @CATCH(xuuby,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=chname="([^"]+)".*?xuuby.com/js/embed\d*.js
 item_order=video
 @CATCH(xuuby,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 ########################################################
@@ -657,14 +657,14 @@ item_infos=['"]http://hdcaster.net/.*?channel_id=(\d+)
 item_order=video
 @CATCH(hdcaster,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=id=["']([^'"]+)["'][^<]*</script><[^>]*src=["']http://hdcaster.net/player.js["']
 item_order=video
 @CATCH(hdcaster,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -675,14 +675,14 @@ item_infos=id=[']?(\d+)[']?.*?src='http://streamhq.tv/player.js'
 item_order=video
 @CATCH(streamhq,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos="http://streamhq.tv/channel.php\?channel_id=(\d+)"
 item_order=video
 @CATCH(streamhq,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -693,7 +693,7 @@ item_infos="http://www.vshare.tv/js/eloader.js\?token=([^&"]+)
 item_order=video
 @CATCH(vshare,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -704,14 +704,14 @@ item_infos=src="http://(?:www.)?wii-cast.tv/embed[^\.]*\.php\?channel=([^&]+)[^"
 item_order=video
 @CATCH(wiicast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=fid="([^"]+)".*?</script><script type="text/javascript" src="http://www.wii-cast.(?:tv|eu)/js/embed(?:player)?.js"
 item_order=video
 @CATCH(wiicast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -722,7 +722,7 @@ item_infos=channel="([^"]+)".*?src="http://embed.vip-live.tv/(?:jw|fl)?player.js
 item_order=video
 @CATCH(viplive,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -735,14 +735,14 @@ item_infos="http://(?:www(?:-cdn)?.)?justin.tv/widgets/live_embed_player.*?.swf\
 item_order=video
 @CATCH(justintv,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=justin.tv/((?!about_us|forums)[a-z_0-9]*)['"]
 item_order=video
 @CATCH(justintv,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -761,7 +761,7 @@ item_info_from='rtmp://tonos.livefootballstream.net/streamilive-live/streamzezel
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 
 item_url_build=%s
 
@@ -773,14 +773,14 @@ item_infos="(http://jimey.tv/player/embedplayer.php\?[^"]*)"
 item_order=video
 @CATCH(jimey,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=(channel='[^']+'.+?)src='http://jimey.tv/player/jimeytv_embed.js'
 item_order=video
 @CATCH(jimey,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -791,14 +791,14 @@ item_infos=file='([^']+)'.+?src='http://zecast.tv/embedPlayer.js'
 item_order=video
 @CATCH(zecast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=http://(?:www.)?zecast.tv/embed.php\?file=([^"'& ]+)
 item_order=video
 @CATCH(zecast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -809,7 +809,7 @@ item_infos=http://www.tutele.tv/embed.php\?c=([^&]+)
 item_order=video
 @CATCH(tutele,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -820,14 +820,14 @@ item_infos="http://www.owncast.tv/embed.php\?u=([^&"]+)
 item_order=video
 @CATCH(owncast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=fid="([^"]+)".+?src="http://(?:www.)?owncast.tv/embed.js"
 item_order=video
 @CATCH(owncast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -843,7 +843,7 @@ item_info_name=url
 item_info_from=rtmp + ' playpath=' + file+ ' swfUrl=' + swf
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 
 item_url_build=%s
 
@@ -855,7 +855,7 @@ item_infos=fid=["']([^"']+)["'].*?src=["']http://24in.tv/player/embedPlayer.js["
 item_order=video
 @CATCH(24in,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 # 24cast.eu - Videos
@@ -864,7 +864,7 @@ item_infos=fid=["']([^"']+)["'].*?src=["']http://24cast.(?:info|eu)?/player/embe
 item_order=video
 @CATCH(24cast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -880,7 +880,7 @@ item_info_build=%s
 
 @CATCH(livebox,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -891,7 +891,7 @@ item_infos=http://(?:www.)?reyhd.(?:com|tv)/(?:embed|view|channel).php\?(?:c|n|f
 item_order=video
 @CATCH(rey,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -903,7 +903,7 @@ item_infos="movie" value="http://www.megalive.com/\w+/([^"]+)"
 item_order=video
 @CATCH(megalive,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -932,7 +932,7 @@ item_info_build=%s
 item_info_name=type
 item_info_from=url
 item_info_convert=parseText('%s','(\w{4}).*')
-item_info_convert=isEqual('%s','http','rss','direct.video')
+item_info_convert=isEqual('%s','http','rss','video')
 item_info_build=%s
 
 item_info_name=title
@@ -965,7 +965,7 @@ item_info_from=rtmp + '/' + stream + ' swfUrl=' + swf + ' live=true pageUrl=@CUR
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -978,7 +978,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=ASX - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -991,7 +991,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=RTSP - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1010,7 +1010,7 @@ item_info_from=rtmp + '/' + stream + ' swfUrl=' + swf + ' live=true pageUrl=@CUR
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=SWFObject\(['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"]
@@ -1025,7 +1025,7 @@ item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=src="([^"]+.swf)" .*?file=(rtmp://[^&]+nacevi[^&]+)
@@ -1040,7 +1040,7 @@ item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=flashvars=".*?file=([^\.&]+(?!\.flv)).*?streamer=((?!rtmp://live.yycast|rtmp://live.myp2p.in)[^&]+).*?"([^"]+.swf)"
@@ -1055,7 +1055,7 @@ item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=["'=](http://[^'" ]*.swf[^'" ]*file=([^&"']+)[^'" ]*&streamer=([^"'&]+))
@@ -1076,7 +1076,7 @@ item_info_from=rtmp + ' playPath=' + file + ' swfVfy=1 swfUrl=' + swf + ' live=t
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&"' ]+&)[^'" ]*file=([^&'" ]+)[^'" ]*)["' ]
@@ -1097,7 +1097,7 @@ item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -1113,7 +1113,7 @@ item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 # this is wha CooJah shows:     rtmp://95.100.249.196:1935/live?_fcs_vhost=cp67698.live.edgefcs.net&akmfv=1.8/SkyPoker_500k@9124
@@ -1132,7 +1132,7 @@ item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' live=true swfVf
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos="(http://[^"]+.swf\?.*?streamName=([^&]+).*?(rtmp://[^&"]+)[^"]*)"
@@ -1147,7 +1147,7 @@ item_info_from=rtmp + '/' + file + ' live=true swfVfy=1 swfUrl=' + swf
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=['"]movie['"] value=['"]([^'"]+.swf)['"].*?['"]flashvars['"] value=['"].*?file=([^&]+)\.flv.*?streamer=(rtmp://[^'"&]+)
@@ -1162,7 +1162,7 @@ item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=src="([^"]+.swf)".*?flashvars="streamUrl=([^"]+)"
@@ -1182,7 +1182,7 @@ item_info_from=rtmp + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@'
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=streamer=([^&"]+).*?file=([^&"]+).*?src="([^"]+.swf)"
@@ -1197,7 +1197,7 @@ item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 
@@ -1214,7 +1214,7 @@ item_info_from=url
 item_info_build=M3U8 - %s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1227,7 +1227,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=WMP - %s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################  
 item_infos=src="([^"]+)"[^<]+type="[^"]*asf[^"]*"
@@ -1252,7 +1252,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=VLC - %s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1265,14 +1265,14 @@ item_infos=src="http://www.livefootballstream.net/alie.php\?cname=([^"]+)"
 item_order=video
 @CATCH(aliez,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################  
 item_infos=aliez.com/player/embed.php\?id=(\d+)
 item_order=video
 @CATCH(aliez,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1291,7 +1291,7 @@ item_info_from=rtmp + '/' + ext + ':' + file + '.' + ext + ' live=true swfUrl=' 
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################  
@@ -1312,7 +1312,7 @@ item_info_from=file
 item_info_build=ProTV - %s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1323,7 +1323,7 @@ item_infos=["'](http://streami.tv/embed[^"']+)["']
 item_order=tmpUrl
 @CATCH(streami,tmpUrl)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1335,7 +1335,7 @@ item_infos=http://(?:www.)?laola1.tv/[^"]+/video/[^"]+\D+(\d{5,}).html
 item_order=video
 @CATCH(laola1,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1346,14 +1346,14 @@ item_infos=src="http://www.hogy.tv/channel.php\?file=([^&"]+)&[^"]+"
 item_order=video
 @CATCH(hogy,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=http://www.hogy.tv/live-channels/channel/([^']+)'
 item_order=video
 @CATCH(hogy,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1377,7 +1377,7 @@ item_info_from=rtmp + '/' + file + ' swfVfy=1 swfUrl=' + swf + ' live=true pageU
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1410,7 +1410,7 @@ item_info_from=rtmp + '/stream' + video + ' swfUrl=http://www.myp2p.in/' + swf +
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos="file=([^&"]+)&streamer=(rtmp://live.myp2p.in[^&]+).*?src="([^"]+)"
@@ -1428,7 +1428,7 @@ item_info_from=url
 item_info_build=Myp2p.In - %s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1460,7 +1460,7 @@ item_info_from=rtmp + ' playpath=' + file + '?reportingKey=eventId-' + event + '
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -1487,7 +1487,7 @@ item_info_from=rtmp + ' playpath='+ channel + ' swfUrl=' + swf + ' live=true pag
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1498,14 +1498,14 @@ item_infos=f*id=["']([^"']+)['"].*?src=["']http://(?:www.)?wii-stream.com/player
 item_order=video
 @CATCH(wiistream,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=http://(?:www.)?wii-stream.(?:com|tv)/embed.php\?v=([^&]+)
 item_order=video
 @CATCH(wiistream,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1539,7 +1539,7 @@ item_info_from=rtmp + '/' + file + ' live=true'
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1568,7 +1568,7 @@ item_info_from=rtmp + ' playpath='+ file + ' swfUrl=' + swf + ' live=true pageUr
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -1619,7 +1619,7 @@ item_info_from='rtmp://dinozap.tv:1935/vod/ playpath='+ file + ' swfUrl=' + swf 
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -1649,7 +1649,7 @@ item_url_build=%s
 #item_info_build=%s
 
 #item_info_name=type
-#item_info_build=direct.video 
+#item_info_build=video 
 #item_url_build=%s
 ########################################################
 item_infos=embedChannelId\s*=\s*(\d+);.*?src="http://www.nacholive.tv/[^"]+.js"
@@ -1664,7 +1664,7 @@ item_info_from=video
 item_info_build=rtmp://www.nacholive.tv:1935/fenixcast_video/%s app=fenixcast_video/1062 playpath=stream live=true swfVfy=1 swfUrl=http://www.nacholive.tv/embed.swf pageUrl=http://www.nacholive.tv/embed/1062/480/350
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1675,14 +1675,14 @@ item_infos=fid="([^"]+)".*?src="http://(?:www.)?110cast.com/embed.js"
 item_order=video
 @CATCH(110cast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=http://www.110cast.com/embed.php\?u=([^&]+)
 item_order=video
 @CATCH(110cast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 ########################################################
@@ -1692,7 +1692,7 @@ item_infos=http://www.cast365.tv/channel.php\?u=([^"'& ]+)
 item_order=video
 @CATCH(cast365,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 ########################################################
@@ -1707,7 +1707,7 @@ item_info_name=url
 item_info_from=rtmp + '/' + file + ' live=true swfVfy=1 swfUrl=' + swf
 item_info_build=%s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1723,7 +1723,7 @@ item_info_name=url
 item_info_from='rtmp://streaming1.extrazimut.net/azimutlive/' + file + ' live=true swfVfy=1 swfUrl=' + swf
 item_info_build=%s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1739,7 +1739,7 @@ item_info_name=url
 item_info_from=rtmp + '/' + file + ' token=' + token + ' live=true swfVfy=1 swfUrl=http://www.tebeotv.fr/' + swf
 item_info_build=%s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -1753,7 +1753,7 @@ item_info_name=url
 item_info_from=swf
 item_info_build=rtmpt://tvrennes35livefs.fplive.net:80/tvrennes35live-live/streamlive swfVfy=1 live=true swfUrl=http://www.tvrennes35bretagne.fr%s
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1764,7 +1764,7 @@ item_infos=04stream.com/embed.js\?stream=([^ "'&]+)
 item_order=video
 @CATCH(04stream,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1775,7 +1775,7 @@ item_infos=fid="([^"]+)".*?tvcaston.com/javascript/embedPlayer.js
 item_order=video
 @CATCH(tvcaston,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1786,7 +1786,7 @@ item_infos=channel=['" ]*([^'" ]+)['" ]*.*?liveflash.tv/resources/scripts/liveFl
 item_order=video
 @CATCH(liveflash,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1797,7 +1797,7 @@ item_infos=channel=['" ]*([^'" ]+)['" ]*.*?ucaster.eu/static/scripts/ucaster.js
 item_order=video
 @CATCH(ucaster,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1808,7 +1808,7 @@ item_infos=fid="(\d+)".*?live.scity.tv/js/embedplayer.js
 item_order=video
 @CATCH(scity,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1819,7 +1819,7 @@ item_infos=id="([^"]+)";.*?mybcast.com/embed.js
 item_order=video
 @CATCH(mybcast,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -1830,14 +1830,14 @@ item_infos=ilive.to/embed(?!player).php.*?channel=(\d+)
 item_order=video
 @CATCH(ilive,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=ilive.to/embed/\s*(\d+)
 item_order=video
 @CATCH(ilive,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1848,14 +1848,14 @@ item_infos=castalba.tv/embed(?!player).php.*?cid=(\d+)
 item_order=video
 @CATCH(castalba,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=id="(\d+)".*?castalba.tv/js/embed
 item_order=video
 @CATCH(castalba,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1866,7 +1866,7 @@ item_infos=xstit.me/channel.php\?file=([^&]+)
 item_order=video
 @CATCH(xstit,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1877,7 +1877,7 @@ item_infos=leton.tv/player.php\?streampage=([^&]+)&
 item_order=video
 @CATCH(letontv,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1888,7 +1888,7 @@ item_infos=id='([^']+)'.*?yourlive.tv/player.js
 item_order=video
 @CATCH(yourlivetv,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1899,14 +1899,14 @@ item_infos=cast3d.tv/embed.php\?u=([^&]+)&
 item_order=video
 @CATCH(cast3d,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 ########################################################
 item_infos=fid=['"]([^'"]+)['"].+?cast3d.tv/embed.js
 item_order=video
 @CATCH(cast3d,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1918,7 +1918,7 @@ item_infos=sawlive.tv/embed/([^"' /]+)
 item_order=video
 @CATCH(sawlive,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1929,7 +1929,7 @@ item_infos=megom.tv/player-inside.php\?id=([^&]+)
 item_order=video
 @CATCH(megom,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1940,7 +1940,7 @@ item_infos=fid="([^"]+)".*?castup.tv/embed.js
 item_order=video
 @CATCH(castup,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1951,7 +1951,7 @@ item_infos=sid="([^"]+)".*?zcast.us/embed.js
 item_order=video
 @CATCH(zcast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1962,7 +1962,7 @@ item_infos=id=['"]([^'"]+)['"].*?surk.tv/player.js
 item_order=video
 @CATCH(surktv,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1973,7 +1973,7 @@ item_infos=fid=['"]([^'"]+)['"].*?hqcast.tv/PlayerEmbed.js
 item_order=video
 @CATCH(hqcast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1984,7 +1984,7 @@ item_infos=redcast.org/iframe.html\?[^'"]+&c=([^&]+)&
 item_order=video
 @CATCH(redcast,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 
@@ -1995,7 +1995,7 @@ item_infos=fid="(.*?)".*?buzzin.tv/player/embedPlayer.js
 item_order=video
 @CATCH(buzzin,video)@
 item_info_name=type
-item_info_build=direct.video 
+item_info_build=video 
 item_url_build=%s
 
 ########################################################
@@ -2007,7 +2007,7 @@ item_url_build=%s
 #item_info_from=url
 #item_info_build=Istream - %s
 #item_info_name=type
-#item_info_build=direct.video 
+#item_info_build=video 
 #item_url_build=rtmp://streamer.istreamlive.net/aliez/tvope playPath=flv:%s.flv swfurl=http://player.longtailvideo.com/player5.4.swf
 
 ########################################################
@@ -2031,7 +2031,7 @@ item_url_build=%s
 #item_info_from=url
 #item_info_build=Jimey - %s
 #item_info_name=type
-#item_info_build=direct.video 
+#item_info_build=video 
 #item_url_build=rtmp://174.37.65.216:1935/edge/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/player/embedplayer.php?channel=hwawshy40&user=hwawshy40&width=640&height=490 swfvfy=true
 ##item_url_build=rtmp://80.82.64.49:1935/redirect/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/subscriber.php?channel=bnpotyu&user=bnpotyu
 ########################################################
@@ -2041,7 +2041,7 @@ item_url_build=%s
 #item_info_from=url
 #item_info_build=Jimey - %s
 #item_info_name=type
-#item_info_build=direct.video 
+#item_info_build=video 
 #item_url_build=rtmp://80.82.64.49/redirect/ playpath=%s swfurl=http://jimey.tv/player/fresh.swf pageUrl=http://jimey.tv/player/embedplayer.php?channel=looma236&user=looma236
 
 
@@ -2054,5 +2054,5 @@ item_url_build=%s
 #item_info_from=url
 #item_info_build=SkySport1 - %s
 #item_info_name=type
-#item_info_build=direct.video 
+#item_info_build=video 
 #item_url_build=rtmpe://82.166.110.11:1935/live/ playpath=SkySport1.info swfurl=http://www.skysport1.info/player_hd.swf pageUrl=http://www.%s/box-11.htm

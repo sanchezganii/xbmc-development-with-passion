@@ -439,24 +439,6 @@ def randomFilename(dir = cacheDir, chars = '0123456789abcdefghijklmnopqrstuvwxyz
             return filename
 
 
-def getKeyboard(default = '', heading = '', hidden = False):
-    kboard = xbmc.Keyboard(default, heading, hidden)
-    kboard.doModal()
-    if kboard.isConfirmed():
-        return urllib.quote_plus(kboard.getText())
-    return ''
-
-def showMessage(msg):
-    xbmc.executebuiltin('Notification(SportsDevil,' + str(msg) + ')')
-
-def showDialog(msg, timeout=0):
-    dialog = xbmcgui.Dialog()
-    dialog.ok('SportsDevil Info', msg)
-    if timeout > 0:
-        xbmc.sleep(timeout * 1000)
-        dialog.close()
-
-
 def firstNonEmpty(tmp, vars):
     for v in vars:
         vClean = v.strip()
@@ -535,28 +517,17 @@ def safeGerman(src):
     return src
 
 
-def timediff(mytime, unit='seconds'):
-    dtNow = datetime.datetime.utcnow()
-    datePart = mytime.split(' ')[0]
-    dpArr = datePart.split('/')
-    timePart = mytime.split(' ')[1]
-    tpArr = timePart.split(':')
-    d = datetime.date(int(dpArr[0]), int(dpArr[1]), int(dpArr[2]))
-    t = datetime.time(int(tpArr[0]), int(tpArr[1]))
-    dt = datetime.datetime.combine(d,t)
 
-    diff = dtNow - dt
+#######################################
+# File Helpers
+#######################################
 
-    if unit == 'seconds':
-        return str(diff.seconds)
-    elif unit == 'minutes':
-        return str(diff.seconds/60)
-    elif unit == 'sapo':
-        #Math.floor(new Date().getTime()/1000)-Math.floor(new Date().getTime()/1000)-time
-        #return str(1304805500 + diff.seconds*75)
-        return time.time()
+def getFileExtension(filename):
+    ext_pos = filename.rfind('.')
+    if ext_pos != -1:
+        return filename[ext_pos+1:]
     else:
-        return '0'
+        return ''
 
 def getFileContent(filename):
     try:
@@ -585,6 +556,33 @@ def appendFileContent(filename, txt):
     except:
         return False
 
+
+#######################################
+# Time and Date Helpers
+#######################################
+
+def timediff(mytime, unit='seconds'):
+    dtNow = datetime.datetime.utcnow()
+    datePart = mytime.split(' ')[0]
+    dpArr = datePart.split('/')
+    timePart = mytime.split(' ')[1]
+    tpArr = timePart.split(':')
+    d = datetime.date(int(dpArr[0]), int(dpArr[1]), int(dpArr[2]))
+    t = datetime.time(int(tpArr[0]), int(tpArr[1]))
+    dt = datetime.datetime.combine(d,t)
+
+    diff = dtNow - dt
+
+    if unit == 'seconds':
+        return str(diff.seconds)
+    elif unit == 'minutes':
+        return str(diff.seconds/60)
+    elif unit == 'sapo':
+        #Math.floor(new Date().getTime()/1000)-Math.floor(new Date().getTime()/1000)-time
+        #return str(1304805500 + diff.seconds*75)
+        return time.time()
+    else:
+        return '0'
 
 def convDate(datestr, frmt, newfrmt = ''):
     ''''
@@ -1147,3 +1145,26 @@ def findInSubdirectory(filename, subdirectory=''):
         if filename in names:
             return os.path.join(root, filename)
     raise 'File not found'
+
+
+#######################################
+# Xbmc Helpers
+#######################################
+
+
+def getKeyboard(default = '', heading = '', hidden = False):
+    kboard = xbmc.Keyboard(default, heading, hidden)
+    kboard.doModal()
+    if kboard.isConfirmed():
+        return kboard.getText()
+    return ''
+
+def showMessage(msg):
+    xbmc.executebuiltin('Notification(SportsDevil,' + str(msg) + ')')
+
+def showDialog(msg, timeout=0):
+    dialog = xbmcgui.Dialog()
+    dialog.ok('SportsDevil Info', msg)
+    if timeout > 0:
+        xbmc.sleep(timeout * 1000)
+        dialog.close()

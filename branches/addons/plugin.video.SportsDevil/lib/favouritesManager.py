@@ -197,7 +197,7 @@ class FavouritesManager:
             newLabel = getKeyboard(default = item.getInfo('title'), heading = 'Change label')
             if not newLabel or newLabel == "":
                 return False
-            self.changeLabel(cfgFile, item, urllib.unquote_plus(newLabel))
+            self.changeLabel(cfgFile, item, newLabel)
         elif select == 1:
             newIcon = self._getImage('Change icon')
             if not newIcon:
@@ -279,7 +279,6 @@ class FavouritesManager:
             name = getKeyboard(default = '', heading = 'Set name')
             if not name or name == "":
                 return False
-            name = urllib.unquote_plus(name)
 
             # create cfg
             virtualFolderFile = urllib.quote_plus(name) + '.cfg'
