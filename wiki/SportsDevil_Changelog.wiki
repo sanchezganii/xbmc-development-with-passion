@@ -1,4 +1,10 @@
 =Changelog=
+V1.7.2:
+  * fixed search in section lshunter.tv
+  * fixed streamer dailymotion
+  * a lot of refactoring and speedup
+
+<br>
 V1.7.1:
   * added streamer buzzin
   * fixed site livetv.ru (live sports)
