@@ -15,6 +15,7 @@ from sportsdevil import *
 from helpers import *
 from downloader import Downloader
 from favouritesManager import FavouritesManager
+from dialogProgress import DialogProgress
 
 enable_debug = True
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
@@ -41,20 +42,19 @@ class Main:
 
 
     def playVideo(self, videoItem, isAutoplay = False):
-        if videoItem == None:
+        if not videoItem:
             return
 
-        url = videoItem.getInfo('url')
-        url = urllib.unquote_plus(url)
+        url = urllib.unquote_plus(videoItem['url'])
 
-        title = videoItem.getInfo('videoTitle')
+        title = videoItem['videoTitle']
         if not title:
-            title = videoItem.getInfo('title')
+            title = videoItem['title']
             if not title:
                 title = 'unknown'
 
         try:
-            icon = videoItem.getInfo('icon')
+            icon = videoItem['icon']
         except:
             icon = os.path.join(imgDir, 'video.png')
 
@@ -71,7 +71,7 @@ class Main:
 
         for video_info_name in videoItem.infos_names:
             try:
-                listitem.setInfo(type = 'Video', infoLabels = {video_info_name: videoItem.getInfo(video_info_name)})
+                listitem.setInfo(type = 'Video', infoLabels = {video_info_name: videoItem[video_info_name]})
             except:
                 pass
 
@@ -109,7 +109,6 @@ class Main:
 
         title = getKeyboard(default=first_clean_filename(title),heading='SportsDevil')
         if title == None or title == '':
-            log('Cancelled')
             return None
 
         downloader = Downloader(__language__)
@@ -122,26 +121,28 @@ class Main:
 
         return file
 
-    def getVideos(self, lItem, dia = None):
+
+    def getVideos(self, lItem, dia = None, percent = 0, percentSpan = 100):
         allitems = []
-        currentName = lItem.getInfo('title')
-        if lItem.getInfo('type').find('video') != -1:
+        currentName = lItem['title']
+
+        if lItem['type'].find('video') != -1:
             if dia:
-                dia.update(0, 'Get video...', currentName,lItem.getInfo('title'))
+                dia.update(percent + percentSpan, thirdline=currentName)
             allitems.append(lItem)
         else:
-            if dia:
-                dia.update(0, 'Get video...', currentName)
-
-            cfg = lItem.getInfo('cfg')
-            url = lItem.getInfo('url')
+            url = lItem['url']
             tmpList = CItemsList()
 
             # Load cfg file
-            result = tmpList.loadLocal(cfg, lItem = lItem)
+            cfg = lItem['cfg']
+            if cfg:
+                result = tmpList.loadLocal(cfg, lItem = lItem)
 
             # Load url and parse
-            if not (url.endswith('.cfg') or url.endswith('.list')) :
+            if url.endswith('.cfg') or url.endswith('.list'):
+                result = tmpList.loadLocal(url, lItem = lItem)
+            else:
                 result = tmpList.loadRemote(url, False, lItem = lItem)
 
             if len(tmpList.items) == 0:
@@ -149,35 +150,26 @@ class Main:
                 red = findRedirect(url)
                 if red != url:
                     setCurrentUrl(red)
-                    lItem.setInfo('url',red)
-                    children = self.getVideos(lItem,dia)
+                    lItem['url'] = red
+                    children = self.getVideos(lItem, dia, percent, percentSpan)
                     if children:
                         allitems.extend(children)
-                else:
-                    # nothing found
-                    return None
             else:
+                inc = percentSpan/len(tmpList.items)
+                dia.update(percent, secondline=currentName, thirdline=' ')
                 for item in tmpList.items:
-                    if item.getInfo('type').find('video') != -1:
-                        allitems.append(item)
-                        if dia:
-                            dia.update(0, 'Get video...',currentName,item.getInfo('title'))
-
-                    else:
-                        currentName = item.getInfo('title')
-                        if dia:
-                            dia.update(0, 'Get video...', currentName)
-                        children = self.getVideos(item,dia)
-                        if children:
-                            allitems.extend(children)
-
+                    children = self.getVideos(item, dia, percent, inc)
+                    if children:
+                        allitems.extend(children)
+                    percent += inc
 
         return allitems
 
+
     def parseView(self, url):
         lItem = self.currentlist.decodeUrl(url)
-        url = lItem.getInfo('url')
-        ext = self.currentlist.getFileExtension(url)
+        url = lItem['url']
+        ext = getFileExtension(url)
 
         if ext == 'cfg' or ext == 'list':
             result = self.currentlist.loadLocal(url, lItem = lItem)
@@ -185,14 +177,16 @@ class Main:
         else:
             result = self.currentlist.loadRemote(url, lItem = lItem)
 
+        if result == -1:
+            return result
+
         # if there is something to scrape at all
-        if not ((ext == 'cfg' or ext == 'list') and self.currentlist.start == ''):
+        if not (ext in ['cfg', 'list'] and self.currentlist.start == ''):
             i = 0
             maxIt = 3
             condition = True
             startUrl = getLastUrl()
             while condition:
-
                 # Find Redirect automatically
                 if len(self.currentlist.items) == 0:
                     red = findRedirect(startUrl)
@@ -202,7 +196,7 @@ class Main:
                     else:
                         log('Redirect: ' + red)
                         try:
-                            tmpCfg = lItem.getInfo('cfg')
+                            tmpCfg = lItem['cfg']
                             if tmpCfg:
                                 result = self.currentlist.loadLocal(tmpCfg, lItem = lItem)
                             else:
@@ -210,7 +204,6 @@ class Main:
                             self.currentlist.rules = []
                         except:
                             traceback.print_exc(file = sys.stdout)
-
                         result = self.currentlist.loadRemote(red,lItem = lItem)
                         if result == -1:
                             break
@@ -221,7 +214,7 @@ class Main:
                 tmpItem = self.autoselect(self.currentlist)
                 if tmpItem:
                     lItem = tmpItem
-                    startUrl = lItem.getInfo('url')
+                    startUrl = lItem['url']
 
                 condition = condition and (len(self.currentlist.items) == 0 and i < maxIt)
                 i += 1
@@ -231,8 +224,8 @@ class Main:
             urls = []
             for i in range(len(self.currentlist.items)-1,-1,-1):
                 item = self.currentlist.items[i]
-                tmpUrl = item.getInfo('url')
-                tmpCfg = item.getInfo('cfg')
+                tmpUrl = item['url']
+                tmpCfg = item['cfg']
                 if not tmpCfg:
                     tmpCfg = ''
                 if not urls.__contains__(tmpUrl + '|' + tmpCfg):
@@ -280,37 +273,26 @@ class Main:
 
 
         for m in self.currentlist.items:
-            m.setInfo('definedIn',self.curr_file)
-
-            try:
-                m_type = m.getInfo('type')
-            except:
-                m_type = 'rss'
-
-            if m_type == 'search' and 'once' in m.infos_names:
-                p_reg = re.compile('^' + m.getInfo('once') + '$', re.IGNORECASE + re.DOTALL + re.MULTILINE)
-                m_reg = p_reg.match(unquote_safe(url))
-                if  (m_reg is None):
-                    continue
-
+            definedIn = self.curr_file
+            if not definedIn:
+                definedIn = m['cfg'].split('@',1)[0]
+            m['definedIn'] = definedIn
             self.addListItem(m, len(self.currentlist.items))
 
         return result
+
 
     def autoselect(self, list):
         item = None
         while list.skill.find('autoselect') != -1 and len(list.items) == 1:
             m = list.items[0]
-            try:
-                m_type = m.getInfo('type')
-            except:
-                m_type = 'rss'
+            m_type = m['type']
 
             if m_type == 'rss':
                 try:
-                    log('Autoselect - ' + m.getInfo('title'))
-                    tmpCfg = m.getInfo('cfg')
-                    tmpUrl = m.getInfo('url')
+                    log('Autoselect - ' + m['title'])
+                    tmpCfg = m['cfg']
+                    tmpUrl = m['url']
                     if not tmpUrl.endswith('.cfg'):
                         setCurrentUrl(tmpUrl)
                     list.rules = []
@@ -328,15 +310,15 @@ class Main:
 
     def createListItem(self, item):
         liz = None
-        title = clean_safe(item.getInfo('title'))
+        title = clean_safe(item['title'])
 
-        icon = item.getInfo('icon')
+        icon = item['icon']
         if icon:
             liz = xbmcgui.ListItem(title, iconImage=icon, thumbnailImage=icon)
         else:
             liz = xbmcgui.ListItem(title)
 
-        fanart = item.getInfo('fanart')
+        fanart = item['fanart']
         if not fanart:
             fanart = pluginFanart
         liz.setProperty('fanart_image', fanart)
@@ -345,15 +327,15 @@ class Main:
             if video_info_name.find('context.') != -1:
                 try:
                     cItem = item
-                    cItem.setInfo('type', 'rss')
-                    cItem.setInfo('url', item.getInfo(video_info_name))
+                    cItem['type'] = 'rss'
+                    cItem['url'] = item[video_info_name]
                     action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?url=' + self.currentlist.codeUrl(cItem))
                     liz.addContextMenuItems([(video_info_name[video_info_name.find('.') + 1:], action)])
                 except:
                     pass
-            if video_info_name != 'url' and video_info_name != 'title' and video_info_name != 'icon' and video_info_name != 'type' and video_info_name != 'extension' and video_info_name.find('.tmp') == -1 and video_info_name.find('.append') == -1 and video_info_name.find('context.') == -1:
+            if video_info_name not in ['url', 'title', 'icon', 'type', 'extension'] and video_info_name.find('.tmp') == -1 and video_info_name.find('.append') == -1 and video_info_name.find('context.') == -1:
                 try:
-                    info_value = item.getInfo(video_info_name)
+                    info_value = item[video_info_name]
                     if video_info_name.find('.int') != -1:
                         liz.setInfo(type = 'Video', infoLabels = {capitalize(video_info_name[:video_info_name.find('.int')]): int(info_value)})
                     elif video_info_name.find('.tmp') != -1:
@@ -368,12 +350,7 @@ class Main:
         action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(mode) + '&url=' + codedItem)
         return (label, action)
 
-    def addListItem(self,  lItem, totalItems):
-        m_type = lItem.getInfo('type')
-
-        if not m_type:
-            m_type = u'rss'
-
+    def addListItem(self, lItem, totalItems):
         contextMenuItems = []
 
         codedItem = self.currentlist.codeUrl(lItem)
@@ -392,7 +369,7 @@ class Main:
             contextMenuItems.append(contextMenuItem)
 
         else:
-            if lItem.getInfo('title') != "Favourites":
+            if lItem['title'] != "Favourites":
                 # Add to favourites
                 contextMenuItem = self._createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
                 contextMenuItems.append(contextMenuItem)
@@ -400,7 +377,8 @@ class Main:
 
         liz = self.createListItem(lItem)
 
-        if m_type.find('video') > -1:
+        m_type = lItem['type']
+        if m_type.__contains__('video'):
             u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
             contextMenuItem = self._createContextMenuItem('Download', Mode.DOWNLOAD, codedItem)
             contextMenuItems.append(contextMenuItem)
@@ -482,7 +460,7 @@ class Main:
 
                 if mode == Mode.EXECUTE:
                     item = self.currentlist.decodeUrl(codedItem)
-                    url = item.getInfo('url')
+                    url = item['url']
                     if url.find('(') > -1:
                         xbmcCommand = parseText(url,'([^\(]*).*')
                         if xbmcCommand.lower() in ['activatewindow', 'runscript', 'runplugin', 'playmedia']:
@@ -505,9 +483,10 @@ class Main:
                 elif mode == Mode.QUEUE:
                     #xbmc.executebuiltin('XBMC.Action(Queue)')
                     #return
-                    dia = xbmcgui.DialogProgress()
-                    dia.create('SportsDevil', 'Get videos...')
                     it = self.currentlist.decodeUrl(codedItem)
+                    dia = DialogProgress()
+                    dia.create('SportsDevil', 'Get videos...' + it['title'])
+                    dia.update(0)
                     if it != None:
                         items = self.getVideos(it, dia)
                         if items:
@@ -517,23 +496,23 @@ class Main:
                                 item.setProperty('IsPlayable', 'true')
                                 item.setProperty('IsFolder','false')
                                 xbmc.PlayList(1).add(uc, item)
-                            xbmc.sleep(500)
                             resultLen = len(items)
                             msg = 'Queued ' + str(resultLen) + ' video'
                             if resultLen > 1:
                                 msg += 's'
-                            dia.update(0, msg,'')
+                            dia.update(100, msg)
+                            xbmc.sleep(500)
+                            dia.update(100, msg,' ',' ')
                         else:
-                            dia.update(0, 'No items found','')
-                        xbmc.sleep(1000)
+                            dia.update(0, 'No items found',' ')
+                        xbmc.sleep(700)
                     dia.close()
 
 
                 elif mode == Mode.DOWNLOAD:
                     item = self.currentlist.decodeUrl(codedItem)
-                    url = item.getInfo('url')
-                    title = item.getInfo('title')
-                    url = urllib.unquote(url)
+                    url = urllib.unquote(item['url'])
+                    title = item['title']
                     self.downloadVideo(url, title)
 
                 xbmcplugin.endOfDirectory(handle=self.handle)

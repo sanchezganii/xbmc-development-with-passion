@@ -18,10 +18,8 @@ rootDir = __addon__.getAddonInfo('path')
 if rootDir[-1] == ';':rootDir = rootDir[0:-1]
 cacheDir = os.path.join(rootDir, 'cache')
 resDir = os.path.join(rootDir, 'resources')
-imgDir = os.path.join(resDir, 'images')
 modulesDir = os.path.join(resDir, 'modules')
 catchersDir = os.path.join(resDir,'catchers')
-dictsDir = os.path.join(resDir,'dictionaries')
 
 
 
