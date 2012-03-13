@@ -1,5 +1,6 @@
 =Changelog=
 V1.7.2:
+  * changed: quality of sport1.de videos set to medium
   * fixed search in section lshunter.tv
   * fixed streamer dailymotion
   * a lot of refactoring and speedup
