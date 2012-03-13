@@ -5,14 +5,14 @@ item_infos=src="http://www.youtube[^\.]*\.com/v/([^&\?"]+)[^"]*"
 item_order=video
 @CATCH(youtube,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=src="http://www.youtube.com/embed/([^"]+)"
 item_order=video
 @CATCH(youtube,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -31,7 +31,7 @@ item_info_convert=getInfo('http://videa.hu/flvplayer_get_video_xml.php?v=%s','.*
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s 
 
 
@@ -52,7 +52,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=MyVideo - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=http://is4.myvideo.de/de/movie15/d2/%s.flv
 
 
@@ -65,7 +65,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=NBA - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -76,7 +76,7 @@ item_infos=src="http://video.rutube.ru/([^"]+)"
 item_order=video
 @CATCH(rutube,video)@
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos='mp4' => {[^']*'location' => \[[^\[]*\[[^']*'s[0-9]*-[0-9]*:([^']+)'[^\]]*],[^']*'(([\d\w]{2})([\d\w]{2})[^']+)',[^\d]*[0-9]+[^0-9]*\]
@@ -88,7 +88,7 @@ item_info_name=title
 item_info_from=url
 item_info_build=RuTube - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=rtmp://video-2-10.rutube.ru:1935/rutube_vod_1/ playpath=mp4:%s.mp4 swfurl=http://rutube.ru/player.swf 
 
 
@@ -108,7 +108,7 @@ item_info_convert=getInfo('http://yatv.ru/ru//tv,dyn,channelRecords?record_id=%s
 item_info_build=%s.mp4
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=<a target="_blank" href="(http://s\d*.d\d*.yatv.ru/[^\.]+\.mp4)">
@@ -117,14 +117,14 @@ item_info_name=title
 item_info_from=url
 item_info_build=YaTV - %s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
 ########################################################
 # Dailymotion - Videos
 ########################################################
-item_infos=src="http://www.dailymotion.com/swf/video/([^\?"]+)[^"]*"
+item_infos=src="http://www.dailymotion.com/(?:swf|embed)/video/([^\?"]+)[^"]*"
 item_order=url
 item_skill=rss
 item_info_name=title
@@ -144,7 +144,7 @@ item_info_from=url
 item_info_build=Dailymotion - %s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=http://www.dailymotion.com/%s
 
 
@@ -170,7 +170,7 @@ item_info_from='http://rd3.videos.sapo.pt/' + acturl + '/mov/1?player=INTERNO&ti
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -195,7 +195,7 @@ item_info_from=preurl+ '/'+ vtag
 item_info_build=%s.360.mp4
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -212,7 +212,7 @@ item_info_from=id
 item_info_convert=getInfo('http://svtplay.se/v/%s','.*"flashvars" value="pathflv=([^&]+)&.*')
 item_info_build=%s
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 item_url_build=%s
 
 
@@ -241,7 +241,7 @@ item_info_convert=getInfo('%s','<video-location>([^<]*)</video-location>')
 item_info_build=%s
 
 item_info_name=type
-item_info_build=direct.video
+item_info_build=video
 
 item_url_build=%s
 
@@ -259,6 +259,6 @@ item_url_build=%s
 #item_info_from=url
 #item_info_build=%s
 #item_info_name=type
-#item_info_build=direct.video
+#item_info_build=video
 #item_url_build=rtmp://flash.onthefly.nhl.com:1935/ondemand/NHLHighlights/mp4:%s_car_nyr_1011_h_continuous_1600K_16x9_1.mp4 swfUrl=http://nhl.cdn.neulion.net/u/videocenter/embed.swf pageUrl=http://livetv.ru/de/showvideo/45147/
 ##http://video.nhl.com/videocenter/console?hlg=20102011,2,591

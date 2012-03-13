@@ -107,7 +107,7 @@ def decodeBase64(src):
 
 def replace(params, src):
     src = smart_unicode(src)
-    paramArr = params.split('\',\'')
+    paramArr = smart_unicode(params).split('\',\'')
     paramstr = paramArr[0].replace('%s', src).strip('\'')
     paramSrch = paramArr[1].strip('\'')
     paramRepl = paramArr[2].strip('\'')
