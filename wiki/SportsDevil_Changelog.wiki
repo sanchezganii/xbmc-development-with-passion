@@ -1,4 +1,9 @@
 =Changelog=
+V1.7.3:
+  * fixed site lshunter.tv
+  * added site coolsportz.de
+
+<br>
 V1.7.2:
   * changed: quality of sport1.de videos set to medium
   * fixed search in section lshunter.tv
