@@ -1,4 +1,8 @@
 =Changelog=
+V1.7.3.1:
+  * fixed site coolsportz.de (small unicode error)
+
+<br>
 V1.7.3:
   * fixed site lshunter.tv
   * added site coolsportz.de
