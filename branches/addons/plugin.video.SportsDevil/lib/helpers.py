@@ -584,7 +584,8 @@ def timediff(mytime, unit='seconds'):
     else:
         return '0'
 
-def convDate(datestr, frmt, newfrmt = ''):
+
+def convDate(datestr, frmt, newfrmt = '', offsetStr = ''):
     ''''
     locale.setlocale(locale.LC_ALL, '')
     try:
@@ -635,11 +636,12 @@ def convDate(datestr, frmt, newfrmt = ''):
         'Dezember': 12
     }
 
+
     datesyms = {
         #DAY
         '%d':'\d{1,2}',
         '%a':'\w{3}',
-        '%A':'[A-Za-z]{3}',
+        '%A':'[A-Za-z]{3,}',
 
         #MONTH
         '%m':'\d{2}',
@@ -694,9 +696,10 @@ def convDate(datestr, frmt, newfrmt = ''):
         if not m:
             return datestr
 
-        second = 1
-        minute = 1
-        hour = 1
+        second = 0
+        minute = 0
+        hour = 0
+        dayhalf = ''
         day = 1
         month = 1
         year = 1900
@@ -717,14 +720,23 @@ def convDate(datestr, frmt, newfrmt = ''):
                     day = int(item)
                 elif sym == '%y' or sym == '%Y':
                     year = int(item)
-                elif sym == '%H':
+                elif sym in ['%H','%I']:
                     hour = int(item)
                 elif sym == '%M':
                     minute = int(item)
                 elif sym == '%S':
                     second = int(item)
+                elif sym == '%P':
+                    dayhalf = str(item)
 
-        date = datetime.date(year,month,day)
+        if dayhalf != '' and dayhalf.lower() == 'pm' and hour < 12:
+            hour = hour + 12
+        if dayhalf != '' and dayhalf.lower() == 'am' and hour == 12:
+            hour = 0
+        date = datetime.datetime(year, month, day, hour, minute, second)
+
+        if offsetStr:
+            date = datetimeoffset(date, offsetStr)
 
         if newfrmt == '':
             if date.year != 1900:
@@ -737,6 +749,25 @@ def convDate(datestr, frmt, newfrmt = ''):
       log('Conversion failed')
       traceback.print_exc(file = sys.stdout)
       return datestr
+
+
+def datetimeoffset(date, offsetStr):
+
+    fak = 1
+    if offsetStr[0] == '-':
+        fak = -1
+        offsetStr = offsetStr[1:]
+    offsethours = int(offsetStr.split(':')[0])
+    offsetminutes = int(offsetStr.split(':')[1])
+
+    pageOffSeconds = fak*(offsethours * 3600 + offsetminutes *60)
+    localOffSeconds = -1 * time.timezone
+    offSeconds = localOffSeconds - pageOffSeconds
+
+    offset=date + datetime.timedelta(seconds=offSeconds)
+
+    return offset
+
 
 def encryptDES_ECB(data, key):
     data = data.encode()
