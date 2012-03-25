@@ -234,17 +234,18 @@ class Main:
                     self.currentlist.items.remove(item)
 
             # Autoplay single Video
-            if __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 1 and self.currentlist.videoCount() == 1:
-                videoItem = self.currentlist.getVideo()
-                #u = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(videoItem))
-                #xbmc.executebuiltin(u)
-                result = self.playVideo(videoItem, True)
-                return -2
-
-            elif __settings__.getSetting('autoplay') == 'true' and len(self.currentlist.items) == 0:
-                dialog = xbmcgui.Dialog()
-                dialog.ok('SportsDevil Info', 'No stream available')
-                return
+            autoplayEnabled = __settings__.getSetting('autoplay') == 'true'
+            if autoplayEnabled:
+                if len(self.currentlist.items) == 1 and self.currentlist.videoCount() == 1:
+                    videoItem = self.currentlist.getVideo()
+                    #u = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + self.currentlist.codeUrl(videoItem))
+                    #xbmc.executebuiltin(u)
+                    result = self.playVideo(videoItem, True)
+                    return -2
+                elif len(self.currentlist.items) == 0:
+                    dialog = xbmcgui.Dialog()
+                    dialog.ok('SportsDevil Info', 'No stream available')
+                    return
 
         # Add items to XBMC list
 
@@ -378,7 +379,7 @@ class Main:
         liz = self.createListItem(lItem)
 
         m_type = lItem['type']
-        if m_type.__contains__('video'):
+        if m_type == 'video':
             u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
             contextMenuItem = self._createContextMenuItem('Download', Mode.DOWNLOAD, codedItem)
             contextMenuItems.append(contextMenuItem)

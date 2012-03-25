@@ -19,30 +19,28 @@ def convDate(params, src):
         paramArr = params.split("','")
         oldfrmt = paramArr[0].strip('\'')
         newfrmt = paramArr[1].strip('\'')
-        return helpers.convDate(src,str(oldfrmt), str(newfrmt))
+        offsetStr = ''
+        if len(paramArr) > 2:
+            offsetStr = paramArr[2].strip('\'')
+        return helpers.convDate(src,str(oldfrmt), str(newfrmt), offsetStr)
     else:
         params = params.strip('\'')
         return helpers.convDate(src,params)
+
 
 def offset(params, src):
     paramArr = params.split("','")
     t = paramArr[0].strip("'").replace('%s', src)
     o = paramArr[1].strip("'").replace('%s', src)
 
-    fak = 1
-    if o[0] == '-':
-        fak = -1
-        o = o[1:]
+    hours = int(t.split(':')[0])
+    minutes = int(t.split(':')[1])
+    ti = datetime.datetime(2000, 1, 1, hours, minutes)
 
-    pageOffSeconds = fak*(int(o.split(':')[0]) * 3600 + int(o.split(':')[1])*60)
-    localOffSeconds = -1 * time.timezone
-    offSeconds = localOffSeconds - pageOffSeconds
-
-    ti = datetime.datetime(2000,1,1,int(t.split(':')[0]),int(t.split(':')[1]))
-
-    offset=ti + datetime.timedelta(seconds=offSeconds)
+    offset = helpers.datetimeoffset(ti, o)
 
     return offset.strftime('%H:%M')
+
 
 def getSource(params, src):
     paramPage = ''
