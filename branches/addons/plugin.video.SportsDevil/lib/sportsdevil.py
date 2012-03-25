@@ -258,11 +258,11 @@ class CItemsList:
 
 
     def videoCount(self):
-        return len(filter(lambda x: x['type'].__contains__('video'), self.items))
+        return len(filter(lambda x: x['type'] == 'video', self.items))
 
     def getVideo(self):
         for item in self.items:
-            if item['type'].__contains__('video'):
+            if item['type'] == 'video':
                 return item
 
 
@@ -419,8 +419,8 @@ class CItemsList:
             if m and m[0] != '#':
                 index = m.find('=')
                 if index != -1:
-                    key = lower(m[:index])
-                    value = m[index+1:]
+                    key = lower(m[:index]).strip()
+                    value = m[index+1:].strip()
 
                     index = value.find('|')
                     if value[:index] == 'sports.devil.locale':
