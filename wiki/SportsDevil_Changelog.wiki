@@ -1,4 +1,11 @@
 =Changelog=
+V1.7.4:
+  * fixed sites: goalsarena.org, chanfeed.com
+  * fixed streamers: castalba, castamp, mips, sawlive, surktv
+  * added streamer: eplayer
+  * some small fixes and improvements
+
+<br>
 V1.7.3.1:
   * fixed site coolsportz.de (small unicode error)
 
