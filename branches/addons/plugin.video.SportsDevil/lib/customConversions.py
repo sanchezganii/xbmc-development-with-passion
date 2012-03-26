@@ -14,6 +14,14 @@ import cookielib, htmlentitydefs
 import socket, base64
 import pyDes
 
+def select(params,src):
+    paramArr = params.split("','")
+    title = paramArr[0].strip('\'')
+    params = paramArr[1].strip('\'')
+    menuItems = params.split("|")
+    return helpers.select(title, menuItems)
+
+
 def convDate(params, src):
     if params.find("','") != -1:
         paramArr = params.split("','")
@@ -83,6 +91,8 @@ def getInfo(item, params, src):
     paramPage = paramArr[0].strip("'").replace('%s', src)
     paramPage = urllib.unquote(paramPage)
     paramRegex = paramArr[1].strip("'").replace('%s', src)
+    if paramRegex.startswith('@') and paramRegex.endswith('@'):
+        paramRegex = item.getInfo(paramRegex.strip('@'))
     referer = ''
     vars=[]
     if len(paramArr) > 2:

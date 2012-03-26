@@ -93,6 +93,27 @@ def customCfgReplacements(data, params=[]):
                   data = data.replace(m, ptemp)
           i = i + 1
 
+      #Finders
+      m_reg = findall(data,'(#*@FIND\(.*?\)@)')
+      if not (m_reg is None or len(m_reg) == 0):
+          for idat in m_reg:
+              if idat.startswith('#'):
+                continue
+              ps = idat[6:-2].strip().split(',')
+              method = ps[0].strip("'")
+              param1 = ps[1].strip("'")
+              param2 = ps[2].strip("'")
+              param3 = ps[3].strip("'")
+
+              if method == 'JS1':
+                jsName = param1
+                idName = param2
+                varName = param3
+                regex = "javascript[^<]+" + idName + "\s*=\s*[\"']([^\"']+)[\"'][^<]*</script\s*>[^<]*<script[^<]*src=[\"']" + jsName + "[\"']"
+                lines = "item_infos=" + regex + "\nitem_order=" + varName
+                data = data.replace(idat, lines)
+
+
       #Catchers
       m_reg = findall(data,'(#*@CATCH\([^\)]+\)@)')
       if not (m_reg is None or len(m_reg) == 0):
@@ -112,6 +133,7 @@ def customCfgReplacements(data, params=[]):
                     dataImp = dataImp.replace('@PARAM' + str(i) + '@',ps[i].strip())
                     i += 1
               dataImp = dataImp.replace('\r\n','\n')
+              dataImp += "\nitem_info_name=type\nitem_info_build=video\nitem_url_build=%s"
               data = data.replace(idat, dataImp)
 
       #Current url
