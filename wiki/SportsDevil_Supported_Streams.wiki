@@ -88,3 +88,4 @@ Highlights:
   * YaTV.ru
   * Dailymotion
   * YouTube
+  * EPlayer
