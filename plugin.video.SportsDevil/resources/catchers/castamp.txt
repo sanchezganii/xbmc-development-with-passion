@@ -12,8 +12,8 @@ item_info_from=@PARAM1@
 item_info_build=http://castamp.com/embed.php?c=%s&vwidth=700&vheight=480&domain=www8.livetv.ru
 
 item_info_name=random
-item_info_from=''
-item_info_convert=random(1,19)
+item_info_from=title
+item_info_convert=random(1,9)
 item_info_build=%s
 
 item_info_name=rtmp

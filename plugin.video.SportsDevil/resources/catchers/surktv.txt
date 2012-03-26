@@ -12,7 +12,8 @@ item_info_convert=getInfo('%s','.*'file':\s*'([^']+)',\s*'streamer':\s*'([^']+)'
 item_info_build=%s
 
 item_info_name=rtmp
-item_info_build=rtmp://live.surk.tv/liverepeater
+item_info_build=rtmp://159.253.145.171/liverepeater
+#item_info_build=rtmp://67.228.150.184/liverepeater
 
 item_info_name=url
 item_info_from=rtmp + ' playpath=' + file + ' live=true swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl

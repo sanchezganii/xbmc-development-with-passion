@@ -997,8 +997,8 @@ def get_redirected_url(url):
     request = opener.open(url)
     return request.url
 
-def findRedirect(page, demystify=False):
-    data = getSource(page, '', demystify)
+def findRedirect(page, referer='', demystify=False):
+    data = getSource(page, referer, demystify)
     if data.find('frame') > -1 or data.find('FRAME') > -1:
         r = re.compile("(frame[^>]* height=[\"']*(\d+)[\"']*[^>]*>)", re.IGNORECASE + re.DOTALL)
         iframes = r.findall(data)
@@ -1059,7 +1059,7 @@ def findRedirect(page, demystify=False):
             return link.strip()
 
     if not demystify:
-        return findRedirect(page, True)
+        return findRedirect(page, referer, True)
 
     return page
 
@@ -1181,6 +1181,13 @@ def findInSubdirectory(filename, subdirectory=''):
 #######################################
 # Xbmc Helpers
 #######################################
+
+def select(title, menuItems):
+    select = xbmcgui.Dialog().select(title, menuItems)
+    if select == -1:
+        return None
+    else:
+        return menuItems[select]
 
 
 def getKeyboard(default = '', heading = '', hidden = False):
