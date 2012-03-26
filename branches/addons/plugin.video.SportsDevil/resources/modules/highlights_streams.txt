@@ -4,16 +4,10 @@
 item_infos=src="http://www.youtube[^\.]*\.com/v/([^&\?"]+)[^"]*"
 item_order=video
 @CATCH(youtube,video)@
-item_info_name=type
-item_info_build=video
-item_url_build=%s
 ########################################################
 item_infos=src="http://www.youtube.com/embed/([^"]+)"
 item_order=video
 @CATCH(youtube,video)@
-item_info_name=type
-item_info_build=video
-item_url_build=%s
 
 
 ########################################################
@@ -75,9 +69,6 @@ item_url_build=%s
 item_infos=src="http://video.rutube.ru/([^"]+)"
 item_order=video
 @CATCH(rutube,video)@
-item_info_name=type
-item_info_build=video
-item_url_build=%s
 ########################################################
 item_infos='mp4' => {[^']*'location' => \[[^\[]*\[[^']*'s[0-9]*-[0-9]*:([^']+)'[^\]]*],[^']*'(([\d\w]{2})([\d\w]{2})[^']+)',[^\d]*[0-9]+[^0-9]*\]
 item_order=path|channel|first|second
@@ -243,6 +234,30 @@ item_info_build=%s
 item_info_name=type
 item_info_build=video
 
+item_url_build=%s
+
+
+########################################################
+# EPlayer
+########################################################
+item_infos=channelId=([^&]+)&videoUUId=([^&]+)&.*?&playerId=([^&]+).*?&configXML=(http://xml.eplayer.performgroup.com/eplayer/)
+item_order=cID|vID|pID|config
+
+item_info_name=title
+item_info_from=vID
+item_info_build=EPlayer - %s
+
+item_info_name=regex
+item_info_from=vID
+item_info_build=.*%s.*?bitrate="2400000".*?url="(rtmp[^"]+)".*
+
+item_info_name=url
+item_info_from=config + 'mrss/' + pID + '/' + cID + '/' + vID
+item_info_convert=getInfo('%s','@regex@')
+item_info_build=%s
+
+item_info_name=type
+item_info_build=video
 item_url_build=%s
 
 

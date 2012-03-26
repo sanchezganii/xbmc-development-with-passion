@@ -147,7 +147,7 @@ class Main:
 
             if len(tmpList.items) == 0:
                 # try to find redirect
-                red = findRedirect(url)
+                red = findRedirect(url, getLastUrl())
                 if red != url:
                     setCurrentUrl(red)
                     lItem['url'] = red
@@ -189,7 +189,7 @@ class Main:
             while condition:
                 # Find Redirect automatically
                 if len(self.currentlist.items) == 0:
-                    red = findRedirect(startUrl)
+                    red = findRedirect(startUrl, getLastUrl())
                     if startUrl == red:
                         log('No redirect found')
                         condition = False

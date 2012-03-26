@@ -132,6 +132,11 @@ def customConversion(item, src, convCommands):
         if command == 'convDate':
             src = cc.convDate(params, src)
 
+        elif command == 'select':
+            src = cc.select(params, src)
+            if not src:
+                continue
+
         elif command == 'smart_unicode':
             src = smart_unicode(params.strip("'").replace('%s', src))
 
