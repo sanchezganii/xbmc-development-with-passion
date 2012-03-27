@@ -104,6 +104,8 @@ class FavouritesManager:
     def addToFavourites(self, item, label=''):
         # if virtual folders exist
         virtualFolders = self._getVirtualFoldersList()
+        targetFileForFavourite = None
+
         if len(virtualFolders) > 0:
             targetFileForFavourite = self._virtualFolderSelection(virtualFolders)
 
