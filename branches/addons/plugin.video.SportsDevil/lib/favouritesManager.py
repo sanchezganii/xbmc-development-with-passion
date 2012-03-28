@@ -16,7 +16,7 @@ class FavouritesManager:
     def __init__(self, favouritesFolder):
         self._favouritesFolder = favouritesFolder
         if not os.path.exists(self._favouritesFolder):
-            os.mkdir(self._favouritesFolder)
+            os.makedirs(self._favouritesFolder, 0777)
 
         self._favouritesFile = os.path.join(self._favouritesFolder, 'favourites.cfg')
         if not os.path.exists(self._favouritesFile):
