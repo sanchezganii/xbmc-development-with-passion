@@ -1,4 +1,15 @@
 =Changelog=
+V1.7.4.2:
+  * fixed rojadirecta.me:
+    * recognition of p2p streams
+    * regular expression: now all links should be found, all bet streams filtered out.
+  * fixed the "can't find favourites folder" bug
+
+<br>
+V1.7.4.1:
+  * fixed a small bug in favouritesManager (variable not initialized under certain circumstances)
+
+<br>
 V1.7.4:
   * fixed sites: goalsarena.org, chanfeed.com
   * fixed streamers: castalba, castamp, mips, sawlive, surktv
