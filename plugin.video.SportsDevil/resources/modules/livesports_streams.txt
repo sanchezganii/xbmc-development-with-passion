@@ -1564,6 +1564,10 @@ item_infos=castalba.tv/embed(?!player).php.*?cid=(\d+)
 item_order=video
 @CATCH(castalba,video)@
 ########################################################
+item_infos=castalba.tv/channel/(\d+)
+item_order=video
+@CATCH(castalba,video)@
+########################################################
 @FIND('JS1','[^\"\']*castalba.tv/js/embed[^\"\']*','id','video')@
 @CATCH(castalba,video)@
 
