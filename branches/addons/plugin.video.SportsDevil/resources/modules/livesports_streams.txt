@@ -1666,6 +1666,14 @@ item_order=video
 @CATCH(buzzin,video)@
 
 
+########################################################
+# NorwskTV - Videos
+########################################################
+item_infos=http://www.norwsktv.com/channel.php\?file=(\d+)
+item_order=video
+@CATCH(norwsktv,video)@
+
+
 
 ########################################################
 # istreamlive.net - Videos
