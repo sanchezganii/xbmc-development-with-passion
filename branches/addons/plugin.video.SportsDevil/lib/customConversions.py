@@ -85,10 +85,12 @@ def parseText(params, src):
         vars = paramArr[2].strip("'").split('|')
     return helpers.parseText(text, regex, vars)
 
+
 def getInfo(item, params, src):
-    src = smart_unicode(src)
+    src = smart_unicode(src).encode('utf-8')
     paramArr = params.split("','")
     paramPage = paramArr[0].strip("'").replace('%s', src)
+
     paramPage = urllib.unquote(paramPage)
     paramRegex = paramArr[1].strip("'").replace('%s', src)
     if paramRegex.startswith('@') and paramRegex.endswith('@'):
@@ -165,14 +167,14 @@ def ifExists(params, src):
 def urlMerge(params, src):
     params = params.strip("'")
     paramArr = params.split("','")
-    paramTrunk = paramArr[0].strip("'").replace('%s', src)
-    paramFile= paramArr[1].strip("'").replace('%s', src)
+    paramTrunk = paramArr[0].strip("'").replace('%s', src).replace("\t","")
+    paramFile= paramArr[1].strip("'").replace('%s', src).replace("\t","")
 
     if not paramFile.startswith('http'):
         from urlparse import urlparse
         up = urlparse(urllib.unquote(paramTrunk))
         if paramFile.startswith('/'):
-            return urllib.basejoin(up[0] + '://' + up[1],paramFile)
+            return urllib.basejoin(up[0] + '://' + up[1], paramFile)
         else:
             return urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],paramFile)
     return src
