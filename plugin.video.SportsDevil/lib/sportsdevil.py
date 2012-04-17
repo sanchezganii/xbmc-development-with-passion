@@ -166,7 +166,12 @@ def customConversion(item, src, convCommands):
             src = get_redirected_url(params.strip("'").replace('%s', src))
 
         elif command == 'quote':
-            src = urllib.quote(params.strip("'").replace('%s', urllib.quote(src)))
+            try:
+                src = urllib.quote(params.strip("'").replace('%s', urllib.quote(src)))
+            except:
+                cleanParams = params.strip("'")
+                cleanParams = cleanParams.replace("%s",src.encode('utf-8'))
+                src = urllib.quote(cleanParams)
 
         elif command == 'unquote':
             src = urllib.unquote(params.strip("'").replace('%s', src))

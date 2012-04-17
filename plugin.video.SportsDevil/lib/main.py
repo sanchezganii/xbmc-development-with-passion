@@ -439,7 +439,7 @@ class Main:
                 codedItem = codedItem[4:]
                 if mode == Mode.VIEW:
                     result = self.parseView(codedItem)
-                    if result == -2:
+                    if result < 0:
                         return
 
                 if mode == Mode.ADDITEM:

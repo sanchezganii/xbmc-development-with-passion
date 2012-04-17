@@ -868,6 +868,7 @@ def ntos(n):
     n = "%" + n
     return urllib.unquote(n)
 
+
 def getUnixTimestamp():
     return int(time.time())
 
@@ -987,6 +988,7 @@ def doDemystify(data):
     if m:
         for tiny in m:
             data = data.replace(tiny,get_redirected_url(tiny))
+
 
     return data
 
@@ -1143,7 +1145,10 @@ def findall(data,regex):
 
 def log(msg):
     if enable_debug:
-        xbmc.log(msg)
+        try:
+            xbmc.log(msg)
+        except:
+            xbmc.log(msg.encode('utf-8'))
         #xbmc.output(msg)
 
 def ifStringEmpty(str, trueStr, falseStr):
