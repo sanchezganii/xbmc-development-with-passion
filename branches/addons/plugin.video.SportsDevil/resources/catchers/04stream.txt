@@ -9,7 +9,7 @@ item_info_build=http://www.04stream.com/embed.js?stream=%s
 item_info_name=tmp
 item_info_from=pageUrl
 item_info_convert=getInfo('%s','.*(http://.*?04stream.com/ent.php.*?)['" ].*','%s')
-item_info_build=%swww.firstrowsports.eu
+item_info_build=%swww.thefirstrow.eu
 
 item_info_name=tmptwo
 item_info_from=tmp

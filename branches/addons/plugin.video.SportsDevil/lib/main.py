@@ -1,5 +1,11 @@
 # -*- coding: latin-1 -*-
 
+# Merge xSopcast and SportsDevil
+#http://forum.xbmc.org/showthread.php?tid=100031&pid=1101338#pid1101338
+
+#Freedocast fix
+#http://forum.xbmc.org/showthread.php?tid=100597&pid=1094333#pid1094333
+
 from string import *
 import xbmcplugin, xbmcaddon
 import sys, os.path
