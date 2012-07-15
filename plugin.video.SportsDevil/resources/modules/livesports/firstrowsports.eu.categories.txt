@@ -4,103 +4,103 @@ director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_American Football.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/american-football.html
+url=http://www.thefirstrow.eu/sport/american-football.html
 ########################################################
 title=Boxing / WWE / UFC
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Boxing.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/boxing-wwe-ufc.html
+url=http://www.thefirstrow.eu/sport/boxing-wwe-ufc.html
 ########################################################
 title=sports.devil.locale|30352
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Football.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/football.html
+url=http://www.thefirstrow.eu/sport/football.html
 ########################################################
 title=sports.devil.locale|30353
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Basketball.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/basketball.html
+url=http://www.thefirstrow.eu/sport/basketball.html
 ########################################################
 title=sports.devil.locale|30354
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Ice Hockey.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/ice-hockey.html
+url=http://www.thefirstrow.eu/sport/ice-hockey.html
 ########################################################
 title=sports.devil.locale|30355
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Baseball.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/baseball.html
+url=http://www.thefirstrow.eu/sport/baseball.html
 ########################################################
 title=sports.devil.locale|30356
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Tennis.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/tennis.html
+url=http://www.thefirstrow.eu/sport/tennis.html
 ########################################################
 title=sports.devil.locale|30357
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Racing.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/motosport.html
+url=http://www.thefirstrow.eu/sport/motosport.html
 ########################################################
 title=sports.devil.locale|30358
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Rugby.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/rugby.html
+url=http://www.thefirstrow.eu/sport/rugby.html
 ########################################################
 title=sports.devil.locale|30359
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Darts.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/darts.html
+url=http://www.thefirstrow.eu/sport/darts.html
 ########################################################
 title=sports.devil.locale|30360
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Billiard.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/snooker.html
+url=http://www.thefirstrow.eu/sport/snooker.html
 ########################################################
 title=sports.devil.locale|30361
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Golf.pn
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/golf.html
+url=http://www.thefirstrow.eu/sport/golf.html
 ########################################################
 title=Aussie Rules
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Rugby.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/aussie-rules.html
+url=http://www.thefirstrow.eu/sport/aussie-rules.html
 ########################################################
 title=sports.devil.locale|30362
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Handball.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/handball.html
+url=http://www.thefirstrow.eu/sport/handball.html
 ########################################################
 title=sports.devil.locale|30363
 director=FirstRowSports.eu
 
 icon=sports.devil.image|Sports_Other.png
 cfg=firstrowsports.eu.cfg@Events
-url=http://www.firstrowsports.eu/sport/others.html
+url=http://www.thefirstrow.eu/sport/others.html
 ########################################################
