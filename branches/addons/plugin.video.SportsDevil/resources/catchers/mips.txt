@@ -2,23 +2,20 @@ item_info_name=title
 item_info_from=@PARAM1@
 item_info_build=Mips - %s
 
-item_info_name=channel.tmp
+item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://mips.tv/channel.php?u=%s','.*<td class="Text_Bold_Orange_Large" align="right">([^<]+)</td>.*')
+item_info_build=http://www.mips.tv/embedplayer/%s/1/500/400
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\("([^"]+\.swf)".*?["']id=(\d+)&s=([^&'"]+).*','@CURRENT_URL@','swf|id|channel')
 item_info_build=%s
 
-item_info_name=channel
-item_info_from=channel.tmp || @PARAM1@
-item_info_build=%s
-
-item_info_name=loadbalancer
-item_info_build=http://www.mipscdn.tv:1935/loadbalancer
-
-item_info_name=ip
-item_info_from=loadbalancer
-item_info_convert=getInfo('%s','\D*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\D*')
-item_info_build=%s
+item_info_name=rtmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.mips.tv:1935/loadbalancer','.*redirect=([\.\d]+).*','')
+item_info_build=rtmp://%s/live/
 
 item_info_name=url
-item_info_from='rtmp://' + ip + '/live/' + channel + '?id=' + @PARAM1@
+item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 live=true swfUrl=http://www.mips.tv' + swf + ' pageUrl=' + pageUrl
 item_info_build=%s

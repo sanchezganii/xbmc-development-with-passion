@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=flashi - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://31.204.153.82/live/%s swfUrl=http://www.flashi.tv/player/player-licensed.swf pageUrl=http://www.flashi.tv live=true

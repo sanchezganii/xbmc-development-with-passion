@@ -4,7 +4,7 @@ item_info_build=UCaster - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.ucaster.eu/embedded/%s/1/640/460
+item_info_build=http://www.ucaster.eu/embedded/%s/1/600/430
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -14,7 +14,7 @@ item_info_build=%s
 item_info_name=rtmp
 item_info_from=@PARAM1@
 item_info_convert=getInfo('http://www.ucaster.eu:1935/loadbalancer','.*redirect=([\.\d]+).*','')
-item_info_build=rtmp://%s/stream/
+item_info_build=rtmp://%s/live/
 
 item_info_name=url
 item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 live=true swfUrl=http://www.ucaster.eu' + swf + ' pageUrl=' + pageUrl
