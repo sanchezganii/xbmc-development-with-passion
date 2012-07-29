@@ -17,5 +17,5 @@ item_info_convert=getInfo('http://www.liveflash.tv:1935/loadbalancer','.*redirec
 item_info_build=rtmp://%s/stream/
 
 item_info_name=url
-item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 live=true swfUrl=' + swf + ' pageUrl=' + pageUrl
+item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 live=true swfUrl=http://www.liveflash.tv' + swf + ' pageUrl=' + pageUrl
 item_info_build=%s

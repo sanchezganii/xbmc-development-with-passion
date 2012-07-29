@@ -12,8 +12,8 @@ item_info_convert=getInfo('%s','.*streamer=rtmp.*?&file=([^&]+).flv.*','%s')
 item_info_build=%s
 
 item_info_name=swf
-item_info_build=http://cdn.static.ilive.to/jwplayer/player.swf
+item_info_build=http://static.ilive.to/jwplayer/player_embed.swf
 
 item_info_name=url
-item_info_from='rtmp://176.31.231.124:1935/edge/' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_from='rtmp://176.31.231.50:1935/edge/' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
 item_info_build=%s
