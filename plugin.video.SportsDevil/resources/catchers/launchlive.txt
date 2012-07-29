@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=launchlive - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmpe://95.211.174.130/live/%s swfUrl=http://www.launchlive.tv/player/player-licensed.swf pageUrl=http://www.launchlive.tv swfVfy=true live=true

@@ -4,6 +4,6 @@ item_info_build=Veemi - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://159.253.145.184/live/_definst_/%s swfUrl=http://www.veemi.com/player/player-licensed.swf pageUrl=http://www.veemi.com/embed.php?v=isisittreallly&vw=640px;left:-640px;&vh=480
+item_info_build=rtmp://76.10.221.69/live/_definst_/%s swfUrl=http://www.veemi.com/player/player-licensed.swf pageUrl=http://www.veemi.com/embed.php?v=isisittreallly&vw=640px;left:-640px;&vh=480
 
 #item_info_build=rtsp://live.veemi.com:1935/live/_definst_/%s

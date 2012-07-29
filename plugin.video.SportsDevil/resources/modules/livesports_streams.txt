@@ -7,6 +7,11 @@ item_infos=sop://[^:]+:3912/(\d+)
 item_order=video
 @CATCH(sopcast,video)@
 
+########################################################
+# Castto - Videos
+########################################################
+@FIND('JS1','http://static.castto.me/js/embedplayer.js','fid','video')@
+@CATCH(castto,video)@
 
 ########################################################
 # ZoneIn - Videos
@@ -87,6 +92,38 @@ item_infos=http://(?:www.)?veemi.com/(?:embed\.php|watch)\?v=([^ &'"]+)
 item_order=video
 @CATCH(veemi,video)@
 
+
+########################################################
+# Tvbay - Videos
+########################################################
+@FIND('JS1','http://tvbay.org/player.js','id','video')@
+@CATCH(tvbay,video)@
+########################################################
+#  launchlive - Videos
+########################################################
+@FIND('JS1','http://www.launchlive.tv/Player.js','fid','video')@
+@CATCH(launchlive,video)@
+########################################################
+item_infos=http://(?:www.)?launchlive.tv/(?:embed\.php|channel)\?v=([^ &'"]+)
+item_order=video
+@CATCH(launchlive,video)@
+
+########################################################
+# yocast - Videos
+########################################################
+@FIND('JS1','http://www.yocast.tv/PlayerEmbed.js','fid','video')@
+@CATCH(yocast,video)@
+
+########################################################
+# flashi - Videos
+########################################################
+@FIND('JS1','http://www.flashi.tv/player.js','fid','video')@
+@CATCH(flashi,video)@
+########################################################
+# kulu - Videos
+########################################################
+@FIND('JS1','http://kulu.tv/js/e.js','vid','video')@
+@CATCH(kulu,video)@
 
 ########################################################
 #  Veetle - Videos
@@ -451,17 +488,6 @@ item_url_build=%s
 
 
 ########################################################
-# Mips.tv - Videos
-########################################################
-@FIND('JS1','http://(?:www|cdn).mips.tv/(?:player/)?doitlive_embed.js','id','video')@
-@CATCH(mips,video)@
-########################################################
-item_infos="http://(?:www|cdn).mips.tv/(?:player/)?embedplayer.php\?id=([^&]+)&(?:amp;)?e=[0-9]&[^"]*"
-item_order=video
-@CATCH(mips,video)@
-
-
-########################################################
 # 786cast - Videos
 ########################################################
 @FIND('JS1','http://www.786cast.(?:com|tv)/embed.js','fid','video')@
@@ -673,7 +699,10 @@ item_url_build=%s
 ########################################################
 # ReyHD.com - Videos
 ########################################################
-item_infos=http://(?:www.)?reyhd.(?:com|tv)/(?:embed|view|channel).php\?(?:c|n|file)=([^ &"']+)
+@FIND('JS1','http://www.reyhq.com/player.js','fid','video')@
+@CATCH(rey,video)@
+########################################################
+item_infos=http://(?:www.)?reyhq.(?:com|tv)/(?:embed|video|channel).php\?(?:c|n|live)=([^ &"']+)
 item_order=video
 @CATCH(rey,video)@
 
@@ -773,6 +802,23 @@ item_info_name=type
 item_info_build=video
 item_url_build=%s
 
+########################################################
+# RTMPE
+########################################################
+item_infos=SWFObject\(['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"]
+item_order=swf|stream|rtmpe
+
+item_info_name=title
+item_info_from=stream
+item_info_build=RTMPE - %s
+
+item_info_name=url
+item_info_from=rtmpe + '/' + stream + ' swfUrl=' + swf + ' live=true pageUrl=@CURRENT_URL@' 
+item_info_build=%s
+
+item_info_name=type
+item_info_build=video
+item_url_build=%s
 
 ########################################################
 # RTMP
@@ -1521,7 +1567,24 @@ item_order=video
 item_infos=channel=['" ]*([^'" ]+)['" ]*.*?liveflash.tv/resources/scripts/liveFlashEmbed.js
 item_order=video
 @CATCH(liveflash,video)@
+########################################################
+item_infos="http://(?:www|cdn).liveflash.tv/(?:player/)?embedplayer.php\?id=([^&]+)&(?:amp;)?e=[0-9]&[^"]*"
+item_order=video
+@CATCH(liveflash,video)@
+########################################################
+# Mips.tv - Videos
+########################################################
+#item_infos=channel=['" ]*([^'" ]+)['" ]*.*?mips.tv/content/scripts/mipsEmbed.js
+#item_order=video
+#@CATCH(mips,video)@
 
+########################################################
+@FIND('JS1','http://www.mips.tv/content/scripts/mipsEmbed.js','channel','video')@
+@CATCH(mips,video)@
+########################################################
+item_infos="http://(?:www|cdn).mips.tv/(?:player/)?embedplayer.php\?id=([^&]+)&(?:amp;)?e=[0-9]&[^"]*"
+item_order=video
+@CATCH(mips,video)@
 
 ########################################################
 # UCaster - Videos
@@ -1596,6 +1659,12 @@ item_order=video
 
 
 ########################################################
+# FlashWiz - Videos
+########################################################
+@FIND('JS1','[^\"\']*flashwiz.tv/player.js','fid','video')@
+@CATCH(flashwiz,video)@
+
+########################################################
 # Cast3D - Videos
 ########################################################
 item_infos=cast3d.tv/embed.php\?u=([^&]+)&
@@ -1647,7 +1716,8 @@ item_order=video
 ########################################################
 # HQCast - Videos
 ########################################################
-@FIND('JS1','[^\"\']*hqcast.tv/PlayerEmbed.js','fid','video')@
+#@FIND('JS1','[^\"\']*hqcast.tv/PlayerEmbed.js','fid','video')@
+@FIND('JS1','http://www.hqcast.tv/live.js','fid','video')@
 @CATCH(hqcast,video)@
 
 
