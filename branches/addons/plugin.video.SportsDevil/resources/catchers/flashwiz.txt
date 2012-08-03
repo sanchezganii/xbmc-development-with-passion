@@ -1,0 +1,12 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=FlashWiz - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.flashwiz.tv/embed.php?live=%s&vw=640&vh=385
+item_info_build=%s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://cdn.flashwiz.tv/flashwiz/%s swfUrl=http://www.flashwiz.tv/player/player-licensed.swf pageUrl=http://www.flashwiz.tv live=true
