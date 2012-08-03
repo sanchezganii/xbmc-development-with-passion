@@ -4,7 +4,7 @@ item_info_build=Rey - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.reyhd.tv/embed.php?c=%s&id=&width=640&height=385&autostart=true
+item_info_build=http://www.reyhq.com/embed.php?live=%s&vw=600&vh=410
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -17,5 +17,5 @@ item_info_convert=replace('%s','/redirect',':1935/live')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://www.reyhq.com/' + swf + ' live=true pageUrl=' + pageUrl
 item_info_build=%s

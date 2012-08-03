@@ -1001,6 +1001,8 @@ def get_redirected_url(url):
 
 def findRedirect(page, referer='', demystify=False):
     data = getSource(page, referer, demystify)
+
+
     if data.find('frame') > -1 or data.find('FRAME') > -1:
         r = re.compile("(frame[^>]* height=[\"']*(\d+)[\"']*[^>]*>)", re.IGNORECASE + re.DOTALL)
         iframes = r.findall(data)
@@ -1059,6 +1061,7 @@ def findRedirect(page, referer='', demystify=False):
             if not link.startswith('http://'):
                 link = urllib.basejoin(page,link)
             return link.strip()
+
 
     if not demystify:
         return findRedirect(page, referer, True)

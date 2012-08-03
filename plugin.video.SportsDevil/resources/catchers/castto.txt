@@ -1,0 +1,26 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=castto - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://static.castto.me/embed.php?channel=%s&vw=640&vh=385&domain=lsh.lshunter.tv
+
+
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(\'([^\']+)\'.*?file\',\s*\'([^\']+)\'.*?streamer\',\s*\'([^\']+)\'.*','@CURRENT_URL@','swf|file|rtmpTmp')
+item_info_build=%s
+
+
+item_info_name=rtmp
+item_info_from=rtmpTmp
+item_info_convert=replace('%s','lb','pub')
+item_info_build=%s
+
+
+item_info_name=url
+#item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=http://static.castto.me
+item_info_build=%s
