@@ -8,11 +8,46 @@ item_order=video
 @CATCH(sopcast,video)@
 
 ########################################################
+# CastNow - Videos
+########################################################
+item_infos=http://(?:www.)?castnowhd.com/channel.php\?file=([^"'& ]+)
+item_order=video
+@CATCH(castnow,video)@
+########################################################
+# Vcaster - Videos
+########################################################
+@FIND('JS1','[^\"\']*blive.me/player/embedPlayer.js','fid','video')@
+@CATCH(blive,video)@
+########################################################
+# Vcaster - Videos
+########################################################
+@FIND('JS1','[^\"\']*vcaster.tv/player.js','fid','video')@
+@CATCH(vcaster,video)@
+########################################################
 # Castto - Videos
 ########################################################
 @FIND('JS1','http://static.castto.me/js/embedplayer.js','fid','video')@
+item_order=video
 @CATCH(castto,video)@
-
+########################################################
+# Stream4u - Videos
+########################################################
+@FIND('JS1','http://stream4u.eu/player/embedPlayer.js','fid','video')@
+item_order=video
+@CATCH(stream4u,video)@
+########################################################
+item_infos=http://www.stream4u.eu/embed.php?v=([^ &'"]+)
+item_order=video
+@CATCH(stream4u,video)@
+########################################################
+# Fcast - Videos
+########################################################
+@FIND('JS1','http://www.fcast.tv/embed.js','fid','video')@
+@CATCH(fcast,video)@
+########################################################
+item_infos=www.fcast.tv/embed.php?live=([^&"]+)
+item_order=video
+@CATCH(fcast,video)@
 ########################################################
 # ZoneIn - Videos
 ########################################################
@@ -26,6 +61,25 @@ item_order=video
 item_infos=src='http://embed.zonein.tv/pl-([^\.]+)\.js'
 item_order=video
 @CATCH(zonein,video)@
+
+
+########################################################
+# Unknown JS Player- Redirect
+########################################################
+item_infos=src="(http://\d+[^/]*\d+/player.js\?id=\d+&width=\d+&height=\d+[^"]*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Unknown JS Player
+item_url_build=%s
+########################################################
+item_infos=src="(http://\d+[^/]*\d+/player.js\?id=\d+&height=\d+&width=\d+[^"]*)"
+item_order=url
+item_skill=rss
+item_info_name=title
+item_info_build=Redirect - Unknown JS Player
+item_url_build=%s
+
 
 
 ########################################################
@@ -80,7 +134,7 @@ item_info_build=Brasileirao - %s
 item_info_name=type
 item_info_build=video 
 item_url_build=%s
-
+########################################################
 
 ########################################################
 #  Veemi - Videos
@@ -91,13 +145,16 @@ item_url_build=%s
 item_infos=http://(?:www.)?veemi.com/(?:embed\.php|watch)\?v=([^ &'"]+)
 item_order=video
 @CATCH(veemi,video)@
-
-
 ########################################################
 # Tvbay - Videos
 ########################################################
 @FIND('JS1','http://tvbay.org/player.js','id','video')@
 @CATCH(tvbay,video)@
+########################################################
+# StreamGenie - Videos
+########################################################
+@FIND('JS1','http://www.streamgenie.eu/js/embed.js','chname','video')@
+@CATCH(streamgenie,video)@
 ########################################################
 #  launchlive - Videos
 ########################################################
@@ -115,6 +172,11 @@ item_order=video
 @CATCH(yocast,video)@
 
 ########################################################
+# Casti - Videos
+########################################################
+@FIND('JS1','http://www.casti.tv/embed.js','fid','video')@
+@CATCH(casti,video)@
+########################################################
 # flashi - Videos
 ########################################################
 @FIND('JS1','http://www.flashi.tv/player.js','fid','video')@
@@ -127,6 +189,10 @@ item_order=video
 
 ########################################################
 #  Veetle - Videos
+########################################################
+item_infos=https://s.veetle.com/swf/([^&'"/]+)
+item_order=video
+@CATCH(veetle,video)@
 ########################################################
 item_infos="http://(?:www\.)?veetle.com/index.php/channel/view#([0-9a-z]+)[^"]*"
 item_order=video
@@ -143,7 +209,6 @@ item_order=video
 item_infos=veetleChannelId="([^"]+)"
 item_order=video
 @CATCH(veetle,video)@
-
 
 ########################################################
 #  YYCast - Videos
@@ -247,23 +312,17 @@ item_order=video
 item_infos=http://(?:www.)?limev.com/embed.php\?fileId=([^&"' ]+)
 item_order=video
 @CATCH(limev,video)@
-
-
 ########################################################
 # vStream - Videos
 ########################################################
 @FIND('JS1','http://vstream.eu/player/embedPlayer.js','fid','video')@
 @CATCH(vstream,video)@
-
-
 ########################################################
 # Globo - Videos
 ########################################################
 item_infos=src="http://video.globo.com/Portal/videos/cda/player/player.swf\?midiaId=([^&"]+)
 item_order=video
 @CATCH(globo,video)@
-
-
 ########################################################
 # Freedocast - Categories
 ########################################################
@@ -304,15 +363,11 @@ item_info_name=type
 item_info_build=video
 item_url_build=plugin://plugin.video.freedocast/?play=%s
 #item_url_build=http://www.freedocast.com/forms/embedplayercustom.aspx?fid=%s&ftype=stream&domain=&width=&height=
-
-
 ########################################################
 # StreamBig.eu Videos
 ########################################################
 @FIND('JS1','http://streambig.eu[^\'\"]+','f*id','video')@
 @CATCH(streambig,video)@
-
-
 ########################################################
 # LiveView365 Videos
 ########################################################
@@ -322,15 +377,11 @@ item_url_build=plugin://plugin.video.freedocast/?play=%s
 item_infos=http://liveview365.(?:tv|com)/embedded\?id=([^&"]+)
 item_order=video
 @CATCH(liveview365,video)@
-
-
 ########################################################
 # Strmr Videos
 ########################################################
 @FIND('JS1','http://www.strmr.tv[^\'\"]+','chname','video')@
 @CATCH(strmr,video)@
-
-
 ########################################################
 # YaTV - Videos
 ########################################################
@@ -376,8 +427,6 @@ item_info_build=YaTV - %s
 item_info_name=type
 item_info_build=video
 item_url_build=%s
-
-
 ########################################################
 # Livestream.com
 ########################################################
@@ -433,14 +482,12 @@ item_info_name=type
 item_info_build=video 
 item_url_build=%s
 
-
 ########################################################
 # LiveVDO - Videos
 ########################################################
 item_infos=http://(?:www.)?livevdo.tv/js/eloader.js\?token=([^&'"]+)
 item_order=video
 @CATCH(livevdo,video)@
-
 
 ########################################################
 # Ustream.tv - Videos
@@ -486,7 +533,6 @@ item_info_build=UStream - %s
 
 item_url_build=%s
 
-
 ########################################################
 # 786cast - Videos
 ########################################################
@@ -508,14 +554,12 @@ item_infos=http://boxlivetv.us/embed.php\?u=([^&"]+)
 item_order=video
 @CATCH(boxlivetv,video)@
 
-
 ########################################################
 # iCastOn - Videos
 ########################################################
 item_infos="http://www.icaston.tv/(?:embed|channel).php\?u=([^&"]+)
 item_order=video
 @CATCH(icaston,video)@
-
 
 ########################################################
 # Xuuby.com - Videos
@@ -526,7 +570,6 @@ item_order=video
 ########################################################
 @FIND('JS1','.*?xuuby.com/js/embed\d*.js','chname','video')@
 @CATCH(xuuby,video)@
-
 
 ########################################################
 # HDCaster.net - Videos
@@ -632,16 +675,39 @@ item_order=video
 item_infos=http://(?:www.)?zecast.tv/embed.php\?file=([^"'& ]+)
 item_order=video
 @CATCH(zecast,video)@
-
-
+########################################################
+# StreamAll - Videos
+########################################################
+item_infos=streamall.eu/player.php\?stream=([^&"]+)
+item_order=video
+@CATCH(streamall,video)@
+########################################################
+item_infos=streamall.eu/embed.php\?stream=([^&"]+)
+item_order=video
+@CATCH(streamall,video)@
+########################################################
+# Sike - Videos
+########################################################
+item_infos=sike.tv/channel.php\?file=([^&"]+)
+item_order=video
+@CATCH(sike,video)@
+########################################################
+item_infos=sike.tv/embed.php\?c=([^&"]+)
+#item_infos=sike.tv/embed.php?c=([^&"]+)
+item_order=video
+@CATCH(sike,video)@
 ########################################################
 # TuTele - Videos
 ########################################################
-item_infos=http://www.tutele.tv/embed.php\?c=([^&]+)
+#item_infos=tutele.tv/embed.php\?c=([^&"]+)
+#item_order=video
+#@CATCH(tutele,video)@
+########################################################
+item_infos=tutele.(?:me|tv)/embed.php\?(?:channel|c)=([^&"]+)
+#item_infos=http://tutele.me/embed.php?channel=([^&"]+)
 item_order=video
-@CATCH(tutele,video)@
-
-
+@CATCH(tutele1,video)@
+#(?:channel|c)
 ########################################################
 # OwnCast - Videos
 ########################################################
@@ -1086,7 +1152,7 @@ item_url_build=%s
 ########################################################  
 # Aliez - Videos
 ########################################################  
-item_infos=src="http://www.livefootballstream.net/alie.php\?cname=([^"]+)"
+item_infos=emb.aliez.com/player/live.php?id=([^&"]+)
 item_order=video
 @CATCH(aliez,video)@
 ########################################################  
@@ -1412,7 +1478,7 @@ item_info_convert=getInfo('%s','.*'([^']*.swf)'.*?'file',\s*'([^']+)'.*?'streame
 item_info_build=%s
 
 item_info_name=url
-item_info_from='rtmp://dinozap.tv:1935/vod/ playpath='+ file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl 
+item_info_from='rtmp://dinozap.tv:1935/vod/ playpath='+ file + ' swfUrl=' + swf + ' live=true pageUrl=http://www.dinozap.tv 
 item_info_build=%s
 
 item_info_name=type
@@ -1607,7 +1673,6 @@ item_order=video
 @FIND('JS1','[^\"\']*mybcast.com/embed.js','id','video')@
 @CATCH(mybcast,video)@
 
-
 ########################################################
 # iLive - Videos
 ########################################################
@@ -1650,7 +1715,7 @@ item_infos=leton.tv/player.php\?streampage=([^&]+)&
 item_order=video
 @CATCH(letontv,video)@
 
-
+#http://leton.tv/player.php?streampage=iotnovosnookar324234&width=640&height=385
 ########################################################
 # YourLiveTV - Videos
 ########################################################
@@ -1667,13 +1732,12 @@ item_order=video
 ########################################################
 # Cast3D - Videos
 ########################################################
+@FIND('JS1','[^\"\']*cast3d.tv/embed.js','fid','video')@
+@CATCH(cast3d,video)@
+########################################################
 item_infos=cast3d.tv/embed.php\?u=([^&]+)&
 item_order=video
 @CATCH(cast3d,video)@
-########################################################
-@FIND('JS1','[^\"\']*cast3d.tv/embed.js','fid','video')@
-@CATCH(cast3d,video)@
-
 
 ########################################################
 # SawLive - Videos
