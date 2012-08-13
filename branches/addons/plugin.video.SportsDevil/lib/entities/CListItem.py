@@ -1,9 +1,7 @@
-# -*- coding: latin-1 -*-
+import string
 
-import sys, string
-from helpers import *
-
-class CListItem:
+class CListItem(object):
+    
     def __init__(self):
         self.infos_names = []
         self.infos_values = []

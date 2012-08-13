@@ -21,5 +21,6 @@ item_info_convert=getInfo('%s','.*streamer\': \'([^\']+)\',.*','%s')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_from=rtmp://159.253.145.164/live playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+#item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
 item_info_build=%s
