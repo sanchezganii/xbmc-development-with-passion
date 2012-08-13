@@ -1,16 +1,12 @@
 # -*- coding: latin-1 -*-
 
-from string import *
-import sys
-
-import xbmc, xbmcgui
+import xbmcgui
 
 class DialogProgress:
 
     def __init__(self):
         self.dlg = xbmcgui.DialogProgress()
         self.__reset__()
-
 
     def __reset__(self):
         self.head = ''
@@ -19,6 +15,8 @@ class DialogProgress:
         self.thirdline = None
         self.percent = 0
 
+    def isCanceled(self):
+        return self.dlg.iscanceled()
 
     def update(self, percent=None, firstline=None, secondline=None, thirdline=None):
         if firstline:

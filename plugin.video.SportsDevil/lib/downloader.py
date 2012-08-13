@@ -1,61 +1,65 @@
 # -*- coding: latin-1 -*-
 
-from string import *
-from helpers import *
+import common
 
-import sys, os.path
-import re, string
+import urllib
+import  os.path
+import xbmc, xbmcgui
 
-import xbmc, xbmcgui, xbmcplugin, xbmcaddon
-
-class Downloader:
-    def __init__(self, language):
+class Downloader(object):
+    def __init__(self):
         self.pDialog = None
-        self.language = language
 
     def downloadWithJDownloader(self, url, title):
-        xbmc.executebuiltin('XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=' + url +')')
-        xbmc.executebuiltin('Notification(Sent to JDownloader:,' + str(title) + ')')
-        #xbmc.executebuiltin('XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=reconnect)')
+        common.runPlugin('plugin://plugin.program.jdownloader/?action=addlink&url=' + url)
+        common.showNotification('Sent to JDownloader:')
 
     def downloadMovie(self, url, path, title, extension):
         if not os.path.exists(path):
-            log('Path does not exist')
+            common.log('Path does not exist')
             return None
         if title == '':
-            log('No title given')
+            common.log('No title given')
             return None
 
         file_path = xbmc.makeLegalFilename(os.path.join(path, title + extension))
         file_path = urllib.unquote_plus(file_path)
         # Overwrite existing file?
         if os.path.isfile(file_path):
-            dia = xbmcgui.Dialog()
-            if not dia.yesno('Overwrite?', file_path):
-                title = getKeyboard(default = urllib.unquote_plus(title), heading = self.language(30102))
+            self.pDialog = xbmcgui.Dialog()
+
+            if not common.ask('File already exists. Overwrite?\n' + os.path.basename(file_path)):
+                title = common.showOSK(urllib.unquote_plus(title), common.translate(30102))
                 if not title:
                     return None
                 file_path = xbmc.makeLegalFilename(os.path.join(path, title + extension))
                 file_path = urllib.unquote_plus(file_path)
+        
+        success = self.__download(url, file_path)
+        if success:
+            return file_path
+        else:
+            return None
+
+
+    def __download(self, url, file_path):
         try:
             # Setup progress dialog and download
             self.pDialog = xbmcgui.DialogProgress()
-            self.pDialog.create('SportsDevil', self.language(30050), self.language(30051))
+            self.pDialog.create('SportsDevil', common.translate(30050), common.translate(30051))
             urllib.urlretrieve(url, file_path, self.video_report_hook)
             self.pDialog.close()
-            return file_path
+            return True
         except IOError:
             self.pDialog.close()
-            dia = xbmcgui.Dialog()
-            dia.ok('SportsDevil Info', self.language(30053))
+            common.showError(common.translate(30053))
         except KeyboardInterrupt:
             self.pDialog.close()
-            pass
-        return None
+        return False
 
 
     def video_report_hook(self, count, blocksize, totalsize):
         percent = int(float(count * blocksize * 100) / totalsize)
-        self.pDialog.update(percent, self.language(30050), self.language(30051))
+        self.pDialog.update(percent, common.translate(30050), common.translate(30051))
         if self.pDialog.iscanceled():
             raise KeyboardInterrupt
