@@ -1,4 +1,63 @@
 =Changelog=
+
+V1.8.1:
+  * further refactoring
+  * more precise parsing error messages
+  * fixed favourites
+  * begin of syntax refactoring: new list skills: referer (sets item url as referer for further links/streamers), videoTitle (sets item title as video title)
+  * fixed cookiehandling
+  * some new icons, some icons sorted out
+  * sports icons moved to subfolder
+
+V1.8:
+
+  * almost completely refactored / restructured / reorganized
+  * fixed favourites management
+  * merged fixed/new streamers by al101:
+  * fixed: aliez, castalba, castto, tvope
+  * new: fcast, vivocast, yourlivetv
+  * fixed some bugs and sites (lshunter still not working)
+
+V1.7.6:
+  * merged fixed / new streamers of al101 (thanks again Smile):
+  * New: BLive, Casti, FlashWiz, LiveAll, Sike, Stream4u, StreamAll, StreamGenie and Vcaster.
+  * Fixed: Zcast, ReyHD, Cast3d and Tutele.
+  * fixed streamer 04stream (responsible for "Unkown URL Type: http://www.TheFirstRow.EU.")
+  * added site snsports.tv in tv section (thanks to k1m0s)
+
+V1.7.5:
+  Thanks to al101
+  Merged his works.
+
+  * new sites: cricfree, hdfooty
+  * new streamers:
+    * launchlive
+    * flashi
+    * yocast
+    * tvbay
+  * fixed streamers:
+    * yycast
+    * veemi
+    * mips
+    * liveflash
+    * hqcast
+    * ucaster
+    * streamhq
+    * limev
+    * ilive 
+
+V1.7.4.4
+  * FIX: firstrowsports.eu (new url) THX to jakeculpin
+  * FIX: 04stream: new url of firstrowsports as referrer
+  * CHG: xsopcast will be used automatically on linux (xsopcast must be installed) THX to ecinema
+
+V1.7.4.3.1:
+  * quick fix for streamer buzzin (thanks to k1m0s for his PM)
+
+V1.7.4.3:
+  * fixed coolsportz.de aka coolsport.tv
+  * some schedule entries are not shown, but I can't find the mistake in my regular expression. maybe someone else does...
+
 V1.7.4.2:
   * fixed rojadirecta.me:
     * recognition of p2p streams
