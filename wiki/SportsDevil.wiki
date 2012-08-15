@@ -51,6 +51,8 @@
 <br>
 <br>
 ==Requirements==
+Copy newest librtmp.dll to xbmc/system/players/dvdplayer (See [http://wiki.xbmc.org/index.php?title=Librtmp this page] for more info
+
 External players needed for:
   <ul>
   <li> Sopcast (<a href="http://forum.xbmc.org/showthread.php?t=108544">Howto use !SopCast as external player</a>)</li>
