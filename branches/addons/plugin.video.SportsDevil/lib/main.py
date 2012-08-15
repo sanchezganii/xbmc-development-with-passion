@@ -183,6 +183,26 @@ class Main:
             endOfDirectory(False)
             return None
 
+        # if it's the main menu, add folder 'Favourites'
+        if url == self.MAIN_MENU_FILE:
+            # Add Favourites
+            tmp = ListItem.create()
+            tmp['title'] = 'Favourites'
+            tmp['type'] = 'rss'
+            tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark.png')
+            tmp['url'] = str(common.Paths.favouritesFile)
+            tmpList.items.insert(0, tmp)
+
+        # if it's the favourites menu, add item 'Add item'
+        elif url == common.Paths.favouritesFile:
+            tmp = ListItem.create()
+            tmp['title'] = 'Add item...'
+            tmp['type'] = 'command'
+            tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark_add.png')
+            action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=')
+            tmp['url'] = action
+            tmpList.items.append(tmp)
+
 
         # Create menu or play, if it's a single video and autoplay is enabled
         proceed = False
@@ -194,26 +214,6 @@ class Main:
             # sort methods
             sortKeys = tmpList.sort.split('|')
             setSortMethodsForCurrentXBMCList(self.handle, sortKeys)
-
-            # if it's the main menu, add folder 'Favourites'
-            if url == self.MAIN_MENU_FILE:
-                # Add Favourites
-                tmp = ListItem.create()
-                tmp['title'] = 'Favourites'
-                tmp['type'] = 'rss'
-                tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark.png')
-                tmp['url'] = str(common.Paths.favouritesFile)
-                tmpList.items.insert(0, tmp)
-
-            # if it's the favourites menu, add item 'Add item'
-            elif url == common.Paths.favouritesFile:
-                tmp = ListItem.create()
-                tmp['title'] = 'Add item...'
-                tmp['type'] = 'command'
-                tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark_add.png')
-                action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=')
-                tmp['url'] = action
-                tmpList.items.append(tmp)
 
             # Add items to XBMC list
             for m in tmpList.items:
