@@ -114,6 +114,7 @@ class Paths:
 
     pluginFanart = os.path.join(rootDir, 'fanart.jpg')
     defaultVideoIcon = os.path.join(imgDir, 'video.png')
+    defaultCategoryIcon = os.path.join(imgDir, 'folder.png')    
 
     pluginDataDir = xbmc.translatePath('special://profile/addon_data/plugin.video.SportsDevil')
     favouritesFolder = os.path.join(pluginDataDir, 'favourites')

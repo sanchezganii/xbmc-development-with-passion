@@ -7,31 +7,26 @@
 #http://forum.xbmc.org/showthread.php?tid=100597&pid=1094333#pid1094333
 
 import os
-from string import capitalize
 import xbmcplugin
 import sys
 import xbmc, xbmcgui
 import traceback
 import urllib
-import urllib2
+
 import common
-
-from entities.CList import CList
-from entities.CListItem import CListItem
-
-
-from downloader import Downloader
-from favouritesManager import FavouritesManager
-
-from dialogs.dialogProgress import DialogProgress
 
 import utils.encodingUtils as enc
 from utils import fileUtils as fu
 from utils.regexUtils import parseText
 from utils.xbmcUtils import getKeyboard, setSortMethodsForCurrentXBMCList
+from dialogs.dialogProgress import DialogProgress
 
+from parser import Parser, ParsingResult
+from downloader import Downloader
+from favouritesManager import FavouritesManager
 
-from parser import Parser
+import entities.CListItem as ListItem
+
 
 class Mode:
     VIEW = 1
@@ -45,39 +40,6 @@ class Mode:
     ADDITEM = 9
 
 
-def codeUrl(item):
-    params = ''
-
-    for info_name in item.infos_names:
-        if info_name != 'url' and info_name.find('.tmp') == -1:
-            info_value = item[info_name]
-            try:
-                value = urllib.quote(enc.smart_unicode(info_value).encode('utf-8'))
-            except:
-                value = enc.smart_unicode(info_value)
-            keyValPair = enc.smart_unicode(info_name) + ':' + value
-            params += '&' + keyValPair
-    try:
-        url = enc.smart_unicode(urllib.quote_plus(item['url']))
-    except:
-        url = item['url']
-    params += '&url:' + url
-
-    return params.lstrip('&')
-
-
-def decodeUrl(url):
-    item = CListItem()
-    if url.find('&') == -1:
-        item['url'] = enc.clean_safe(url)
-        return item
-
-    keyValPairs = url.split('&')
-    for keyValPair in keyValPairs:
-        if keyValPair.find(':') > -1:
-            key, val = keyValPair.split(':',1)
-            item[key] = urllib.unquote_plus(val)
-    return item
 
 
 
@@ -86,23 +48,17 @@ class Main:
     MAIN_MENU_FILE = 'mainMenu.cfg'
 
 
-
     def __init__(self):
-        common.log('Initializing SportsDevil')
+        self.base = sys.argv[0]
+        self.handle = int(sys.argv[1])
 
         if not os.path.exists(common.Paths.pluginDataDir):
             os.makedirs(common.Paths.pluginDataDir)
 
-        self.curr_file = ''
-        self.urlList = []
-        self.extensionList = []
-        self.selectionList = []
-        self.currentlist = None
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
 
         self.parser = Parser()
-
-        self.handle = int(sys.argv[1])
+        self.currentlist = None
 
         common.log('SportsDevil initialized')
 
@@ -114,33 +70,16 @@ class Main:
         if not videoItem:
             return
 
-        url = urllib.unquote_plus(videoItem['url'])
+        listitem = self.createXBMCListItem(videoItem)
 
         title = videoItem['videoTitle']
-        if not title:
-            title = videoItem['title']
-            if not title:
-                title = 'unknown'
-
-        try:
-            icon = videoItem['icon']
-        except:
-            icon = common.Paths.defaultVideoIcon
-
-        listitem = xbmcgui.ListItem(title, title, icon, icon)
-        listitem.setInfo('video', {'Title':title})
-
-        for video_info_name in videoItem.infos_names:
-            try:
-                listitem.setInfo(type = 'Video', infoLabels = {video_info_name: videoItem[video_info_name]})
-            except:
-                pass
-
-        listitem.setPath(url)
+        if title:
+            listitem.setInfo('video', {'title': title})
 
         if not isAutoplay:
             xbmcplugin.setResolvedUrl(self.handle, True, listitem)
         else:
+            url = urllib.unquote_plus(videoItem['url'])
             xbmc.Player(xbmc.PLAYER_CORE_AUTO).play(url, listitem)
 
 
@@ -167,7 +106,7 @@ class Main:
         if downloaded_file == None:
             common.log ('Download cancelled')
         else:
-            common.log('Video ' + url + ' downloaded to ' + downloaded_file)
+            common.log('Video ' + url + " downloaded to '" + downloaded_file + "'")
 
         return downloaded_file
 
@@ -181,7 +120,7 @@ class Main:
                 dia.update(percent + percentSpan, thirdline=currentName)
             allitems.append(lItem)
         else:
-            tmpList = self.parser.parse(lItem)
+            tmpList = self.parser.parse(lItem).list
             if tmpList and len(tmpList.items) > 0:
                 inc = percentSpan/len(tmpList.items)
                 dia.update(percent, secondline=currentName, thirdline=' ')
@@ -195,13 +134,14 @@ class Main:
 
         return allitems
 
+
     def getSearchPhrase(self):
         searchCache = os.path.join(common.Paths.cacheDir, 'search')
-        try:
-            curr_phrase = fu.getFileContent(searchCache)
-        except:
-            curr_phrase = ''
-        search_phrase = getKeyboard(default = curr_phrase, heading = common.translate(30102))
+        default_phrase = fu.getFileContent(searchCache)
+        if not default_phrase:
+            default_phrase = ''
+
+        search_phrase = common.showOSK(default_phrase, common.translate(30102))
         if search_phrase == '':
             return None
         xbmc.sleep(10)
@@ -209,143 +149,177 @@ class Main:
 
         return search_phrase
 
-    def __endOfDirectory(self, succeeded=True):
-        xbmcplugin.endOfDirectory(handle=self.handle, succeeded=succeeded, cacheToDisc=True)
-
 
     def parseView(self, url):
 
-        lItem = decodeUrl(url)
+        def endOfDirectory(succeeded=True):
+            xbmcplugin.endOfDirectory(handle=self.handle, succeeded=succeeded, cacheToDisc=True)
+
+        lItem = ListItem.fromUrl(url)
+
         if lItem['type'] == 'search':
             search_phrase = self.getSearchPhrase()
             if not search_phrase:
                 common.log("search canceled")
-                self.__endOfDirectory(False)
+                endOfDirectory(False)
                 return None
-            lItem['type'] = 'rss'
-            lItem['url'] =  lItem['url'] % (urllib.quote_plus(search_phrase))
+            else:
+                lItem['type'] = 'rss'
+                lItem['url'] =  lItem['url'] % (urllib.quote_plus(search_phrase))
 
         url = lItem['url']
 
-        tmpList = self.parser.parse(lItem)
-        if not tmpList:
-            common.showError("Parsing failed")
-            self.__endOfDirectory(False)
+        result = self.parser.parse(lItem)
+        if result.code == ParsingResult.Code.SUCCESS:
+            tmpList = result.list
+        else:
+            if result.code == ParsingResult.Code.CFGFILE_NOT_FOUND:
+                common.showError("Cfg file not found")
+            elif result.code == ParsingResult.Code.CFGSYNTAX_INVALID:
+                common.showError("Cfg syntax invalid")
+            elif result.code == ParsingResult.Code.WEBREQUEST_FAILED:
+                common.showError("Web request failed")
+
+            endOfDirectory(False)
             return None
 
-        # Remove duplicates
-        urls = []
-        for i in range(len(tmpList.items)-1,-1,-1):
-            item = tmpList.items[i]
-            tmpUrl = item['url']
-            tmpCfg = item['cfg']
-            if not tmpCfg:
-                tmpCfg = ''
-            if not urls.__contains__(tmpUrl + '|' + tmpCfg):
-                urls.append(tmpUrl + '|' + tmpCfg)
-            else:
-                tmpList.items.remove(item)
 
-        # SHOW ITEMS IN GUI
-        # if it's the main menu, add folder 'Favourites'
-        if url == self.MAIN_MENU_FILE:
-            # Add Favourites
-            tmp = CListItem()
-            tmp['title'] = 'Favourites'
-            tmp['type'] = 'rss'
-            tmp['url'] = str(common.Paths.favouritesFile)
-            tmpList.items.insert(0,tmp)
-
-        # if it's the favourites menu, add item 'Add item'
-        elif url == common.Paths.favouritesFile:
-            tmp = CListItem()
-            tmp['title'] = 'Add item...'
-            tmp['type'] = 'command'
-            action = 'RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(Mode.ADDITEM) + '&url=')
-            tmp['url'] = action
-            tmpList.items.append(tmp)
+        # Create menu or play, if it's a single video and autoplay is enabled
+        proceed = False
 
         count = len(tmpList.items)
-        if count > 0 and not (common.getSetting('autoplay') == 'true' and count == 1 and len(tmpList.getVideos()) == 1):
+        if count == 0:
+            common.showInfo('No stream available')
+        elif count > 0 and not (common.getSetting('autoplay') == 'true' and count == 1 and len(tmpList.getVideos()) == 1):
             # sort methods
             sortKeys = tmpList.sort.split('|')
             setSortMethodsForCurrentXBMCList(self.handle, sortKeys)
+
+            # if it's the main menu, add folder 'Favourites'
+            if url == self.MAIN_MENU_FILE:
+                # Add Favourites
+                tmp = ListItem.create()
+                tmp['title'] = 'Favourites'
+                tmp['type'] = 'rss'
+                tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark.png')
+                tmp['url'] = str(common.Paths.favouritesFile)
+                tmpList.items.insert(0, tmp)
+
+            # if it's the favourites menu, add item 'Add item'
+            elif url == common.Paths.favouritesFile:
+                tmp = ListItem.create()
+                tmp['title'] = 'Add item...'
+                tmp['type'] = 'command'
+                tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark_add.png')
+                action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=')
+                tmp['url'] = action
+                tmpList.items.append(tmp)
 
             # Add items to XBMC list
             for m in tmpList.items:
                 self.addListItem(m, len(tmpList.items))
 
-            self.__endOfDirectory()
-            common.log('End of directory')
-        else:
-            self.__endOfDirectory(False)
+            proceed = True
+
+        endOfDirectory(proceed)
+        common.log('End of directory')
         return tmpList
 
 
     def createXBMCListItem(self, item):
-        liz = None
         title = enc.clean_safe(item['title'])
 
+        m_type = item['type']
+
         icon = item['icon']
-        if icon:
-            liz = xbmcgui.ListItem(title, iconImage=icon, thumbnailImage=icon)
-        else:
-            liz = xbmcgui.ListItem(title)
+        if not icon:
+            if m_type == 'video':
+                icon = common.Paths.defaultVideoIcon
+            else:
+                icon = common.Paths.defaultCategoryIcon
+
+        liz = xbmcgui.ListItem(title, title, iconImage=icon, thumbnailImage=icon)
 
         fanart = item['fanart']
         if not fanart:
             fanart = common.Paths.pluginFanart
         liz.setProperty('fanart_image', fanart)
 
+        """
+        General Values that apply to all types:
+            count         : integer (12) - can be used to store an id for later, or for sorting purposes
+            size          : long (1024) - size in bytes
+            date          : string (%d.%m.%Y / 01.01.2009) - file date
+
+        Video Values:
+            genre         : string (Comedy)
+            year          : integer (2009)
+            episode       : integer (4)
+            season        : integer (1)
+            top250        : integer (192)
+            tracknumber   : integer (3)
+            rating        : float (6.4) - range is 0..10
+            watched       : depreciated - use playcount instead
+            playcount     : integer (2) - number of times this item has been played
+            overlay       : integer (2) - range is 0..8.  See GUIListItem.h for values
+            cast          : list (Michal C. Hall)
+            castandrole   : list (Michael C. Hall|Dexter)
+            director      : string (Dagur Kari)
+            mpaa          : string (PG-13)
+            plot          : string (Long Description)
+            plotoutline   : string (Short Description)
+            title         : string (Big Fan)
+            originaltitle : string (Big Fan)
+            duration      : string (3:18)
+            studio        : string (Warner Bros.)
+            tagline       : string (An awesome movie) - short description of movie
+            writer        : string (Robert D. Siegel)
+            tvshowtitle   : string (Heroes)
+            premiered     : string (2005-03-04)
+            status        : string (Continuing) - status of a TVshow
+            code          : string (tt0110293) - IMDb code
+            aired         : string (2008-12-07)
+            credits       : string (Andy Kaufman) - writing credits
+            lastplayed    : string (%Y-%m-%d %h:%m:%s = 2009-04-05 23:16:04)
+            album         : string (The Joshua Tree)
+            votes         : string (12345 votes)
+            trailer       : string (/home/user/trailer.avi)
+        """
+
+        infoLabels = {}
         for video_info_name in item.infos_names:
-            if video_info_name.find('context.') != -1:
-                try:
-                    cItem = item
-                    cItem['type'] = 'rss'
-                    cItem['url'] = item[video_info_name]
-                    action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?url=' + codeUrl(cItem))
-                    liz.addContextMenuItems([(video_info_name[video_info_name.find('.') + 1:], action)])
-                except:
-                    pass
-            if video_info_name not in ['url', 'title', 'icon', 'type', 'extension'] and video_info_name.find('.tmp') == -1 and video_info_name.find('.append') == -1 and video_info_name.find('context.') == -1:
-                try:
-                    info_value = item[video_info_name]
-                    infoLabels = {}
-                    if video_info_name.find('.int') != -1:
-                        infoLabels = {capitalize(video_info_name[:video_info_name.find('.int')]): int(info_value)}
-                    elif video_info_name.find('.tmp') != -1:
-                        infoLabels = {capitalize(video_info_name[:video_info_name.find('.tmp')]): info_value}
-                    else:
-                        infoLabels = {capitalize(video_info_name): info_value}
-                    liz.setInfo(type = 'Video', infoLabels = infoLabels)
-                except:
-                    pass
+            infoLabels[video_info_name] = item[video_info_name]
+        infoLabels['title'] = title
+
+        liz.setInfo('video', infoLabels)
+
+        url = urllib.unquote_plus(item['url'])
+        liz.setPath(url)
+
+        if m_type == 'video':
+            liz.setProperty('IsPlayable','true')
+
         return liz
-
-
-
 
 
     def addListItem(self, lItem, totalItems):
         def createContextMenuItem(label, mode, codedItem):
-            action = 'XBMC.RunPlugin(%s)' % (sys.argv[0] + '?mode=' + str(mode) + '&url=' + codedItem)
+            action = 'XBMC.RunPlugin(%s)' % (self.base + '?mode=' + str(mode) + '&url=' + codedItem)
             return (label, action)
 
         contextMenuItems = []
         definedIn = lItem['definedIn']
 
-        codedItem = codeUrl(lItem)
+        codedItem = ListItem.toUrl(lItem)
 
         # Jump to MainMenu
 #        if definedIn and definedIn != self.MAIN_MENU_FILE:
-#            action = 'Container.Update(%s, replace)' % (sys.argv[0])
+#            action = 'Container.Update(%s, replace)' % (self.base)
 #            contextMenuItem = ('Jump to Mainmenu', action)
 #            contextMenuItems.append(contextMenuItem)
 
-
-
-        # Queue
         if definedIn:
+            # Queue
             contextMenuItem = createContextMenuItem('Queue', Mode.QUEUE, codedItem)
             contextMenuItems.append(contextMenuItem)
 
@@ -363,22 +337,20 @@ class Main:
                     contextMenuItem = createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
                     contextMenuItems.append(contextMenuItem)
 
-
         liz = self.createXBMCListItem(lItem)
 
         m_type = lItem['type']
         if m_type == 'video':
-            u = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
             if lItem['IsDownloadable']:
                 contextMenuItem = createContextMenuItem('Download', Mode.DOWNLOAD, codedItem)
                 contextMenuItems.append(contextMenuItem)
-            liz.setProperty('IsPlayable','true')
             isFolder = False
         elif m_type.find('command') > -1:
-            u = sys.argv[0] + '?mode=' + str(Mode.EXECUTE) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.EXECUTE) + '&url=' + codedItem
             isFolder = False
         else:
-            u = sys.argv[0] + '?mode=' + str(Mode.VIEW) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.VIEW) + '&url=' + codedItem
             isFolder = True
 
         liz.addContextMenuItems(contextMenuItems)
@@ -388,15 +360,12 @@ class Main:
     def clearCache(self):
         cacheDir = common.Paths.cacheDir
         if not os.path.exists(cacheDir):
-            common.log('Creating cache directory ' + str(cacheDir))
             os.mkdir(cacheDir)
-            common.log('Cache directory created')
+            common.log('Cache directory created' + str(cacheDir))
         else:
-            common.log('Purging cache directory')
             for root, dirs, files in os.walk(cacheDir , topdown = False):
                 for name in files:
-                    if not name == 'cookies.lwp':
-                        os.remove(os.path.join(root, name))
+                    os.remove(os.path.join(root, name))
             common.log('Cache directory purged')
 
 
@@ -405,17 +374,11 @@ class Main:
         try:
             # Main Menu
             if len(paramstring) <= 2:
-                # Set fanart
                 xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
-
-                # Clear cache
                 self.clearCache()
-
-                # Show Main Menu
                 tmpList = self.parseView(self.MAIN_MENU_FILE)
                 if tmpList:
                     self.currentlist = tmpList
-                    self.curr_file = tmpList.cfg
 
             else:
                 params = paramstring
@@ -423,18 +386,15 @@ class Main:
                 mode = int(mode.split('=')[1])
 
                 codedItem = codedItem[4:]
-                item = decodeUrl(codedItem)
+                item = ListItem.fromUrl(codedItem)
 
                 # switch(mode)
                 if mode == Mode.VIEW:
                     tmpList = self.parseView(codedItem)
                     if tmpList:
                         self.currentlist = tmpList
-                        self.curr_file = tmpList.cfg
                         count = len(self.currentlist.items)
-                        if count == 0:
-                            common.showInfo('No stream available')
-                        elif count == 1:
+                        if count == 1:
                             # Autoplay single video
                             autoplayEnabled = common.getSetting('autoplay') == 'true'
                             if autoplayEnabled:
@@ -486,10 +446,8 @@ class Main:
                     if items:
                         for it in items:
                             item = self.createXBMCListItem(it)
-                            uc = sys.argv[0] + '?mode=' + str(Mode.PLAY) + '&url=' + codeUrl(it)
-                            item.setProperty('IsPlayable', 'true')
-                            item.setProperty('IsFolder','false')
-                            xbmc.PlayList(1).add(uc, item)
+                            uc = self.base + '?mode=' + str(Mode.PLAY) + '&url=' + ListItem.toUrl(it)
+                            xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(uc, item)
                         resultLen = len(items)
                         msg = 'Queued ' + str(resultLen) + ' video'
                         if resultLen > 1:
@@ -512,8 +470,5 @@ class Main:
             if common.enable_debug:
                 traceback.print_exc(file = sys.stdout)
             common.showError('Error running SportsDevil.\n\nReason:\n' + str(e))
-
-
-
 
 

@@ -34,3 +34,64 @@ class CListItem(object):
         for info_name in self.infos_names:
             txt += string.ljust(info_name,15) +':\t' + self[info_name] + '\n'
         return txt
+    
+
+
+# STATIC FUNCTIONS
+
+import sys
+import os.path
+import urllib
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+from utils import encodingUtils as enc
+
+
+def create():
+    return CListItem()
+
+def toUrl(item):
+    params = ''
+
+    for info_name in item.infos_names:
+        # Infos that will be passed to next level apart from url
+        if info_name != 'url' and not info_name.endswith('.tmp'):
+            
+            info_value = item[info_name]
+            value = enc.smart_unicode(info_value)
+            try:
+                value = urllib.quote_plus(value.encode('utf-8'))
+            except:
+                sys.exc_clear()
+
+            keyValPair = enc.smart_unicode(info_name) + ':' + value
+            params += '&' + keyValPair
+            
+        params = params.lstrip('&')
+    
+    # URL
+    url = item['url']
+    try:
+        url = enc.smart_unicode(urllib.quote_plus(url))
+    except:
+        sys.exc_clear()
+    params += '&url:' + url
+
+    return params
+
+
+def fromUrl(url):
+    item = CListItem()
+    if url.find('&') == -1:
+        item['url'] = enc.clean_safe(url)
+        return item
+
+    keyValPairs = url.split('&')
+    for keyValPair in keyValPairs:
+        if keyValPair.find(':') > -1:
+            key, val = keyValPair.split(':',1)
+            item[key] = urllib.unquote_plus(val)
+    return item
