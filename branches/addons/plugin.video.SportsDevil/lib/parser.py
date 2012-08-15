@@ -207,6 +207,8 @@ class Parser(object):
                         inputList.curr_url = red
                         common.log(str(len(inputList.items)) + ' items ' + lItem['cfg'] + ' -> ' + red)
                         startUrl = red
+                        if lItem['referer']:
+                            lItem['referer'] = red
                         i = 0
 
                 i += 1
