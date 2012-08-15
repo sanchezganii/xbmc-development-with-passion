@@ -7,12 +7,7 @@ item_infos=sop://[^:]+:3912/(\d+)
 item_order=video
 @CATCH(sopcast,video)@
 
-########################################################
-# CastNow - Videos
-########################################################
-item_infos=http://(?:www.)?castnowhd.com/channel.php\?file=([^"'& ]+)
-item_order=video
-@CATCH(castnow,video)@
+
 ########################################################
 # Vcaster - Videos
 ########################################################
@@ -181,11 +176,6 @@ item_order=video
 ########################################################
 @FIND('JS1','http://www.flashi.tv/player.js','fid','video')@
 @CATCH(flashi,video)@
-########################################################
-# kulu - Videos
-########################################################
-@FIND('JS1','http://kulu.tv/js/e.js','vid','video')@
-@CATCH(kulu,video)@
 
 ########################################################
 #  Veetle - Videos
@@ -581,7 +571,6 @@ item_order=video
 @FIND('JS1','http://hdcaster.net/player.js','id','video')@
 @CATCH(hdcaster,video)@
 
-
 ########################################################
 # StreamHQ.tv - Videos
 ########################################################
@@ -625,11 +614,11 @@ item_order=video
 ########################################################
 #http://www.justin.tv/widgets/live_embed_player.swf?channel=cholillo_830
 #data="http://www-cdn.justin.tv/widgets/live_embed_player.rc9251ecd4e4e2b08e8931777d11f2f9c69ed7db2.swf?channel=ritmoysabor4"
-item_infos="http://(?:www(?:-cdn)?.)?justin.tv/widgets/live_embed_player.*?.swf\?channel=([^"]+)"
+item_infos="http://(?:www(?:-cdn)?.)?justin.tv/widgets/live_embed_player.*?.swf\?channel=((?!about_us|forums|hdstreamseuaccount)[^"]+)"
 item_order=video
 @CATCH(justintv,video)@
 ########################################################
-item_infos=justin.tv/((?!about_us|forums)[a-z_0-9]*)['"]
+item_infos=justin.tv/((?!about_us|forums|hdstreamseuaccount)[a-z_0-9]*)['"]
 item_order=video
 @CATCH(justintv,video)@
 
@@ -967,7 +956,7 @@ item_info_from=rtmp + ' playPath=' + file + ' swfVfy=1 swfUrl=' + swf + ' live=t
 item_info_build=%s
 
 item_info_name=type
-item_info_build=video 
+item_info_build=video
 item_url_build=%s
 ########################################################
 item_infos=["'=](http://[^'" ]*.swf[^'" ]*streamer=([^&"' ]+&)[^'" ]*file=([^&'" ]+)[^'" ]*)["' ]
@@ -1807,7 +1796,26 @@ item_infos=http://www.norwsktv.com/channel.php\?file=(\d+)
 item_order=video
 @CATCH(norwsktv,video)@
 
+########################################################
+# livecaster - Videos
+########################################################
+@FIND('JS1','[^\"\']*livecaster.tv/embed.js','fid','video')@
+@CATCH(livecaster,video)@
+########################################################
 
+########################################################
+# HDmyTV - Videos
+########################################################
+item_infos=http://www.hdmytv.com/channel.php\?file=(\d+)
+item_order=video
+@CATCH(hdmytv,video)@
+
+########################################################
+# viovu - Videos
+########################################################
+@FIND('JS1','[^\"\']*viovu.com/javascript/embedPlayer.js','fid','video')@
+@CATCH(viovu,video)@
+########################################################
 
 ########################################################
 # istreamlive.net - Videos

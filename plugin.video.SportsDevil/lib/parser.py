@@ -24,15 +24,37 @@ from utils import decryptionUtils as crypt
 from utils import datetimeUtils as dt
 
 from utils.webUtils import get_redirected_url
-from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension
+from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension, setFileContent
 from utils.scrapingUtils import findVideoFrameLink
+
+
+class ParsingResult(object):
+    class Code:
+        SUCCESS = 0
+        CFGFILE_NOT_FOUND = 1
+        CFGSYNTAX_INVALID = 2
+        WEBREQUEST_FAILED = 3
+
+    def __init__(self, code, itemsList):
+        self.code = code
+        self.list = itemsList
 
 
 class Parser(object):
 
-    ##########################################################
-    # returns a list of items
-    ##########################################################
+    def __setReferer(self, url):
+        setFileContent(os.path.join(common.Paths.cacheDir, 'lastReferer'), url)
+
+    def __getReferer(self):
+        result = getFileContent(os.path.join(common.Paths.cacheDir, 'lastReferer'))
+        if result:
+            return result
+        else:
+            return ''
+
+    """
+     returns a list of items
+    """
     def parse(self, lItem):
         url = lItem['url']
         cfg = lItem['cfg']
@@ -42,15 +64,15 @@ class Parser(object):
 
         if ext == 'cfg':
             tmpList = self.__loadLocal(url, lItem)
-            if tmpList and tmpList.start != '':
+            if tmpList and tmpList.start != '' and len(tmpList.rules) > 0:
                 lItem['url'] = tmpList.start
                 successfullyScraped = self.__loadRemote(tmpList, lItem)
         elif cfg:
             tmpList = self.__loadLocal(cfg, lItem)
-            if tmpList:
+            if tmpList and len(tmpList.rules) > 0:
                 successfullyScraped = self.__loadRemote(tmpList, lItem)
         else:
-            return None
+            return ParsingResult(ParsingResult.Code.CFGSYNTAX_INVALID, None)
 
         # autoselect
         if tmpList.skill.find('autoselect') != -1 and len(tmpList.items) == 1:
@@ -60,18 +82,32 @@ class Parser(object):
             if m_type == 'rss':
                 common.log('Autoselect - ' + m['title'])
                 lItem = m
-                tmpList = self.parse(lItem)
+                tmpList = self.parse(lItem).list
 
         if not tmpList:
-            common.log("cfg file couldn't be loaded")
-            return None
+            return ParsingResult(ParsingResult.Code.CFGSYNTAX_INVALID, None)
         if tmpList and successfullyScraped == False:
-            common.log("cfg file successfully loaded, but scraping failed")
+            return ParsingResult(ParsingResult.Code.WEBREQUEST_FAILED, None)
 
-        return tmpList
+        # Remove duplicates
+        urls = []
+        for i in range(len(tmpList.items)-1,-1,-1):
+            item = tmpList.items[i]
+            tmpUrl = item['url']
+            tmpCfg = item['cfg']
+            if not tmpCfg:
+                tmpCfg = ''
+            if not urls.__contains__(tmpUrl + '|' + tmpCfg):
+                urls.append(tmpUrl + '|' + tmpCfg)
+            else:
+                tmpList.items.remove(item)
+
+        return ParsingResult(ParsingResult.Code.SUCCESS, tmpList)
 
 
-    # loads cfg, creates list and sets up rules for scraping
+    """
+     loads cfg, creates list and sets up rules for scraping
+    """
     def __loadLocal(self, filename, lItem = None):
         params = []
 
@@ -115,8 +151,9 @@ class Parser(object):
         return outputList
 
 
-
-    # scrape items according to rules and add them to the list
+    """
+     scrape items according to rules and add them to the list
+    """
     def __loadRemote(self, inputList, lItem):
 
         try:
@@ -124,7 +161,7 @@ class Parser(object):
 
             count = 0
             i = 1
-            maxits = 2
+            maxits = 2      # 1 optimistic + 1 demystified
             ignoreCache = False
             demystify = False
             startUrl = inputList.curr_url
@@ -134,7 +171,7 @@ class Parser(object):
                     demystify =  True
 
                 # Trivial: url is from known streamer
-                items = self.__parseHtml(inputList.curr_url, '"' + inputList.curr_url + '"', inputList.rules, inputList.cfg, lItem)
+                items = self.__parseHtml(inputList.curr_url, '"' + inputList.curr_url + '"', inputList.rules, inputList.skill, inputList.cfg, lItem)
                 count = len(items)
 
                 # try to find items in html source code
@@ -143,7 +180,10 @@ class Parser(object):
                     if data == '':
                         return False
 
-                    common.log('Remote URL ' + str(inputList.curr_url) + ' opened')
+                    msg = 'Remote URL ' + str(inputList.curr_url) + ' opened'
+                    if demystify:
+                        msg += ' (demystified)'
+                    common.log(msg)
 
                     if inputList.section != '':
                         p = re.compile(inputList.section, re.IGNORECASE + re.DOTALL + re.UNICODE)
@@ -151,19 +191,19 @@ class Parser(object):
                         if m:
                             data = m.group(0)
                         else:
-                            common.log('section could not be found:' + inputList.section)
+                            common.log('    -> Section could not be found:' + inputList.section)
 
-                    items = self.__parseHtml(inputList.curr_url, data, inputList.rules, inputList.cfg, lItem)
+                    items = self.__parseHtml(inputList.curr_url, data, inputList.rules, inputList.skill, inputList.cfg, lItem)
                     count = len(items)
-                    common.log(str(count) + ' items found')
+                    common.log('    -> ' + str(count) + ' item(s) found')
 
                 # find redirects
                 if count == 0:
                     red = self.__findRedirect(startUrl, inputList.curr_url)
                     if startUrl == red:
-                        common.log('No redirect found')
+                        common.log('    -> No redirect found')
                     else:
-                        common.log('Redirect: ' + red)
+                        common.log('    -> Redirect: ' + red)
                         inputList.curr_url = red
                         common.log(str(len(inputList.items)) + ' items ' + lItem['cfg'] + ' -> ' + red)
                         startUrl = red
@@ -244,9 +284,6 @@ class Parser(object):
                         tmpkey = key[len('item_info'):]
                         if tmpkey == '_name':
                             info_tmp = CItemInfo()
-                            index = value.find('|')
-                            if value[:index] == 'sports.devil.context':
-                                value = 'context.' + common.translate(int(value[index+1:]))
                             info_tmp.name = value
                         elif tmpkey == '_from':
                             info_tmp.src = value
@@ -262,6 +299,11 @@ class Parser(object):
 
                     elif key == 'item_url_build':
                         rule_tmp.url_build = value
+                        if tmpList.skill.find('referer') > -1:
+                            refInf = CItemInfo()
+                            refInf.name = 'referer'
+                            refInf.build = value
+                            rule_tmp.info_list.append(refInf)
                         tmpList.rules.append(rule_tmp)
 
 
@@ -269,12 +311,16 @@ class Parser(object):
                     elif key == 'title':
                         tmp = CListItem()
                         tmp['title'] = value
+                        if tmpList.skill.find('videoTitle') > -1:
+                            tmp['videoTitle'] = value
                     elif key == 'type':
                         tmp['type'] = value
                     elif key == 'url':
                         tmp['url'] = value
                         if lItem:
                             tmp.merge(lItem)
+                        if tmpList.skill.find('referer') > -1:
+                            tmp['referer'] = value
                         tmp['definedIn'] = cfgFile
                         items.append(tmp)
                         tmp = None
@@ -287,7 +333,10 @@ class Parser(object):
         return tmpList
 
 
-    def __parseHtml(self, url, data, rules, definedIn, lItem):
+    def __parseHtml(self, url, data, rules, skills, definedIn, lItem):
+
+        if lItem['referer']:
+            self.__setReferer(lItem['referer'])
 
         items = []
 
@@ -347,6 +396,9 @@ class Parser(object):
                 if item_rule.skill.find('space') != -1:
                     tmp['title'] = ' %s ' % tmp['title'].strip()
 
+                if skills.find('videoTitle') > -1:
+                    tmp['videoTitle'] = tmp['title']
+
                 tmp['definedIn'] = definedIn
                 items.append(tmp)
 
@@ -354,6 +406,7 @@ class Parser(object):
 
 
     def __parseCommands(self, item, src, convCommands):
+
         # helping function
         def parseCommand(txt):
             command = {"command": txt, "params": ""}
@@ -423,6 +476,9 @@ class Parser(object):
                 src = cc.parseText(params, src)
 
             elif command == 'getInfo':
+                if params.find('@REFERER@') > -1:
+                    params = params.replace('@REFERER@', self.__getReferer())
+
                 src = cc.getInfo(item, params, src)
 
             elif command == 'decodeBase64':
@@ -438,7 +494,7 @@ class Parser(object):
                 src = cc.ifEmpty(params, src)
 
             elif command == 'isEqual':
-                src = cc.isEqual(params, src)
+                src = cc.isEqual(item, params, src)
 
             elif command == 'ifExists':
                 src = cc.ifExists(params, src)
