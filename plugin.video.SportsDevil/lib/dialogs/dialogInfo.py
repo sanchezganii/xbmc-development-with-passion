@@ -1,6 +1,6 @@
 # -*- coding: latin-1 -*-
 
-import xbmcgui, xbmc
+import xbmcgui
 
 class DialogInfo:
 
