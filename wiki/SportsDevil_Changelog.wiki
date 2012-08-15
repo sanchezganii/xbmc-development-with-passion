@@ -1,5 +1,17 @@
 =Changelog=
 
+V1.8.2:
+  * FIX: import python module from parent folder
+  * FIX: coolsportz.de.cfg, set referer
+  * ADD: catcher vipi
+
+<br>
+
+V1.8.1.1:
+  * fix: streamer viovu: use referer (@REFERER@) => snsports working now
+  * change: change referer in case of redirect
+  You need the current version of librtmp. See http://wiki.xbmc.org/index.php?title=librtmp 
+
 V1.8.1:
   * further refactoring
   * more precise parsing error messages
