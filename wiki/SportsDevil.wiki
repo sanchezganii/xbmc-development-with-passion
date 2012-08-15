@@ -51,7 +51,7 @@
 <br>
 <br>
 ==Requirements==
-Copy newest librtmp.dll to xbmc/system/players/dvdplayer (See [http://wiki.xbmc.org/index.php?title=Librtmp this page] for more info
+Copy newest librtmp.dll to xbmc/system/players/dvdplayer (See [http://wiki.xbmc.org/index.php?title=Librtmp this page] for further information / compiled versions for your OS)
 
 External players needed for:
   <ul>
