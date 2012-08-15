@@ -9,6 +9,7 @@ sys.path.append(
 
 
 import common
+from common import Paths
 import utils.fileUtils as fu
 from utils.regexUtils import findall
 
@@ -19,7 +20,7 @@ class CustomReplacements(object):
     def __init__(self):
 
         self.simpleScheme = {'(@PLATFORM@)':    os.environ.get('OS'),
-                             '(@CURRENT_URL@)': fu.getFileContent(os.path.join(common.Paths.cacheDir, 'lasturl')),
+                             '(@CURRENT_URL@)': fu.getFileContent(os.path.join(Paths.cacheDir, 'lasturl')),
                              '(@LANGUAGE@)':    self.languageShortName(common.language)
                              }
 
@@ -47,7 +48,7 @@ class CustomReplacements(object):
                         data = data.replace(idat[0],'')
                         continue
                     filename = idat[1]
-                    pathImp = os.path.join(common.Paths.modulesDir, filename)
+                    pathImp = os.path.join(Paths.modulesDir, filename)
                     if not os.path.exists(pathImp):
                         pathImp = os.path.join(pathToImports, filename)
                         if not (os.path.exists(pathImp)):
@@ -102,7 +103,7 @@ class CustomReplacements(object):
                 catcherName = ps.pop(0).strip()
 
                 # import catcher file and insert parameters
-                pathImp = os.path.join(common.Paths.catchersDir, catcherName + '.txt')
+                pathImp = os.path.join(Paths.catchersDir, catcherName + '.txt')
                 if not (os.path.exists(pathImp)):
                     common.log('Skipped Catcher: ' + catcherName)
                     continue
