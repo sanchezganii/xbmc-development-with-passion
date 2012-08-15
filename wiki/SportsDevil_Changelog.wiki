@@ -12,6 +12,7 @@ V1.8.1.1:
   * change: change referer in case of redirect
   You need the current version of librtmp. See http://wiki.xbmc.org/index.php?title=librtmp 
 
+<br>
 V1.8.1:
   * further refactoring
   * more precise parsing error messages
