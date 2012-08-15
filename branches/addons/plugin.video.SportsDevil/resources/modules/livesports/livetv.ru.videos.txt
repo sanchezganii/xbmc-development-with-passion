@@ -49,6 +49,10 @@ item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=meevos&c=([^&]
 item_order=video
 @CATCH(meevos,video)@
 ########################################################
+item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=sawlive&c=([^&]+)[^"]*">
+item_order=video
+@CATCH(sawlive,video)@
+########################################################
 item_infos=href="(http://www\d*.livetv.ru)?(/webplayer\d*.php\?t=mms[^&]*&c=([^&]+)[^"]*)">
 item_order=prefix.tmp|link|channel
 item_skill=rss
@@ -244,6 +248,10 @@ item_order=video
 item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=castalba&c=([^&]+)[^"]*">
 item_order=video
 @CATCH(castalba,video)@
+########################################################
+item_infos=href="(?:http://www\d*.livetv.ru)?/webplayer\d*.php\?t=vipi&c=([^&]+)[^"]*">
+item_order=video
+@CATCH(vipi,video)@
 ########################################################
 item_infos=href="(http://www\d*.livetv.ru)?(/webplayer\d*.php\?t=swf&[^"]+)"
 item_order=prefix.tmp|link

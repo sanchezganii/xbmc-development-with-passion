@@ -1,11 +1,7 @@
 # -*- coding: latin-1 -*-
-import sys
-import os.path
+
 import urllib
 import re, datetime
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
 import common

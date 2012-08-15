@@ -1,4 +1,7 @@
+import sys
 import string
+import urllib
+
 
 class CListItem(object):
     
@@ -37,18 +40,8 @@ class CListItem(object):
     
 
 
+
 # STATIC FUNCTIONS
-
-import sys
-import os.path
-import urllib
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-
-
-from utils import encodingUtils as enc
-
 
 def create():
     return CListItem()
@@ -61,13 +54,13 @@ def toUrl(item):
         if info_name != 'url' and not info_name.endswith('.tmp'):
             
             info_value = item[info_name]
-            value = enc.smart_unicode(info_value)
+            value = smart_unicode(info_value)
             try:
                 value = urllib.quote_plus(value.encode('utf-8'))
             except:
                 sys.exc_clear()
 
-            keyValPair = enc.smart_unicode(info_name) + ':' + value
+            keyValPair = smart_unicode(info_name) + ':' + value
             params += '&' + keyValPair
             
         params = params.lstrip('&')
@@ -75,7 +68,7 @@ def toUrl(item):
     # URL
     url = item['url']
     try:
-        url = enc.smart_unicode(urllib.quote_plus(url))
+        url = smart_unicode(urllib.quote_plus(url))
     except:
         sys.exc_clear()
     params += '&url:' + url
@@ -86,7 +79,7 @@ def toUrl(item):
 def fromUrl(url):
     item = CListItem()
     if url.find('&') == -1:
-        item['url'] = enc.clean_safe(url)
+        item['url'] = smart_unicode(url)
         return item
 
     keyValPairs = url.split('&')
@@ -95,3 +88,25 @@ def fromUrl(url):
             key, val = keyValPair.split(':',1)
             item[key] = urllib.unquote_plus(val)
     return item
+
+
+def smart_unicode(s):
+    if not s:
+        return ''
+    try:
+        if not isinstance(s, basestring):
+            if hasattr(s, '__unicode__'):
+                s = unicode(s)
+            else:
+                s = unicode(str(s), 'UTF-8')
+        elif not isinstance(s, unicode):
+            s = unicode(s, 'UTF-8')
+    except:
+        if not isinstance(s, basestring):
+            if hasattr(s, '__unicode__'):
+                s = unicode(s)
+            else:
+                s = unicode(str(s), 'ISO-8859-1')
+        elif not isinstance(s, unicode):
+            s = unicode(s, 'ISO-8859-1')
+    return s
