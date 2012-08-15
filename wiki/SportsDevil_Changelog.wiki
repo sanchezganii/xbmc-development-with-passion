@@ -9,6 +9,7 @@ V1.8.1:
   * some new icons, some icons sorted out
   * sports icons moved to subfolder
 
+<br>
 V1.8:
 
   * almost completely refactored / restructured / reorganized
@@ -18,6 +19,7 @@ V1.8:
   * new: fcast, vivocast, yourlivetv
   * fixed some bugs and sites (lshunter still not working)
 
+<br>
 V1.7.6:
   * merged fixed / new streamers of al101 (thanks again Smile):
   * New: BLive, Casti, FlashWiz, LiveAll, Sike, Stream4u, StreamAll, StreamGenie and Vcaster.
@@ -25,6 +27,7 @@ V1.7.6:
   * fixed streamer 04stream (responsible for "Unkown URL Type: http://www.TheFirstRow.EU.")
   * added site snsports.tv in tv section (thanks to k1m0s)
 
+<br>
 V1.7.5:
   Thanks to al101
   Merged his works.
@@ -46,18 +49,22 @@ V1.7.5:
     * limev
     * ilive 
 
+<br>
 V1.7.4.4
   * FIX: firstrowsports.eu (new url) THX to jakeculpin
   * FIX: 04stream: new url of firstrowsports as referrer
   * CHG: xsopcast will be used automatically on linux (xsopcast must be installed) THX to ecinema
 
+<br>
 V1.7.4.3.1:
   * quick fix for streamer buzzin (thanks to k1m0s for his PM)
 
+<br>
 V1.7.4.3:
   * fixed coolsportz.de aka coolsport.tv
   * some schedule entries are not shown, but I can't find the mistake in my regular expression. maybe someone else does...
 
+<br>
 V1.7.4.2:
   * fixed rojadirecta.me:
     * recognition of p2p streams
