@@ -16,8 +16,8 @@ from entities.CRuleItem import CRuleItem
 
 
 
-import cfg.customReplacements as cr
-import cfg.customConversions as cc
+import customReplacements as cr
+import customConversions as cc
 
 from utils import encodingUtils as enc
 from utils import decryptionUtils as crypt
