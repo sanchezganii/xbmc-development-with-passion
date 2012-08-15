@@ -51,10 +51,10 @@ def replaceFromDict(dictFilePath, wrd):
                     words.append(replWord)
                     if word.find(' ') != -1:
                         newword = word.replace(replWord,index)
-        
+
                 if (word in words) or (word == index):
                     return index
-        
+
             if newword != '' and newword != word:
                 return newword
     except:
@@ -62,7 +62,7 @@ def replaceFromDict(dictFilePath, wrd):
 
     return word
 
-    
+
 def select(params,src):
     paramArr = __parseParams(params)
     title = paramArr[0]
@@ -73,7 +73,7 @@ def select(params,src):
 
 def convDate(params, src):
     language = common.language
-    
+
     if params.find("','") != -1:
         paramArr = __parseParams(params)
         oldfrmt = paramArr[0]
@@ -183,20 +183,22 @@ def replaceRegex(params, src):
 
 def ifEmpty(params, src):
     paramArr = __parseParams(params)
-    
+
     paramSource = paramArr[0].replace('%s', src)
     paramTrue = paramArr[1].replace('%s', src)
     paramFalse = paramArr[2].replace('%s', src)
-    
+
     if paramSource == '':
         return paramTrue
     else:
         return paramFalse
-    
-    
-def isEqual(params, src):
+
+
+def isEqual(item, params, src):
     paramArr = __parseParams(params)
     paramSource = paramArr[0].replace('%s', src)
+    if paramSource.startswith('@') and paramSource.endswith('@'):
+        paramSource = item.getInfo(paramSource.strip('@'))
     paramComp = paramArr[1].replace('%s', src)
     paramTrue = paramArr[2].replace('%s', src)
     paramFalse = paramArr[3].replace('%s', src)
@@ -212,7 +214,7 @@ def ifExists(params, src):
     paramSource = paramArr[0].replace('%s', src)
     paramTrue = paramArr[1].replace('%s', src)
     paramFalse = paramArr[2].replace('%s', src)
-    
+
     if isOnline(paramSource):
         return paramTrue
     else:

@@ -27,7 +27,6 @@ if REMOTE_DBG:
 class Main:
   def __init__(self):
     self.pDialog = None
-    self.curr_file = ''
     self.run()
 
   def run(self):

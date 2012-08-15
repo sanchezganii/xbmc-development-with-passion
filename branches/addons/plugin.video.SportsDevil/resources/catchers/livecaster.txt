@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=livecaster - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://cdn.livecaster.tv/live/_definst_/%s.stream swfUrl=http://www.livecaster.tv/player/player.swf pageUrl=http://www.livecaster.tv live=true swfVfy=1
