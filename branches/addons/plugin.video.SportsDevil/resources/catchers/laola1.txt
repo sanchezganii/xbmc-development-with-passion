@@ -8,7 +8,7 @@ item_info_build=http://streamaccess.laola1.tv/flash/1/%s
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*auth="([^"]+)"\s*url="([^"]+)"\s*stream="([^"]+)".*?aifp="([^"]+)".*','@CURRENT_URL@','token|rtmp|file|suffix')
+item_info_convert=getInfo('%s','.*auth="([^"]+)"\s*url="([^"]+)"\s*stream="([^"]+)".*?aifp="([^"]+)".*','@REFERER@','token|rtmp|file|suffix')
 item_info_build=%s
 
 item_info_name=tmpRtmp

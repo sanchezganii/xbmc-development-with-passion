@@ -320,13 +320,22 @@ def clean1(s): # remove &XXX;
 def clean2(s): # remove \\uXXX
     pat = re.compile(r'\\u(....)')
     def sub(mo):
-        return unichr(int(mo.group(1), 16))
-    return pat.sub(sub, smart_unicode(s))
+        try:
+            return unichr(int(mo.group(1), 16))
+        except:
+            return mo
+    try:
+        return pat.sub(sub, smart_unicode(s))
+    except:
+        return s
 
 def clean3(s): # remove &#XXX;
     pat = re.compile(r'&#(\d+);')
     def sub(mo):
-        return unichr(int(mo.group(1)))
+        try:
+            return unichr(int(mo.group(1)))
+        except:
+            return mo
     return decode(pat.sub(sub, smart_unicode(s)))
 
 def decode(s):

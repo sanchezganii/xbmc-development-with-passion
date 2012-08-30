@@ -15,7 +15,6 @@ from entities.CListItem import CListItem
 from entities.CRuleItem import CRuleItem
 
 
-
 import customReplacements as cr
 import customConversions as cc
 
@@ -24,7 +23,7 @@ from utils import decryptionUtils as crypt
 from utils import datetimeUtils as dt
 
 from utils.webUtils import get_redirected_url
-from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension, setFileContent
+from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension
 from utils.scrapingUtils import findVideoFrameLink
 
 
@@ -42,16 +41,6 @@ class ParsingResult(object):
 
 class Parser(object):
 
-    def __setReferer(self, url):
-        setFileContent(os.path.join(common.Paths.cacheDir, 'lastReferer'), url)
-
-    def __getReferer(self):
-        result = getFileContent(os.path.join(common.Paths.cacheDir, 'lastReferer'))
-        if result:
-            return result
-        else:
-            return ''
-
     """
      returns a list of items
     """
@@ -62,17 +51,25 @@ class Parser(object):
 
         successfullyScraped = True
 
-        if ext == 'cfg':
-            tmpList = self.__loadLocal(url, lItem)
-            if tmpList and tmpList.start != '' and len(tmpList.rules) > 0:
-                lItem['url'] = tmpList.start
-                successfullyScraped = self.__loadRemote(tmpList, lItem)
-        elif cfg:
+        if lItem['catcher']:
+            catcher = lItem['catcher']
+            cfg = os.path.join(common.Paths.catchersDir, '__' + catcher + '.cfg')
             tmpList = self.__loadLocal(cfg, lItem)
             if tmpList and len(tmpList.rules) > 0:
                 successfullyScraped = self.__loadRemote(tmpList, lItem)
         else:
-            return ParsingResult(ParsingResult.Code.CFGSYNTAX_INVALID, None)
+            if ext == 'cfg':
+                tmpList = self.__loadLocal(url, lItem)
+                if tmpList and tmpList.start != '' and len(tmpList.rules) > 0:
+                    lItem['url'] = tmpList.start
+                    successfullyScraped = self.__loadRemote(tmpList, lItem)
+            elif cfg:
+                tmpList = self.__loadLocal(cfg, lItem)
+                if tmpList and len(tmpList.rules) > 0:
+                    successfullyScraped = self.__loadRemote(tmpList, lItem)
+        
+            
+
 
         # autoselect
         if tmpList.skill.find('autoselect') != -1 and len(tmpList.items) == 1:
@@ -132,12 +129,15 @@ class Parser(object):
                         try:
                             cfg = findInSubdirectory(filename, common.Paths.favouritesFolder)
                         except:
-                            common.log('File not found: ' + filename)
-                            return None
+                            try:
+                                cfg = findInSubdirectory(filename, common.Paths.customModulesDir)
+                            except:
+                                common.log('File not found: ' + filename)
+                                return None
 
         #load file and apply parameters
         data = getFileContent(cfg)
-        data = cr.CustomReplacements().replace(os.path.dirname(cfg), data, params)
+        data = cr.CustomReplacements().replace(os.path.dirname(cfg), data, lItem, params)
 
         #log
         msg = 'Local file ' +  filename + ' opened'
@@ -176,7 +176,10 @@ class Parser(object):
 
                 # try to find items in html source code
                 if count == 0:
-                    data = common.getHTML(inputList.curr_url, inputList.reference, ignoreCache, demystify)
+                    referer = ''
+                    if lItem['referer']:
+                        referer = lItem['referer']
+                    data = common.getHTML(inputList.curr_url, referer, ignoreCache, demystify)
                     if data == '':
                         return False
 
@@ -205,7 +208,7 @@ class Parser(object):
                     else:
                         common.log('    -> Redirect: ' + red)
                         inputList.curr_url = red
-                        common.log(str(len(inputList.items)) + ' items ' + lItem['cfg'] + ' -> ' + red)
+                        common.log(str(len(inputList.items)) + ' items ' + inputList.cfg + ' -> ' + red)
                         startUrl = red
                         if lItem['referer']:
                             lItem['referer'] = red
@@ -245,7 +248,8 @@ class Parser(object):
 
         items = []
         tmp = None
-
+        hasOwnCfg = False
+        
         for m in data:
             if m and m[0] != '#':
                 index = m.find('=')
@@ -267,13 +271,12 @@ class Parser(object):
                         tmpList.sort = value
                     elif key == 'skill':
                         tmpList.skill = value
-                    elif key == 'header':
-                        index = value.find('|')
-                        tmpList.reference = value[:index]
-                        tmpList.content = value[index+1:]
+                    elif key == 'catcher':
+                        tmpList.catcher = value
 
                     elif key == 'item_infos':
                         rule_tmp = CRuleItem()
+                        hasOwnCfg = False
                         rule_tmp.infos = value
                     elif key == 'item_order':
                         rule_tmp.order = value
@@ -287,6 +290,8 @@ class Parser(object):
                         if tmpkey == '_name':
                             info_tmp = CItemInfo()
                             info_tmp.name = value
+                            if value == 'cfg':
+                                hasOwnCfg = True
                         elif tmpkey == '_from':
                             info_tmp.src = value
                         elif tmpkey == '':
@@ -301,11 +306,22 @@ class Parser(object):
 
                     elif key == 'item_url_build':
                         rule_tmp.url_build = value
-                        if tmpList.skill.find('referer') > -1:
+                        
+                        if tmpList.catcher != '':
+                            
                             refInf = CItemInfo()
                             refInf.name = 'referer'
                             refInf.build = value
+                            
                             rule_tmp.info_list.append(refInf)
+                            
+                            if not hasOwnCfg:
+                                refInf = CItemInfo()
+                                refInf.name = 'catcher'
+                                refInf.build = tmpList.catcher
+                                
+                                rule_tmp.info_list.append(refInf)
+    
                         tmpList.rules.append(rule_tmp)
 
 
@@ -321,8 +337,11 @@ class Parser(object):
                         tmp['url'] = value
                         if lItem:
                             tmp.merge(lItem)
-                        if tmpList.skill.find('referer') > -1:
+                            
+                        if tmpList.catcher != '':
                             tmp['referer'] = value
+                            tmp['catcher'] = tmpList.catcher
+                            
                         tmp['definedIn'] = cfgFile
                         items.append(tmp)
                         tmp = None
@@ -335,10 +354,7 @@ class Parser(object):
         return tmpList
 
 
-    def __parseHtml(self, url, data, rules, skills, definedIn, lItem):
-
-        if lItem['referer']:
-            self.__setReferer(lItem['referer'])
+    def __parseHtml(self, url, data, rules, skills, definedIn, lItem):          
 
         items = []
 
@@ -346,6 +362,10 @@ class Parser(object):
             revid = re.compile(item_rule.infos, re.IGNORECASE + re.DOTALL + re.MULTILINE)
             for reinfos in revid.findall(data):
                 tmp = CListItem()
+                
+                if lItem['referer']:
+                    tmp['referer'] = lItem['referer']
+                    
                 if item_rule.order.find('|') != -1:
                     tmp.infos_names = item_rule.order.split('|')
                     tmp.infos_values = list(reinfos)
@@ -376,7 +396,7 @@ class Parser(object):
                         else:
                             src = tmp[info.src]
 
-                        if src and info.convert != []:
+                        if src and info.convert != []:                               
                             src = self.__parseCommands(tmp, src, info.convert)
                             if isinstance(src, dict):
                                 for dKey in src:
@@ -422,6 +442,12 @@ class Parser(object):
             pComm = parseCommand(convCommand)
             command = pComm["command"]
             params = pComm["params"]
+
+            if params.find('@REFERER@'):
+                referer = item['referer']
+                if not referer:
+                    referer = ''
+                params = params.replace('@REFERER@', referer)
 
             if command == 'convDate':
                 src = cc.convDate(params, src)
@@ -478,9 +504,6 @@ class Parser(object):
                 src = cc.parseText(params, src)
 
             elif command == 'getInfo':
-                if params.find('@REFERER@') > -1:
-                    params = params.replace('@REFERER@', self.__getReferer())
-
                 src = cc.getInfo(item, params, src)
 
             elif command == 'decodeBase64':
