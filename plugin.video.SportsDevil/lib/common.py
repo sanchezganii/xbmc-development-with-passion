@@ -119,7 +119,7 @@ class Paths:
     pluginDataDir = xbmc.translatePath('special://profile/addon_data/plugin.video.SportsDevil')
     favouritesFolder = os.path.join(pluginDataDir, 'favourites')
     favouritesFile = os.path.join(favouritesFolder, 'favourites.cfg')
-
+    customModulesDir = os.path.join(pluginDataDir, 'custom')
 
 
 
