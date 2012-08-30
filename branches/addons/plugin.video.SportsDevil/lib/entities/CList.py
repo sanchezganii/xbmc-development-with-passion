@@ -8,11 +8,9 @@ class CList(object):
         self.sort = ''
         self.cfg = ''
         self.skill = ''
-        self.reference = ''     # for HTTP Header
-        self.content = ''       # -"-
+        self.catcher = ''
         self.items = []
         self.rules = []
-        self.curr_url = ''
 
     def getVideos(self):
         return filter(lambda x: x['type'] == 'video', self.items)

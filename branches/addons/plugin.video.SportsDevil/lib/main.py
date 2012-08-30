@@ -26,6 +26,7 @@ from downloader import Downloader
 from favouritesManager import FavouritesManager
 
 import entities.CListItem as ListItem
+from utils.fileUtils import getFileContent, setFileContent
 
 
 class Mode:
@@ -53,9 +54,12 @@ class Main:
         self.handle = int(sys.argv[1])
 
         if not os.path.exists(common.Paths.pluginDataDir):
-            os.makedirs(common.Paths.pluginDataDir)
+            os.makedirs(common.Paths.pluginDataDir, 0777)
 
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
+
+        if not os.path.exists(common.Paths.customModulesDir):
+            os.makedirs(common.Paths.customModulesDir, 0777)
 
         self.parser = Parser()
         self.currentlist = None
@@ -74,7 +78,7 @@ class Main:
 
         title = videoItem['videoTitle']
         if title:
-            listitem.setInfo('video', {'title': title})
+            listitem.setInfo('video', {'title': enc.clean_safe(title)})
 
         if not isAutoplay:
             xbmcplugin.setResolvedUrl(self.handle, True, listitem)
@@ -192,6 +196,14 @@ class Main:
             tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark.png')
             tmp['url'] = str(common.Paths.favouritesFile)
             tmpList.items.insert(0, tmp)
+            
+            customModules = self.getCustomModules()
+            if customModules:
+                tmp = ListItem.create()
+                tmp['title'] = 'Custom Modules'
+                tmp['type'] = 'rss'
+                tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
+                tmpList.items.insert(0, tmp)
 
         # if it's the favourites menu, add item 'Add item'
         elif url == common.Paths.favouritesFile:
@@ -225,6 +237,19 @@ class Main:
         common.log('End of directory')
         return tmpList
 
+
+    def getCustomModules(self):
+        customDir = common.Paths.customModulesDir
+        txt = ''
+        for root, dirs, files in os.walk(customDir , topdown = False):
+            for name in files:
+                if name.endswith('.module'):
+                    txt += getFileContent(os.path.join(root, name)) + '\n'
+        if txt != '':
+            setFileContent(os.path.join(common.Paths.customModulesDir, 'custom.cfg'), txt)
+            return True
+        else:
+            return False
 
     def createXBMCListItem(self, item):
         title = enc.clean_safe(item['title'])
@@ -288,7 +313,7 @@ class Main:
 
         infoLabels = {}
         for video_info_name in item.infos_names:
-            infoLabels[video_info_name] = item[video_info_name]
+            infoLabels[video_info_name] = enc.clean_safe(item[video_info_name])
         infoLabels['title'] = title
 
         liz.setInfo('video', infoLabels)
@@ -340,6 +365,9 @@ class Main:
         liz = self.createXBMCListItem(lItem)
 
         m_type = lItem['type']
+        if not m_type:
+            m_type = 'rss'
+        
         if m_type == 'video':
             u = self.base + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
             if lItem['IsDownloadable']:
@@ -360,7 +388,7 @@ class Main:
     def clearCache(self):
         cacheDir = common.Paths.cacheDir
         if not os.path.exists(cacheDir):
-            os.mkdir(cacheDir)
+            os.mkdir(cacheDir, 0777)
             common.log('Cache directory created' + str(cacheDir))
         else:
             for root, dirs, files in os.walk(cacheDir , topdown = False):

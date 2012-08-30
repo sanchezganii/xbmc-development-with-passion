@@ -8,7 +8,12 @@ item_info_build=http://www.fcast.tv/embed.php?live=%s&vw=600&vh=400
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*'flashplayer':\s*"([^"]+)".*?'file':\s*'([^']+)'.*?'streamer':\s*'([^']+)'.*','@CURRENT_URL@','swf|file|rtmp')
+item_info_convert=getInfo('%s','.*SWFObject\(['"]([^'"]+)['"].*?['"]file['"],\s*['"]([^'"]+)['"].*?['"]streamer['"],\s*['"]([^'"]+)['"].*','','swf|file|rtmp.tmp')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','fcast.tv','fcast.tv:1935')
 item_info_build=%s
 
 item_info_name=url

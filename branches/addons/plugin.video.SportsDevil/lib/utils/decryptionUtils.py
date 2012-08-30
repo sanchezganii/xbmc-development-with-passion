@@ -24,6 +24,9 @@ def encryptJimey(data):
 
 def doDemystify(data):
 
+    # replace NUL
+    data = data.replace('\0','')
+
     # unescape
     r = re.compile('unescape\(\s*["\']([^\'"]+)["\']')
     gs = r.findall(data)

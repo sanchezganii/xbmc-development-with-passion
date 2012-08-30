@@ -149,7 +149,7 @@ class CustomReplacements(object):
 
 
 
-    def replace(self, pathToImports, data, params=[]):
+    def replace(self, pathToImports, data, lItem, params=[]):
         data = self.__replaceParameters(data, params)
         data = self.__replaceConditions(data)
         data = self.__replaceImports(pathToImports, data)
