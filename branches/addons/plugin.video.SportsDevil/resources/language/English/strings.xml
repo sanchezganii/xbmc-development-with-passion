@@ -4,9 +4,7 @@
   <string id="30001">XBMC Media Center</string>
   <string id="30002">Disable disclaimer</string>
   <string id="30003">Player type</string>
-  <string id="30004">Auto</string>
-  <string id="30005">MPlayer</string>
-  <string id="30006">DVDPlayer</string>
+  
   <string id="30007">Save video</string>
   <string id="30008">Download path</string>
   <string id="30009">Ask for download before playing video</string>
@@ -19,7 +17,9 @@
   <string id="30016">High</string>
   <string id="30017">Select download path:</string>
   <string id="30018">Download modules...</string>
-      
+  
+
+        
   <string id="30050">Downloading video...</string>
   <string id="30051">Please wait.</string>
   <string id="30052">Do you want to download this video?</string>
