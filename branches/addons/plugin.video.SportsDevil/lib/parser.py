@@ -188,14 +188,21 @@ class Parser(object):
                         msg += ' (demystified)'
                     common.log(msg)
 
+                    section = ''
                     if inputList.section != '':
-                        p = re.compile(inputList.section, re.IGNORECASE + re.DOTALL + re.UNICODE)
+                        section = inputList.section
+                    elif lItem['section']:
+                        section = lItem['section']
+                        
+                    if section != '':
+                        p = re.compile(section, re.IGNORECASE + re.DOTALL + re.UNICODE)
                         m = p.search(data)
                         if m:
                             data = m.group(0)
                         else:
-                            common.log('    -> Section could not be found:' + inputList.section)
+                            common.log('    -> Section could not be found:' + section)
 
+                    
                     items = self.__parseHtml(inputList.curr_url, data, inputList.rules, inputList.skill, inputList.cfg, lItem)
                     count = len(items)
                     common.log('    -> ' + str(count) + ' item(s) found')
@@ -436,8 +443,10 @@ class Parser(object):
                 command["command"] = txt[0:txt.find("(")]
                 command["params"] = txt[len(command["command"]) + 1:-1]
             return command
-
-        src = src.encode('utf-8')
+        try:
+            src = src.encode('utf-8')
+        except:
+            pass
         for convCommand in convCommands:
             pComm = parseCommand(convCommand)
             command = pComm["command"]
