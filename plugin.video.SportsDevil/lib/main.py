@@ -69,6 +69,21 @@ class Main:
         paramstring = sys.argv[2]
         self.run(paramstring)
 
+    def getPlayerType(self):
+        sPlayerType = common.getSetting('playerType')
+
+        if (sPlayerType == '0'):
+            return xbmc.PLAYER_CORE_AUTO
+
+        if (sPlayerType == '1'):
+            return xbmc.PLAYER_CORE_MPLAYER
+
+        if (sPlayerType == '2'):
+            return xbmc.PLAYER_CORE_DVDPLAYER        
+        
+        # PLAYER_CORE_AMLPLAYER
+        if (sPlayerType == '3'):
+            return 5
 
     def playVideo(self, videoItem, isAutoplay = False):
         if not videoItem:
@@ -84,7 +99,7 @@ class Main:
             xbmcplugin.setResolvedUrl(self.handle, True, listitem)
         else:
             url = urllib.unquote_plus(videoItem['url'])
-            xbmc.Player(xbmc.PLAYER_CORE_AUTO).play(url, listitem)
+            xbmc.Player(self.getPlayerType()).play(url, listitem)
 
 
     def downloadVideo(self, url, title):

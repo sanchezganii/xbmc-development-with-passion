@@ -1,8 +1,9 @@
 <settings>
     <category label="General">
+    	<setting id="playerType" type="enum" values="Auto|MPlayer|DVDPlayer|AMLPlayer" label="30003" default="0"/> 
         <setting id="autoplay" type="bool" label="30270" default="true"/>
         <setting type="sep" />
-        <setting id="download_path" type="folder" enable="eq(-1,true)" source="video" label="30008" option="writeable" default=""/>
+        <setting id="download_path" type="folder" source="video" label="30008" option="writeable" default=""/>
     </category>
     <category label="Custom Modules">
         <setting id="customModules" type="action" action="RunScript($CWD/resources/scripts/downloadModules.py)" label="30018"/>
