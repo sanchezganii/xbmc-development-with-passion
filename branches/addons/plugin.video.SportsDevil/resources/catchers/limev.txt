@@ -4,6 +4,4 @@ item_info_build=LimeV - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://199.189.111.140:1935/live/_definst_/ playpath=%s swfurl=http://www.streamiton.tv/player/player.swf pageUrl=http://www.limev.com/embed.php?fileid=ersdsfererere
-#item_info_build=rtmpe://14.dnsalias.com/live/_definst_/ playpath=%s swfurl=http://www.limev.com/player-licensed.swf pageUrl=http://www.limev.com/embed.php?fileid=ersdsfererere
-
+item_info_build=rtmp://188.122.86.205:1935/live/_definst_/%s swfUrl=http://www.streamiton.tv/player/player.swf live=true pageUrl=http://www.limev.com/

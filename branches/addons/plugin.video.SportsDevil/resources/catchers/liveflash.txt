@@ -8,7 +8,7 @@ item_info_build=http://www.liveflash.tv/embedplayer/%s/1/640/460
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*SWFObject\("([^"]+\.swf)".*?["']id=(\d+)&s=([^&'"]+).*','@CURRENT_URL@','swf|id|channel')
+item_info_convert=getInfo('%s','.*SWFObject\("([^"]+\.swf)".*?["']id=(\d+)&s=([^&'"]+).*','@REFERER@','swf|id|channel')
 item_info_build=%s
 
 item_info_name=rtmp
