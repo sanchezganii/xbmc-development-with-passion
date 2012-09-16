@@ -6,10 +6,14 @@ item_info_name=pageUrl
 item_info_from=@PARAM1@
 item_info_build=http://www.hdmytv.com/channel.php?file=%s&width=640&height=460&autostart=true
 
-item_info_name=pageUrl.tmp
+item_info_name=pageUrl2
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*<iframe src="([^"]+)".*','@CURRENT_URL@')
+item_info_convert=getInfo('%s','.*<iframe src="([^"]+)".*','@REFERER@')
 item_info_convert=quote('%s')
+item_info_build=%s
+
+item_info_name=pageUrl.tmp
+item_info_from=pageUrl2
 item_info_convert=getInfo('%s','.*function getURL03.*?sUrl.*?'([^']+)'.*?cod1.*?'([^']+)'.*?cod2.*?'([^']+)'.*?SWFObject\('([^']+)'.*','@pageUrl@','sUrl|cod1|cod2|swf')
 item_info_build=%s
 
@@ -24,7 +28,7 @@ item_info_build=%s
 
 item_info_name=tmp
 item_info_from=query
-item_info_convert=getInfo('%s','.*"result1":"([^\"]+)","result2":"([^\"]+)".*','@REFERER@','file|rtmp.tmp')
+item_info_convert=getInfo('%s','.*"result1":"([^\"]+)","result2":"([^\"]+)".*','','file|rtmp.tmp')
 item_info_build=%s
 
 item_info_name=rtmp
