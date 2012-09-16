@@ -13,7 +13,7 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=rtmp.tmp
-item_info_convert=replace('%s','stream.castup.tv/redirect','159.253.131.94:1935/live')
+item_info_convert=replace('%s','stream.castup.tv','stream.castup.tv:1935')
 item_info_build=%s
 
 item_info_name=url

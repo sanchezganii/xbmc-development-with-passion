@@ -1,0 +1,18 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=%s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.eboundservices.com:8888/users/hamariweb/channels/%s_iframe.html','.*<iframe.*src="([^"]+)".*','@CURRENT_URL@')
+item_info_build=%s
+
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(\'([^\']+)\'.*?\'file\',\s*\'([^\']+)\'.*?\'streamer\',\s*\'([^\']+)\'.*','','swf|file|rtmp')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath='+ file + ' swfUrl=' + swf + ' live=true timeout=15 pageUrl=' + pageUrl
+item_info_build=%s

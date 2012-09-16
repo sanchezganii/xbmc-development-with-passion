@@ -4,7 +4,7 @@ item_info_build=Fcast - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.fcast.tv/embed.php?live=%s&vw=600&vh=400
+item_info_build=http://www.zstream.eu/embed.php?v=%s&vw=600&vh=450&video=0&domain=sportsembed.com
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -23,9 +23,9 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=rtmp.tmp
-item_info_convert=replace('%s','fcast.tv','fcast.tv:1935')
+item_info_convert=replace('%s','95.211.149.225','95.211.149.225:1935')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://www.zstream.eu' + swf + ' live=true pageUrl=' + pageUrl
 item_info_build=%s

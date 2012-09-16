@@ -18,13 +18,14 @@ from entities.CRuleItem import CRuleItem
 import customReplacements as cr
 import customConversions as cc
 
-from utils import encodingUtils as enc
+from utils import encodingUtils as enc, regexUtils
 from utils import decryptionUtils as crypt
 from utils import datetimeUtils as dt
 
 from utils.webUtils import get_redirected_url
 from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension
-from utils.scrapingUtils import findVideoFrameLink
+from utils.scrapingUtils import findVideoFrameLink, findContentRefreshLink, findRTMP, findJS, findPHP, getHostName, findEmbedPHPLink
+from common import getHTML
 
 
 class ParsingResult(object):
@@ -87,17 +88,18 @@ class Parser(object):
             return ParsingResult(ParsingResult.Code.WEBREQUEST_FAILED, None)
 
         # Remove duplicates
-        urls = []
-        for i in range(len(tmpList.items)-1,-1,-1):
-            item = tmpList.items[i]
-            tmpUrl = item['url']
-            tmpCfg = item['cfg']
-            if not tmpCfg:
-                tmpCfg = ''
-            if not urls.__contains__(tmpUrl + '|' + tmpCfg):
-                urls.append(tmpUrl + '|' + tmpCfg)
-            else:
-                tmpList.items.remove(item)
+        if tmpList.skill.find('allowDuplicates') == -1:
+            urls = []
+            for i in range(len(tmpList.items)-1,-1,-1):
+                item = tmpList.items[i]
+                tmpUrl = item['url']
+                tmpCfg = item['cfg']
+                if not tmpCfg:
+                    tmpCfg = ''
+                if not urls.__contains__(tmpUrl + '|' + tmpCfg):
+                    urls.append(tmpUrl + '|' + tmpCfg)
+                else:
+                    tmpList.items.remove(item)
 
         return ParsingResult(ParsingResult.Code.SUCCESS, tmpList)
 
@@ -188,24 +190,49 @@ class Parser(object):
                         msg += ' (demystified)'
                     common.log(msg)
 
-                    section = ''
+                    
                     if inputList.section != '':
                         section = inputList.section
-                    elif lItem['section']:
-                        section = lItem['section']
+                        data = self.__getSection(data, section)
                         
-                    if section != '':
-                        p = re.compile(section, re.IGNORECASE + re.DOTALL + re.UNICODE)
-                        m = p.search(data)
-                        if m:
-                            data = m.group(0)
-                        else:
-                            common.log('    -> Section could not be found:' + section)
-
+                    if lItem['section']:
+                        section = lItem['section']
+                        data = self.__getSection(data, section)
+                                                
                     
                     items = self.__parseHtml(inputList.curr_url, data, inputList.rules, inputList.skill, inputList.cfg, lItem)
                     count = len(items)
                     common.log('    -> ' + str(count) + ' item(s) found')
+
+                # find rtmp stream
+                if count == 0:
+                    item = self.__findRTMP(data, startUrl, lItem)
+                    if item:
+                        items = []
+                        items.append(item)
+                        count = 1
+
+                # find embedding javascripts
+                if count == 0:
+                    item = findJS(data)
+                    if item:
+                        firstJS = item[0]
+                        streamId = firstJS[0]
+                        jsUrl = firstJS[1]
+                        streamerName = getHostName(jsUrl)
+                        jsSource = getHTML(jsUrl, startUrl, True, False)
+                        phpUrl = findPHP(jsSource, streamId)
+                        if phpUrl:
+                            data = getHTML(phpUrl, startUrl, True, True)
+                            item = self.__findRTMP(data, phpUrl, lItem)
+                            if item:
+                                
+                                if streamerName:
+                                    item['title'] = item['title'].replace('RTMP', streamerName)
+                                
+                                items = []
+                                items.append(item)
+                                count = 1
 
                 # find redirects
                 if count == 0:
@@ -235,13 +262,44 @@ class Parser(object):
         return True
 
 
+    def __findRTMP(self, data, pageUrl, lItem):
+        rtmp = findRTMP(pageUrl, data)
+        if rtmp:
+            item = CListItem()
+            item['title'] = 'RTMP* - ' + rtmp[1]
+            item['type'] = 'video'
+            item['url'] = rtmp[0] + ' playPath=' + rtmp[1] + ' swfUrl=' + rtmp[2] +' swfVfy=1 live=true pageUrl=' + pageUrl
+            item.merge(lItem)
+            return item
+        
+        return None
+
+
+    def __getSection(self, data, section):
+        p = re.compile(section, re.IGNORECASE + re.DOTALL + re.UNICODE)
+        m = p.search(data)
+        if m:
+            return m.group(0)
+        else:
+            common.log('    -> Section could not be found:' + section)
+            return data
+
+
     def __findRedirect(self, page, referer='', demystify=False):
         data = common.getHTML(page, referer = referer, demystify = demystify)
 
         link = findVideoFrameLink(page, data)
         if link:
             return link
-
+        else:
+            link = findContentRefreshLink(data)
+            if link:
+                return link
+            else:
+                link = findEmbedPHPLink(data)
+                if link:
+                    return link
+            
         if not demystify:
             return self.__findRedirect(page, referer, True)
 
@@ -338,8 +396,6 @@ class Parser(object):
                         tmp['title'] = value
                         if tmpList.skill.find('videoTitle') > -1:
                             tmp['videoTitle'] = value
-                    elif key == 'type':
-                        tmp['type'] = value
                     elif key == 'url':
                         tmp['url'] = value
                         if lItem:
@@ -347,12 +403,15 @@ class Parser(object):
                             
                         if tmpList.catcher != '':
                             tmp['referer'] = value
-                            tmp['catcher'] = tmpList.catcher
+                            if not hasOwnCfg:
+                                tmp['catcher'] = tmpList.catcher
                             
                         tmp['definedIn'] = cfgFile
                         items.append(tmp)
                         tmp = None
                     elif tmp != None:
+                        if key == 'cfg':
+                            hasOwnCfg = True
                         tmp[key] = value
 
 
