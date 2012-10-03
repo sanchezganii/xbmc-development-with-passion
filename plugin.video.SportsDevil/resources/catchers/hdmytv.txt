@@ -28,7 +28,7 @@ item_info_build=%s
 
 item_info_name=tmp
 item_info_from=query
-item_info_convert=getInfo('%s','.*"result1":"([^\"]+)","result2":"([^\"]+)".*','','file|rtmp.tmp')
+item_info_convert=getInfo('%s','.*"result1":"([^\"]+)","result2":"([^\"]+)".*','@pageUrl2@','file|rtmp.tmp')
 item_info_build=%s
 
 item_info_name=rtmp

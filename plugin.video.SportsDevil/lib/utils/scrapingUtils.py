@@ -12,19 +12,23 @@ def findJS(data):
     regex = "(?:java)?script[^<]+" + idName + "\s*=\s*[\"']([^\"']+)[\"'][^<]*</script\s*>[^<]*<script[^<]*src=[\"']" + jsName + "[\"']"
     
     jscript = re.findall(data, regex)
-    return jscript
+    if jscript:
+        jscript = filter(lambda x: x[1].find('twitter') == -1, jscript)
+        return jscript
+    
+    return None
 
 
 def findPHP(data, streamId):
-    regex = "document.write\('.*?src=\"(.*?.php\?.*?=).*?\)"
+    regex = "document.write\('.*?src=['\"]*(.*?.php\?.*?=).*?['\" ]*.*?\)"
     php = re.findall(data, regex)
     if php:
         return php[0] + streamId
     return None
 
 def findRTMP(url, data):
-    if data.lower().find('rtmp') == -1:
-        return None
+    #if data.lower().find('rtmp') == -1:
+    #    return None
     try:
         text = str(data)
     except:
@@ -144,9 +148,20 @@ def findContentRefreshLink(data):
 
 def findEmbedPHPLink(data):
     regex = '<script type="text/javascript" src="([^"]+\.php\?[^"]+)"\s*>\s*</script>'
+
     links = re.findall(data, regex)
     if links:
         return links[0]
+    
+    return None
+
+
+def findVCods(data):
+    regex = "function getURL03.*?sUrl.*?'([^']+)'.*?cod1.*?'([^']+)'.*?cod2.*?'([^']+)'.*?SWFObject\('([^']+)'"
+    vcods = re.findall(data, regex)
+    if vcods:
+        return vcods[0]
+    
     return None
         
 

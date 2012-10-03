@@ -17,7 +17,12 @@ item_info_convert=decodeBase64
 item_info_convert=debug
 item_info_build=%s
 
+item_info_name=swfUrl
+item_info_from=swf
+item_info_convert=replace('%s','http://mybcast.com/','')
+item_info_build=%s
+
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' token=' + token + ' swfVfy=1 live=true swfUrl=http://mybcast.com/' + swf + ' pageUrl=' + pageUrl 
+item_info_from=rtmp + ' playpath=' + file + ' token=' + token + ' swfVfy=1 live=true swfUrl=http://mybcast.com/' + swfUrl + ' pageUrl=' + pageUrl 
 item_info_build=%s
 
