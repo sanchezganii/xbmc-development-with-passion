@@ -2,6 +2,16 @@ item_info_name=title
 item_info_from=@PARAM1@
 item_info_build=LimeV - %s
 
-item_info_name=url
+item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=rtmp://188.122.86.205:1935/live/_definst_/%s swfUrl=http://www.streamiton.tv/player/player.swf live=true pageUrl=http://www.limev.com/
+item_info_build=http://www.limev.com/embed.php?fileid=%s&vw=700&vh=400
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\(['"]([^'"]+)['"].*?['"]file['"][,:]\s*['"]([^'"]+)['"].*?['"]streamer['"][,:]\s*['"]([^'"]+)['"].*','@REFERER@','swf|file|rtmp)
+item_info_build=%s
+
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=14 pageUrl=' + pageUrl
+item_info_build=%s

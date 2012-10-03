@@ -24,7 +24,7 @@ from utils import datetimeUtils as dt
 
 from utils.webUtils import get_redirected_url
 from utils.fileUtils import findInSubdirectory, getFileContent, getFileExtension
-from utils.scrapingUtils import findVideoFrameLink, findContentRefreshLink, findRTMP, findJS, findPHP, getHostName, findEmbedPHPLink
+from utils.scrapingUtils import findVideoFrameLink, findContentRefreshLink, findRTMP, findJS, findPHP, getHostName, findEmbedPHPLink, findVCods
 from common import getHTML
 
 
@@ -234,6 +234,35 @@ class Parser(object):
                                 items.append(item)
                                 count = 1
 
+                # find vcods
+                if count == 0:
+                    vcods = findVCods(data)
+                    if vcods:
+                        sUrl = vcods[0]
+                        cod1 = vcods[1]
+                        cod2 = vcods[2]
+                        swfUrl = vcods[3]
+                        unixTS = str(dt.getUnixTimestamp())
+                        sUrl = sUrl + '?callback=jQuery1707757964063647694_1347894980192&v_cod1=' + cod1 + '&v_cod2=' + cod2 + '&_=' + unixTS
+                        tmpData = getHTML(sUrl, urllib.unquote_plus(startUrl), True, False)
+                        if tmpData and tmpData.find("Bad Request") == -1:
+                            newReg = '"result1":"([^\"]+)","result2":"([^\"]+)"'
+                            link = regexUtils.findall(tmpData, newReg)
+                            if link:
+                                file = link[0][0]
+                                rtmp = link[0][1].replace('\\','')
+                                #.replace('/redirect','/vod')
+                                item = CListItem()
+                                item['title'] = getHostName(sUrl) + '* - ' + file
+                                item['type'] = 'video'
+                                item['url'] = rtmp + ' playPath=' + file + ' swfUrl=' + swfUrl +' swfVfy=1 live=true pageUrl=' + startUrl
+                                item.merge(lItem)
+                                items.append(item)
+                                count = 1  
+                        
+                        
+                        
+                        
                 # find redirects
                 if count == 0:
                     red = self.__findRedirect(startUrl, inputList.curr_url)
@@ -569,7 +598,7 @@ class Parser(object):
                 src = urllib.unquote(params.strip("'").replace('%s', src))
 
             elif command == 'parseText':
-                src = cc.parseText(params, src)
+                src = cc.parseText(item, params, src)
 
             elif command == 'getInfo':
                 src = cc.getInfo(item, params, src)

@@ -109,12 +109,18 @@ def getSource(params, src):
     return common.getHTML(paramPage,paramReferer)
 
 
-def parseText(params, src):
+def parseText(item, params, src):
     src = enc.smart_unicode(src)
     paramArr = __parseParams(params)
 
     text = paramArr[0].replace('%s',src)
+    if text.startswith('@') and text.endswith('@'):
+        text = item.getInfo(text.strip('@'))
+
     regex = paramArr[1].replace('%s', src)
+    if regex.startswith('@') and regex.endswith('@'):
+        regex = item.getInfo(regex.strip('@'))
+
     variables = []
     if len(paramArr) > 2:
         variables = paramArr[2].split('|')
@@ -127,9 +133,14 @@ def getInfo(item, params, src):
     paramPage = paramArr[0].replace('%s', src)
 
     paramPage = urllib.unquote(paramPage)
+    if paramPage.startswith('@') and paramPage.endswith('@'):
+        paramPage = item.getInfo(paramPage.strip('@'))
+
+    
     paramRegex = paramArr[1].replace('%s', src)
     if paramRegex.startswith('@') and paramRegex.endswith('@'):
         paramRegex = item.getInfo(paramRegex.strip('@'))
+        
     referer = ''
     variables=[]
     if len(paramArr) > 2:
