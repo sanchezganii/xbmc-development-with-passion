@@ -1,0 +1,24 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=LiveStreamBox - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://livestreambox.net/embed.php?id=%s
+item_info_name=file
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*file\': \'([^\']+)\',.*','%s')
+item_info_build=%s
+
+item_info_name=swf
+item_info_build=http://livestreambox.net/swfs/player.swf
+
+
+
+item_info_name=rtmp
+item_info_from=random
+item_info_build=rtmp://93.174.93.58/lsb/
+
+item_info_name=url
+item_info_from=rtmp + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_build=%s

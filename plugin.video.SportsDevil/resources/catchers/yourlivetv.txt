@@ -8,12 +8,12 @@ item_info_build=http://yourlive.tv/stream.php?id=%s&width=640&height=460
 
 item_info_name=rtmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*'streamer':\s*'([^']+)','@CURRENT_URL@')
+item_info_convert=getInfo('%s','.*streamer=([^&]+)','@REFERER@')
 item_info_build=%s
           
 #item_info_name=rtmp
 #item_info_build=rtmp://46.23.66.26/liverepeater
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + @PARAM1@ + ' swfUrl=http://static.4shared.com/flash/player/5.6/player.swf live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + @PARAM1@ + ' swfUrl=http://cdn.jstream.me/player.swf live=true pageUrl=' + pageUrl
 item_info_build=%s

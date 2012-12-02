@@ -4,16 +4,21 @@ item_info_build=iLive - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.ilive.to/embedplayer.php?width=640&height=400&channel=%s&autoplay=true
-
+item_info_build=http://www.ilive.to/view/%s/
 item_info_name=file
 item_info_from=pageUrl
 item_info_convert=getInfo('%s','.*streamer=rtmp.*?&file=([^&]+).flv.*','%s')
 item_info_build=%s
 
 item_info_name=swf
-item_info_build=http://static.ilive.to/jwplayer/player_embed.swf
+item_info_build=http://static.ilive.to/jwplayer/player.swf
+
+
+item_info_name=rtmp
+item_info_from=random
+item_info_build=rtmp://188.122.91.73/edge/
 
 item_info_name=url
-item_info_from='rtmp://176.31.231.50:1935/edge/' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+#item_info_from='rtmp://188.122.91.73/edge/' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_from=rtmp + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
 item_info_build=%s

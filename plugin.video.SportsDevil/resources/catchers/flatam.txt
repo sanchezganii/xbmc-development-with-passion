@@ -2,15 +2,6 @@ item_info_name=title
 item_info_from=@PARAM1@
 item_info_build=flatam - %s
 
-item_info_name=pageUrl
-item_info_from=@PARAM1@
-item_info_build=http://foxsportslatam.com/embed.php?id=%s&width=660&height=470
-
-item_info_name=tmp
-item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*swfobject.embedSWF\(['"]([^'"]+)['"].*','@REFERER@','file|rtmp|swf')
-item_info_build=%s
-
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=16 swfVfy=true pageUrl=' + pageUrl
-item_info_build=%s
+item_info_from=@PARAM1@
+item_info_build=rtmp://213.163.67.57:80/liverepeater/_definst_/ playpath=%s swfUrl=http://554590055.r.worldcdn.net/player.swf pageUrl=http://foxsportslatam.com/ live=true swfVfy=1
