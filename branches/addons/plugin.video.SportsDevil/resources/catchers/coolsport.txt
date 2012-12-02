@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=coolsport - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://72.46.137.106:443/liverepeater/_definst_/%s swfUrl=http://streams.coolsport.tv/player.swf pageUrl=http://static.sportodin.com/ live=true swfVfy=1

@@ -9,7 +9,7 @@ item_info_build=CastAMP - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://castamp.com/embed.php?c=%s&vwidth=700&vheight=480&domain=www8.livetv.ru
+item_info_build=http://www.castamp.com/embed.php?c=%s&tk=dv7K4CMe&vwidth=640&vheight=440
 
 item_info_name=random
 item_info_from=title
@@ -18,10 +18,10 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=random
-item_info_build=rtmp://s%s.castamp.com/live/
+item_info_build=rtmp://173.192.200.78/live
 
 item_info_name=swf
-item_info_build=http://live.castamp.com/player.swf
+item_info_build=http://www.udemy.com/static/flash/player5.9.swf
 
 item_info_name=url
 item_info_from=rtmp + ' playpath=' + file + ' live=true swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl
