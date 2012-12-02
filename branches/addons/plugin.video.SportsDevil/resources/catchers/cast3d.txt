@@ -4,16 +4,16 @@ item_info_build=Cast3D - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.cast3d.tv/embed.php?u=%s&vw=640&vh=385&domain=lsh.lshunter.tv
+item_info_build=http://www.cast3d.tv/embed.php?channel=%s&vw=640&vh=385&domain=lsh.lshunter.tv
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*'file=([^&]+)&streamer=([^&]+)&.*?src='([^']+\.swf)'.*','@CURRENT_URL@','file|rtmp.tmp|swf')
+item_info_convert=getInfo('%s','.*?['"]flashplayer['"][:,]\s*['"]([^'"]+)['"].*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@','swf|file|rtmp.tmp')
 item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=rtmp.tmp
-item_info_convert=replace('%s','stream.cast3d.tv/redirect','108.59.8.160:1935/live')
+item_info_convert=replace('%s','/redirect/',':1935/redirect/')
 item_info_build=%s
 
 item_info_name=url

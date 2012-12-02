@@ -1,10 +1,10 @@
 item_info_name=title
 item_info_from=@PARAM1@
-item_info_build=HDmyTV - %s
+item_info_build=DinoZap - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.hdmytv.com/channel.php?file=%s&width=640&height=460&autostart=true
+item_info_build=http://www.dinozap.tv/redirect/channel.php?id=%s&width=640&height=490&autostart=true
 
 item_info_name=pageUrl.tmp
 item_info_from=pageUrl

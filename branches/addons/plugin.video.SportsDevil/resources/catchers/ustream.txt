@@ -1,17 +1,32 @@
 item_info_name=title
 item_info_from=@PARAM1@
-item_info_build=UStream - %s
+item_info_build=UStream
 
-item_info_name=tmp
+item_info_name=channelid
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*(rtmp://.+?)\x00.*?streamName\W\W\W(.+?)[/]*\x00.*','','rtmp|stream')
+item_info_convert=getInfo('%s','.*ustream.vars.channelId=([^;]+).*')
 item_info_build=%s
 
 item_info_name=swf
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://www.ustream.tv/channel-popup/%s','.*movie:\s*"([^"]+)".*')
+item_info_convert=getInfo('%s','.*movie:\s*"([^"]+)".*)
 item_info_build=%s
 
-item_info_name=url
-item_info_from=rtmp + '/' + stream + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=http://www.ustream.tv/channel-popup/' + @PARAM1@
+item_info_name=rtmp
+item_info_from=channelid
+item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*(rtmp://.+?)\/\W)
 item_info_build=%s
+
+item_info_name=file
+item_info_from=channelid
+item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*?streamName\W\W\W(.+?)[/]*\W.*)
+item_info_build=%s
+
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + @PARAM1@
+#item_info_from=rtmp + ' + stream + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + @PARAM1@
+item_info_build=%s
+
+
+#item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*(rtmp://.+?)\x00.*?streamName\W\W\W(.+?)[/]*\x00.*','','rtmp|stream')

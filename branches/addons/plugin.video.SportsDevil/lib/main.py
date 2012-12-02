@@ -66,7 +66,7 @@ class Main:
 
         common.log('SportsDevil initialized')
 
-        paramstring = sys.argv[2]
+        paramstring = urllib.unquote_plus(sys.argv[2])
         self.run(paramstring)
 
     def getPlayerType(self):
@@ -350,7 +350,7 @@ class Main:
         contextMenuItems = []
         definedIn = lItem['definedIn']
 
-        codedItem = ListItem.toUrl(lItem)
+        codedItem = urllib.quote_plus(ListItem.toUrl(lItem))
 
         # Jump to MainMenu
 #        if definedIn and definedIn != self.MAIN_MENU_FILE:

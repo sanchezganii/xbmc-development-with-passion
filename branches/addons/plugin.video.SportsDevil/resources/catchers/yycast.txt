@@ -35,5 +35,5 @@ item_info_name=rtmp
 item_info_build=%s
 
 item_info_name=url
-item_info_from='rtmp://live.yycast.com/lb playpath=' + file + ' live=true timeout=15 swfUrl=' + swf + ' pageUrl=http://www.yycast.com/' + @PARAM1@
+item_info_from='rtmp://188.122.86.243:1935/live/_definst_/' + file + ' live=true timeout=15 swfUrl=' + swf + ' pageUrl=http://www.yycast.com/' + @PARAM1@
 item_info_build=%s

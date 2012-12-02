@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=AljazeeraSport - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://213.163.64.211:1935/liverepeater/%s swfUrl=http://cdna.aljazeerasport.asia/player.swf pageUrl=http://www.aljazeerasport.asia/live.php live=true swfVfy=1

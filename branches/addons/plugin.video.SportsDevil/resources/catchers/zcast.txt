@@ -13,7 +13,7 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=random
-item_info_build=rtmp://istanbul.zcast.us/liveedge
+item_info_build=rtmp://tehran.zcast.us/liveedge
 #item_info_build=rtmp://s%s.zcast.us/liveedge/
 
 item_info_name=url
