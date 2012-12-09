@@ -26,7 +26,7 @@ from downloader import Downloader
 from favouritesManager import FavouritesManager
 
 import entities.CListItem as ListItem
-from utils.fileUtils import getFileContent, setFileContent
+from utils.fileUtils import getFileContent, setFileContent, md5
 
 
 class Mode:
@@ -39,6 +39,7 @@ class Mode:
     REMOVEFROMFAVOURITES = 7
     EDITITEM = 8
     ADDITEM = 9
+    REMOVEFROMCUSTOMMODULES = 10
 
 
 
@@ -188,6 +189,10 @@ class Main:
 
         url = lItem['url']
 
+        if url == os.path.join(common.Paths.customModulesDir, 'custom.cfg'):
+            self.getCustomModules()
+
+
         result = self.parser.parse(lItem)
         if result.code == ParsingResult.Code.SUCCESS:
             tmpList = result.list
@@ -220,6 +225,8 @@ class Main:
                 tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
                 tmpList.items.insert(0, tmp)
 
+            
+
         # if it's the favourites menu, add item 'Add item'
         elif url == common.Paths.favouritesFile:
             tmp = ListItem.create()
@@ -229,7 +236,7 @@ class Main:
             action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=')
             tmp['url'] = action
             tmpList.items.append(tmp)
-
+            
 
         # Create menu or play, if it's a single video and autoplay is enabled
         proceed = False
@@ -253,18 +260,69 @@ class Main:
         return tmpList
 
 
+    def getChecksums(self, type):
+        checksums = {}
+        path = ''
+        if type == 'catchers':
+            path = common.Paths.catchersDir
+        elif type == 'modules':
+            path = common.Paths.modulesDir
+        else:
+            return None
+        
+        for root, dirs, files in os.walk(path , topdown = False):
+            for name in files:
+                checksums[name] =  md5(os.path.join(root, name))
+        return checksums
+
+
     def getCustomModules(self):
         customDir = common.Paths.customModulesDir
+        customCfg = os.path.join(customDir, 'custom.cfg')
+        
         txt = ''
         for root, dirs, files in os.walk(customDir , topdown = False):
             for name in files:
                 if name.endswith('.module'):
                     txt += getFileContent(os.path.join(root, name)) + '\n'
-        if txt != '':
-            setFileContent(os.path.join(common.Paths.customModulesDir, 'custom.cfg'), txt)
+        if txt:
+            setFileContent(customCfg, txt)
             return True
         else:
+            if os.path.isfile(customCfg):
+                os.remove(customCfg)
             return False
+
+
+    def removeCustomModule(self, item):
+        name = urllib.unquote(item["title"])
+        
+        try:
+            customCfg = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
+            content = getFileContent(customCfg)
+            lines = content.splitlines()
+            
+            startIdx = -1
+            endIdx = -1
+            cfgUrl = ''
+            for i in range(0, len(lines)):
+                if lines[i].startswith("title=%s" % name):
+                    startIdx = i
+                
+                elif startIdx > -1 and lines[i].startswith("url="):
+                    tmp = lines[i][4:]
+                    cfgUrl = os.path.join(common.Paths.customModulesDir, tmp)
+                    break
+                
+            if os.path.isfile(cfgUrl):
+                os.remove(cfgUrl)
+                os.remove(cfgUrl.replace(".cfg", ".module"))
+                return True
+        except:
+            pass
+        
+        return False
+
 
     def createXBMCListItem(self, item):
         title = enc.clean_safe(item['title'])
@@ -372,10 +430,16 @@ class Main:
                 contextMenuItem = createContextMenuItem('Edit', Mode.EDITITEM, codedItem)
                 contextMenuItems.append(contextMenuItem)
 
-            elif lItem['title'] != "Favourites":
-                    # Add to favourites
-                    contextMenuItem = createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
+            else:
+                if definedIn.endswith('custom.cfg'):
+                    # Remove from custom modules
+                    contextMenuItem = createContextMenuItem('Remove module', Mode.REMOVEFROMCUSTOMMODULES, codedItem)
                     contextMenuItems.append(contextMenuItem)
+    
+                if lItem['title'] != "Favourites":
+                        # Add to favourites
+                        contextMenuItem = createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
+                        contextMenuItems.append(contextMenuItem)
 
         liz = self.createXBMCListItem(lItem)
 
@@ -419,13 +483,28 @@ class Main:
             if len(paramstring) <= 2:
                 xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
                 self.clearCache()
+                
+                # Todo: auto-update catchers and modules
+                #self.getChecksums('catchers')
+                
                 tmpList = self.parseView(self.MAIN_MENU_FILE)
                 if tmpList:
                     self.currentlist = tmpList
 
             else:
-                params = paramstring
-                mode, codedItem = params.split('&',1)
+                params = paramstring[1:]
+                
+                # ugly workaround for OpenELEC (sorts query parameters alphabetically)
+                myparameters = params.split('&')
+                generalParams = filter(lambda x: x.find('=')>-1, myparameters)
+                mode = filter(lambda x: x.startswith('mode='), generalParams)
+                codedItem = filter(lambda x: x.startswith('url='), generalParams)
+                mode = mode[0]
+                codedItem = codedItem[0][4:]
+                codedItemParams = filter(lambda x: x.find('=')== -1, myparameters)
+                codedItemParams.append(codedItem)
+                codedItem = '&'.join(codedItemParams)
+                
                 mode = int(mode.split('=')[1])
 
                 codedItem = codedItem[4:]
@@ -508,6 +587,16 @@ class Main:
                     url = urllib.unquote(item['url'])
                     title = item['title']
                     self.downloadVideo(url, title)
+                
+                elif mode == Mode.REMOVEFROMCUSTOMMODULES:
+                    if self.removeCustomModule(item):
+                        if not self.getCustomModules():
+                            # if there is no custom module left to show, jump back to main menu
+                            path = "plugin://plugin.video.SportsDevil/"
+                            xbmc.executebuiltin('Container.Update(' + path + ',replace)')
+                        else:
+                            xbmc.executebuiltin('Container.Refresh()')
+                            
 
         except Exception, e:
             if common.enable_debug:
