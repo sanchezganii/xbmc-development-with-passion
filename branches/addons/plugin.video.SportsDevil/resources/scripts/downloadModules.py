@@ -21,7 +21,7 @@ def get_dir_listing(url):
 
     f = urllib.urlopen(url)
     response = f.read()
-
+    f.close()
     text = response.split("\n")
     urls = []
     tag=' href="'
@@ -93,7 +93,7 @@ if select != -1:
         
         # refresh container if SportsDevil is active
         currContainer = xbmc.getInfoLabel('Container.FolderPath')
-        if currContainer == 'plugin://plugin.video.SportsDevil/':
+        if currContainer.startswith('plugin://plugin.video.SportsDevil/'):
             xbmc.executebuiltin('Container.Refresh()')
         
         dlg.ok('SportsDevil Info', 'Download successful')
