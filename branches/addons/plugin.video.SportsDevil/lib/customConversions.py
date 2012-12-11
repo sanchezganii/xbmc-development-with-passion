@@ -163,6 +163,13 @@ def decodeBase64(src):
         return src
 
 
+def decodeRawUnicode(src):
+    try:
+        return enc.decodeRawUnicode(src)
+    except:
+        return src
+
+
 def replace(params, src):
     src = enc.smart_unicode(src)
     paramArr = __parseParams(enc.smart_unicode(params))

@@ -506,8 +506,6 @@ class Main:
                 codedItem = '&'.join(codedItemParams)
                 
                 mode = int(mode.split('=')[1])
-
-                codedItem = codedItem[4:]
                 item = ListItem.fromUrl(codedItem)
 
                 # switch(mode)

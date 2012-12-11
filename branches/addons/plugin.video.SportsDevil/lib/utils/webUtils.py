@@ -148,7 +148,12 @@ class CachedWebRequest(DemystifiedWebRequest):
         setFileContent(self.lastUrlPath, url)
 
     def __getCachedSource(self):
-        data = enc.smart_unicode(getFileContent(self.cachedSourcePath))
+        try:
+            data = getFileContent(self.cachedSourcePath)
+            data = enc.smart_unicode(data)
+        except:
+            #data = data.decode('utf-8')
+            pass
         return data
 
     def getLastUrl(self):
