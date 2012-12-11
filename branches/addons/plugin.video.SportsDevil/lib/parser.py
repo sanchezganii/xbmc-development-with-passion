@@ -606,6 +606,9 @@ class Parser(object):
             elif command == 'decodeBase64':
                 src = cc.decodeBase64(src)
 
+            elif command == 'decodeRawUnicode':
+                src = cc.decodeRawUnicode(src)
+
             elif command == 'replace':
                 src = cc.replace(params, src)
 
