@@ -318,7 +318,7 @@ def clean1(s): # remove &XXX;
     return s;
 
 def clean2(s): # remove \\uXXX
-    pat = re.compile(r'\\u(....)')
+    pat = re.compile(r'\\u(....)', re.DOTALL)
     def sub(mo):
         try:
             return unichr(int(mo.group(1), 16))
@@ -328,6 +328,32 @@ def clean2(s): # remove \\uXXX
         return pat.sub(sub, smart_unicode(s))
     except:
         return s
+
+def decodeRawUnicode(s): # remove \\uXXX
+    def sub(mo):
+        try:
+            charCode = int(mo,16)
+            char = unichr(charCode)
+            return char
+        except:
+            return None
+    
+    uni = smart_unicode(s)
+    result = re.split(ur"[\u200b\s]+", uni)
+    uni = ''.join(result)
+    
+    uChars = uni[2:]
+    uChars = uChars.split('\\u')
+    
+    result = u''
+    for c in uChars:
+        ch = sub(c)
+        if ch:
+            result += ch
+        else:
+            result += c
+    
+    return result
 
 def clean3(s): # remove &#XXX;
     pat = re.compile(r'&#(\d+);')

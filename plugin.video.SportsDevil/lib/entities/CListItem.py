@@ -68,9 +68,11 @@ def toUrl(item):
     # URL
     url = item['url']
     try:
-        url = smart_unicode(urllib.quote_plus(url))
+        url = smart_unicode(url)
+        url = urllib.quote_plus(url.encode('utf-8'))
     except:
         sys.exc_clear()
+        
     params += '&url:' + url
 
     return params
