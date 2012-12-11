@@ -63,6 +63,8 @@ Other addons needed for:
   <li> !YouTube (needs !YouTube addon)</li>
   <li> Freedocast (needs Freedocast addon)</li>
   </ul>
+You should use an anti-virus software. Some of the supported sites have trojans in their javascripts. In those cases the infected file will be cache/page.html (the local cache for SportsDevil).
+
 <br>
 ==Download==
 <a href="http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.SportsDevil/"><font size="4">Download</font></a>
