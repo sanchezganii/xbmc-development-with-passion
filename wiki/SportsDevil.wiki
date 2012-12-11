@@ -34,10 +34,10 @@
   
   <li> TV
   <ul>
-  <li> <a href="http://www.cricfree.tv">!Cricfree.tv</a></li>
-  <li> !Several other Cricket sites</li>
+  <li> <a href="http://www.cricfree.tv">Cricfree.tv</a></li>
+  <li> Several other Cricket sites</li>
   <li> <a href="http://www.hdfooty.com">!HdFooty.com</a></li>
-  <li> <a href="http://www.snsports.tv">!SNSports.tv</a></li>
+  <li> <a href="http://www.snsports.tv">SNSports.tv</a></li>
   <li> <a href="http://www.mypremium.tv">!MyPremium.tv</a></li>
   <li> <a href="http://coolsportz.de">Coolsportz.de</a></li>
   </ul>
