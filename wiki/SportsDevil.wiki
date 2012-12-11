@@ -11,11 +11,10 @@
   <li> Live Sports
   <ul>
   <li> <a href="http://livetv.ru">LiveTV.ru</a></li>
-  <li> <a href="http://www.firstrowsports.eu">!FirstRowSports.eu</a></li>
-  <li> <a href="http://www.chanfeed.com">!ChanFeed.com</a></li>
+  <li> <a href="http://www.thefirstrow.eu">!FirstRowSports.eu</a></li>
+  <li> <a href="http://www.wiziwig.tv">!WiZiWiG.tv</a></li>
   <li> <a href="http://www.lshunter.tv">LSHunter.tv</a></li>
   <li> <a href="http://www.rojadirecta.me">!RojaDirecta.me</a></li>
-  <li> <a href="http://coolsportz.de">Coolsportz.de</a></li>
   </ul>
   </li>
 
@@ -35,12 +34,12 @@
   
   <li> TV
   <ul>
-  <li> <a href="http://www.livesportsonweb.com">!LiveSportsOnWeb.com</a></li>
-  <li> <a href="http://www.twww.tv">Twww.tv</a></li>
-  <li> <a href="http://www.putpat.tv">!PutPat.tv</a></li>
-  <li> <a href="http://www.shadownet.ro">!ShadowNet.ro</a></li>
-  <li> <a href="http://www.tvembed.eu">TVEmbed.eu</a></li>
+  <li> <a href="http://www.cricfree.tv">!Cricfree.tv</a></li>
+  <li> !Several other Cricket sites</li>
+  <li> <a href="http://www.hdfooty.com">!HdFooty.com</a></li>
+  <li> <a href="http://www.snsports.tv">!SNSports.tv</a></li>
   <li> <a href="http://www.mypremium.tv">!MyPremium.tv</a></li>
+  <li> <a href="http://coolsportz.de">Coolsportz.de</a></li>
   </ul>
   </li>
 </ul>
