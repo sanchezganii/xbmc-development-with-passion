@@ -23,9 +23,24 @@ def getKeyboard(default = '', heading = '', hidden = False):
         return kboard.getText()
     return ''
 
+    
+def getCurrentFolderPath():
+    return xbmc.getInfoLabel('Container.FolderPath')    
+
 
 def showMessage(msg):
-    xbmc.executebuiltin('Notification(SportsDevil,' + str(msg) + ')')
+    xbmc.executebuiltin('Notification(SportsDevil,' + str(msg.encode('utf-8', 'ignore')) + ')')
+    
+    
+def showBusyAnimation():
+    xbmc.executebuiltin( 'ActivateWindow(busydialog)' )
+    
+def hideBusyAnimation():
+    xbmc.executebuiltin( 'Dialog.Close(busydialog,true)' )
+
+    
+def closeAllDialogs():
+    xbmc.executebuiltin('Dialog.Close(all, true)') 
     
     
 def log(msg):

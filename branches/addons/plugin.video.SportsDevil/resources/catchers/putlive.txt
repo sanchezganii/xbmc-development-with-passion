@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=PutLive - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://s9.putlive.in:1935/edge/%s swfUrl=http://putlive.in/player/player.swf live=true timeout=15 swfVfy=1 pageUrl=http://putlive.in/

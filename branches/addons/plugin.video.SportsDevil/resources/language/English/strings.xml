@@ -4,7 +4,8 @@
   <string id="30001">XBMC Media Center</string>
   <string id="30002">Disable disclaimer</string>
   <string id="30003">Player type</string>
-  
+  <string id="30004">General</string>
+  <string id="30005">Actions</string>
   <string id="30007">Save video</string>
   <string id="30008">Download path</string>
   <string id="30009">Ask for download before playing video</string>
@@ -16,9 +17,6 @@
   <string id="30015">Standard</string>
   <string id="30016">High</string>
   <string id="30017">Select download path:</string>
-  <string id="30018">Download modules...</string>
-  
-
         
   <string id="30050">Downloading video...</string>
   <string id="30051">Please wait.</string>
@@ -60,8 +58,17 @@
   <string id="30251">en</string>
   <string id="30252">de</string>
   
-  <string id="30270">Autoplay</string>
-  <string id="30280">Time correction (experimental)</string>
+  <string id="30270">Autoplay</string>  
+  <string id="30271">Update automatically on start</string>
+  <string id="30272">Search updates</string>
+  <string id="30273">No updates available</string>
+  <string id="30274">Update failed</string>
+  <string id="30275">Searching for updates...</string>
+  <string id="30276">update available</string>
+  <string id="30277">updates available</string>  
+  <string id="30278">Install now?</string> 
+  <string id="30279">Installing...</string>	
+  <string id="30280">failed</string>
   
   
   <string id="30351">American Football</string>

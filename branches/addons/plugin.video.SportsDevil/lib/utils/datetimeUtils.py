@@ -216,3 +216,7 @@ def datetimeoffset(date, offsetStr):
 
 def getUnixTimestamp():
     return int(time.time())
+
+
+def utcToGmt(date):
+    return date - datetime.timedelta(seconds = time.timezone)
