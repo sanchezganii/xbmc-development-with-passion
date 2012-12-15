@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=MiCast - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmp://sprite.micast.tv/liveedge/%s swfUrl=http://micast.tv/player.swf live=true timeout=15 swfVfy=1 pageUrl=http://micast.tv

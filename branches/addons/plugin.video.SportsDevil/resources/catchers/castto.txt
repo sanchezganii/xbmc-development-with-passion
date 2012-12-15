@@ -4,19 +4,14 @@ item_info_build=CastTo - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://static.castto.me/embed.php?channel=%s&vw=640&vh=420&domain=arsenaltarget.co.uk
+item_info_build=http://static.castto.me/embedlive.php?channel=%s&vw=640&vh=420&domain=streamson.me
 
 item_info_name=tmp
 item_info_from=pageUrl
 item_info_convert=getInfo('%s','.*SWFObject\(\'([^\']+)\'.*?file\',\s*\'([^\']+)\'.*?streamer\',\s*\'([^\']+)\'.*','@REFERER@','swf|file|rtmptm')
 item_info_build=%s
 
-#item_info_name=rtmp
-#item_info_from=rtmptm
-#item_info_convert=replace('%s','lb','pub')
-#item_info_build=%s
-
 
 item_info_name=url
-item_info_from=rtmptm + ' playpath=' + file + ' swfUrl=' + swf + ' live=true token=#ed%h0#w@1 pageUrl=http://static.castto.me
+item_info_from=rtmp://cdm.castto.me:80/lb playpath=' + file + ' swfUrl=' + swf + ' live=true token=#ed%h0#w@1 pageUrl=http://static.castto.me
 item_info_build=%s

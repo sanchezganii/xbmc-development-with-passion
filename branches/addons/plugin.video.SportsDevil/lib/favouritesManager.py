@@ -1,7 +1,7 @@
 # -*- coding: latin-1 -*-
 
 import os.path
-
+import re
 import xbmc, xbmcgui
 import urllib
 import common
@@ -14,7 +14,7 @@ from utils import fileUtils as fu
 
 from utils.xbmcUtils import getKeyboard
 import utils.encodingUtils as enc
-
+from utils import regexUtils
 
 class FavouritesManager:
 
@@ -56,7 +56,7 @@ class FavouritesManager:
         datastr = '\n'.join(data)
         return datastr
 
-
+    
     def _createFavourite(self, item, title=None, icon=None, fanart=None):
         if not title:
             title = item.getInfo('title')
@@ -128,28 +128,48 @@ class FavouritesManager:
             os.remove(fullPath)
 
 
-    def removeItem(self, item):
+    def _findItem(self, item):
+        title = re.escape(item.getInfo('title'))    
+        cfg = item.getInfo('cfg')
+        if cfg:
+            cfg = re.escape(cfg)
+        url = re.escape(item.getInfo('url'))
+    
+        regex = [\
+            '',
+            '########################################################',
+            '# ' + title.upper(),
+            '########################################################',
+            'title=' + title,
+            '.*?'
+            ]
+        
+        if cfg:
+            regex.append('cfg=' + cfg)
+        regex.append('url=' + url)
+        regex = '(' + '\s*'.join(regex) + ')'
+        
         cfgFile = self._favouritesFile
         definedIn = item.getInfo('definedIn')
         if definedIn and definedIn.startswith('favfolders/'):
             cfgFile = os.path.join(self._favouritesFoldersFolder, definedIn.split('/')[1])
 
         if os.path.exists(cfgFile):
-            fav = self._createFavourite(item)
-            old = fu.getFileContent(cfgFile)
-            new = old.replace(enc.smart_unicode(fav).encode('utf-8'),'')
-            fu.setFileContent(cfgFile, new)
+            data = fu.getFileContent(cfgFile)            
+            matches = regexUtils.findall(data, regex)
+            if matches and len(matches) > 0:
+                fav = matches[0]
+                return (cfgFile, data, fav)
+        return None
+    
 
-            # delete virtual folder
-            if self._isVirtualFolder(item):
-                self._removeVirtualFolder(item)
 
 
-    def changeLabel(self, cfgFile, item, newLabel):
-        if os.path.exists(cfgFile):
-            oldfav = self._createFavourite(item)
-            old = fu.getFileContent(cfgFile)
-
+    def changeLabel(self, item, newLabel):
+        found = self._findItem(item)
+        if found:
+            [cfgFile, data, fav] = found
+        
             # if it's a virtual folder, change target url too; check if target already exists; rename target
             # (helpful, if you want to edit files manually)
 
@@ -167,25 +187,34 @@ class FavouritesManager:
                 item.setInfo('url', 'favfolders/' + urllib.quote_plus(newLabel) + '.cfg')
 
             newfav = self._createFavourite(item, title=newLabel)
-            new = old.replace(enc.smart_unicode(oldfav).encode('utf-8'), enc.smart_unicode(newfav).encode('utf-8'))
+            new = data.replace(fav, enc.smart_unicode(newfav).encode('utf-8'))
             fu.setFileContent(cfgFile, new)
 
 
-    def changeIcon(self, cfgFile, item, newIcon):
-        if os.path.exists(cfgFile):
-            fav = self._createFavourite(item)
+    def changeIcon(self, item, newIcon):
+        found = self._findItem(item)
+        if found:
+            [cfgFile, data, fav] = found
             newfav = self._createFavourite(item, icon=newIcon)
-            old = fu.getFileContent(cfgFile)
-            new = old.replace(enc.smart_unicode(fav).encode('utf-8'), enc.smart_unicode(newfav).encode('utf-8'))
+            new = data.replace(fav, enc.smart_unicode(newfav).encode('utf-8'))
             fu.setFileContent(cfgFile, new)
 
-    def changeFanart(self, cfgFile, item, newFanart):
-        if os.path.exists(cfgFile):
-            fav = self._createFavourite(item)
+    def changeFanart(self, item, newFanart):
+        found = self._findItem(item)
+        if found:
+            [cfgFile, data, fav] = found
             newfav = self._createFavourite(item, fanart=newFanart)
-            old = fu.getFileContent(cfgFile)
-            new = old.replace(enc.smart_unicode(fav).encode('utf-8'), enc.smart_unicode(newfav).encode('utf-8'))
+            new = data.replace(fav, enc.smart_unicode(newfav).encode('utf-8'))
             fu.setFileContent(cfgFile, new)
+
+    def moveToFolder(self, cfgFile, item, newCfgFile):
+        found = self._findItem(item)
+        if found:
+            [cfgFile, data, fav] = found
+            if os.path.exists(newCfgFile):
+                new = data.replace(fav,'')
+                fu.setFileContent(cfgFile, new)
+                fu.appendFileContent(newCfgFile, fav)
 
 
     def editItem(self, item):
@@ -206,17 +235,17 @@ class FavouritesManager:
             newLabel = getKeyboard(default = item.getInfo('title'), heading = 'Change label')
             if not newLabel or newLabel == "":
                 return False
-            self.changeLabel(cfgFile, item, newLabel)
+            self.changeLabel(item, newLabel)
         elif select == 1:
             newIcon = self._getImage('Change icon')
             if not newIcon:
                 return False
-            self.changeIcon(cfgFile, item, newIcon)
+            self.changeIcon(item, newIcon)
         elif select == 2:
             newFanart = self._getImage('Change fanart')
             if not newFanart:
                 return False
-            self.changeFanart(cfgFile, item, newFanart)
+            self.changeFanart(item, newFanart)
         elif select == 3:
             newCfgFile = self._virtualFolderSelection(virtualFolders)
             if not newCfgFile or cfgFile == newCfgFile:
@@ -226,13 +255,6 @@ class FavouritesManager:
         return True
 
 
-    def moveToFolder(self, cfgFile, item, newCfgFile):
-        if os.path.exists(cfgFile) and os.path.exists(newCfgFile):
-            fav = self._createFavourite(item)
-            old = fu.getFileContent(cfgFile)
-            new = old.replace(enc.smart_unicode(fav).encode('utf-8'),'')
-            fu.setFileContent(cfgFile, new)
-            fu.appendFileContent(newCfgFile, fav)
 
 
     def addItem(self):
@@ -249,6 +271,17 @@ class FavouritesManager:
         elif select == 2:
             return self.addXbmcFavourite()
         return True
+
+    def removeItem(self, item):
+        found = self._findItem(item)
+        if found:
+            [cfgFile, data, fav] = found
+            new = data.replace(fav,'')
+            fu.setFileContent(cfgFile, new)
+
+            # delete virtual folder
+            if self._isVirtualFolder(item):
+                self._removeVirtualFolder(item)
 
 
     def addXbmcFavourite(self):
