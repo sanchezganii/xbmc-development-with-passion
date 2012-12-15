@@ -1,6 +1,7 @@
 # -*- coding: latin-1 -*-
 
 import os
+import datetime, time
 import random
 from encodingUtils import smart_unicode
 import hashlib
@@ -73,7 +74,6 @@ def appendFileContent(filename, txt):
     except:
         return False
 
- 
 def md5(fileName, excludeLine="", includeLine=""):
     """Compute md5 hash of the specified file"""
     m = hashlib.md5()
@@ -90,3 +90,18 @@ def md5(fileName, excludeLine="", includeLine=""):
         m.update(eachLine)
     m.update(includeLine)
     return m.hexdigest()
+
+def lastModifiedAt(path):
+    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+
+def setLastModifiedAt(path, date):
+    try:
+        stinfo = os.stat(path)
+        atime = stinfo.st_atime
+        mtime = int(time.mktime(date.timetuple()))
+        os.utime(path, (atime, mtime))
+        return True
+    except:
+        pass
+    
+    return False

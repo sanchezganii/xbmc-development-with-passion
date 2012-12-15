@@ -1,0 +1,16 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=HDStream - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.hdstream.info/channel/%s.htm
+
+item_info_name=tmp
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.hdstream.info/h1histats.swf','.*?src="([^"]+).*?"file=([^&]+).*?streamer=([^&]+).*','@REFERER@','swf|file|rtmp)
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
+item_info_build=%s

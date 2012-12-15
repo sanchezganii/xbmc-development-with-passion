@@ -6,7 +6,7 @@ class DialogQuestion:
 
     def __init__(self):
         self.dlg = xbmcgui.Dialog()
-        self.head = ''
+        self.head = 'SportsDevil Question'
 
     def ask(self, question):
         return self.dlg.yesno(self.head, question)

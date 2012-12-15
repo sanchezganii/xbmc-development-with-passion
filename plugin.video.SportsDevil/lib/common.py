@@ -20,8 +20,11 @@ def getSetting(name):
 def setSetting(name, value):
     __settings__.setSetting(id=name, value=value)
 
-def showNotification(title, message):
-    xbmc.executebuiltin('Notification(' + title + ',' + str(message) + ')')
+def showNotification(title, message, timeout=2000):
+    def clean(s):
+        return str(s.encode('utf-8', 'ignore'))
+    command = 'Notification(%s,%s,%s)' % (clean(title), clean(message), timeout)
+    xbmc.executebuiltin(command)
 
 def runPlugin(url):
     xbmc.executebuiltin('XBMC.RunPlugin(' + url +')')
@@ -120,9 +123,7 @@ class Paths:
     favouritesFolder = os.path.join(pluginDataDir, 'favourites')
     favouritesFile = os.path.join(favouritesFolder, 'favourites.cfg')
     customModulesDir = os.path.join(pluginDataDir, 'custom')
-
-
-
-
-
-
+    customModulesFile = os.path.join(customModulesDir, 'custom.cfg')
+    
+    catchersRepo = 'https://github.com/MusterGit/sportsdevil-catchers/tree/master/catchers'
+    customModulesRepo = 'http://xbmc-development-with-passion.googlecode.com/svn/branches/custom/'
