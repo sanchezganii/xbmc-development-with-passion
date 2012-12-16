@@ -220,3 +220,10 @@ def getUnixTimestamp():
 
 def utcToGmt(date):
     return date - datetime.timedelta(seconds = time.timezone)
+
+def strToDatetime(dateStr, format):
+    try:
+        result = datetime.datetime.strptime(dateStr, format)
+    except TypeError:
+        result = datetime.datetime(*(time.strptime(dateStr, format)[0:6]))
+    return result

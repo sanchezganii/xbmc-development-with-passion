@@ -2,12 +2,11 @@ from github import Github
 from hashlib import sha1
 from cStringIO import StringIO
 import datetime
-    
-    
+import datetimeUtils   
+
     
 # max. 60 API calls per hour
 # ATM 12 * getFiles per hour
-    
 def getFiles(userName, repoName, branchName, folderName=None):
     try:
         g = Github()
@@ -32,8 +31,11 @@ def getFiles(userName, repoName, branchName, folderName=None):
     return None
 
 
+# returns UTC datetime
 def getUpdatedAtFromString(dateStr):
-    datetime.datetime.strptime(dateStr, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=8)
+    format = "%Y-%m-%d %H:%M:%S"
+    result = datetimeUtils.strToDatetime(dateStr, format)
+    return result + datetime.timedelta(hours=8) # PST -> UTC
 
 
 
