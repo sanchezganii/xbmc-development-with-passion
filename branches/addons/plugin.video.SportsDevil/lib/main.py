@@ -34,6 +34,9 @@ from dialogs.dialogQuestion import DialogQuestion
 
 from customModulesManager import CustomModulesManager
 
+#from cacheManager import CacheManager
+
+
 class Mode:
     
     VIEW = 1
@@ -62,24 +65,23 @@ class Main:
     def __init__(self):
         self.base = sys.argv[0]
         self.handle = int(sys.argv[1])
-
+        paramstring = urllib.unquote_plus(sys.argv[2])
+        
         if not os.path.exists(common.Paths.pluginDataDir):
             os.makedirs(common.Paths.pluginDataDir, 0777)
 
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
         self.customModulesManager = CustomModulesManager(common.Paths.customModulesDir, common.Paths.customModulesRepo)
         self.syncManager = SyncManager()
-        self.syncManager.addSource("MaxMustermann", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
+        self.syncManager.addSource("Max Mustermann", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
         
         if not os.path.exists(common.Paths.customModulesDir):
             os.makedirs(common.Paths.customModulesDir, 0777)
 
         self.parser = Parser()
         self.currentlist = None
-
         common.log('SportsDevil initialized')
-
-        paramstring = urllib.unquote_plus(sys.argv[2])
+        
         self.run(paramstring)
 
 
@@ -184,12 +186,10 @@ class Main:
         return search_phrase
 
 
-    def parseView(self, url):
+    def parseView(self, lItem):
 
         def endOfDirectory(succeeded=True):
             xbmcplugin.endOfDirectory(handle=self.handle, succeeded=succeeded, cacheToDisc=True)
-
-        lItem = ListItem.fromUrl(url)
 
         if lItem['type'] == 'search':
             search_phrase = self.getSearchPhrase()
@@ -454,6 +454,7 @@ class Main:
             common.log('Cache directory purged')
 
 
+
     def update(self):               
         common.showNotification('SportsDevil', common.translate(30275))
         xbmcUtils.showBusyAnimation()
@@ -541,42 +542,49 @@ class Main:
                     xbmc.executebuiltin('Container.Update(' + path + ')')
                     return
                 xbmc.executebuiltin(enc.unescape(url))
-    
+
+
+    def _parseParameters(self, params):
+        # ugly workaround for OpenELEC (sorts query parameters alphabetically)
+        myparameters = params.split('&')
+        mode = filter(lambda x: x.startswith('mode='), myparameters)
+        codedItem = filter(lambda x: x.startswith('url='), myparameters)
+        myparameters.remove(mode[0])
+        myparameters.remove(codedItem[0])        
+        myparameters.append(codedItem[0][4:])
+        
+        mode = int(mode[0].split('=')[1])
+        item = ListItem.fromUrl('&'.join(myparameters))        
+        return [mode, item]
+
 
     def run(self, paramstring):
         common.log('SportsDevil running')
         try:
             # Main Menu
             if len(paramstring) <= 2:
-                xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
-                self.clearCache()
-                tmpList = self.parseView(self.MAIN_MENU_FILE)
+                
+                mainMenu = ListItem.fromUrl(self.MAIN_MENU_FILE)
+                tmpList = self.parseView(mainMenu)
                 if tmpList:
                     self.currentlist = tmpList
                 
-                if common.getSetting('autoupdate') == 'true':    
-                    self.update()
+                # if addon is started
+                currFolder = xbmcUtils.getCurrentFolderPath()
+                if not currFolder.startswith(self.base):
+                    xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
+                    self.clearCache()                    
+                     
+                    if common.getSetting('autoupdate') == 'true':    
+                        self.update()
 
             else:
                 params = paramstring[1:]
-                
-                # ugly workaround for OpenELEC (sorts query parameters alphabetically)
-                myparameters = params.split('&')
-                generalParams = filter(lambda x: x.find('=')>-1, myparameters)
-                mode = filter(lambda x: x.startswith('mode='), generalParams)
-                codedItem = filter(lambda x: x.startswith('url='), generalParams)
-                mode = mode[0]
-                codedItem = codedItem[0][4:]
-                codedItemParams = filter(lambda x: x.find('=')== -1, myparameters)
-                codedItemParams.append(codedItem)
-                codedItem = '&'.join(codedItemParams)
-                
-                mode = int(mode.split('=')[1])
-                item = ListItem.fromUrl(codedItem)
+                [mode, item] = self._parseParameters(params)
 
                 # switch(mode)
                 if mode == Mode.VIEW:
-                    tmpList = self.parseView(codedItem)
+                    tmpList = self.parseView(item)
                     if tmpList:
                         self.currentlist = tmpList
                         count = len(self.currentlist.items)

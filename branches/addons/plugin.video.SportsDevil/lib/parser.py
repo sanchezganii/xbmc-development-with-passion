@@ -52,6 +52,7 @@ class Parser(object):
 
         successfullyScraped = True
 
+        tmpList = None
         if lItem['catcher']:
             catcher = lItem['catcher']
             cfg = os.path.join(common.Paths.catchersDir, '__' + catcher + '.cfg')
@@ -68,12 +69,9 @@ class Parser(object):
                 tmpList = self.__loadLocal(cfg, lItem)
                 if tmpList and len(tmpList.rules) > 0:
                     successfullyScraped = self.__loadRemote(tmpList, lItem)
-        
-            
-
 
         # autoselect
-        if tmpList.skill.find('autoselect') != -1 and len(tmpList.items) == 1:
+        if tmpList and tmpList.skill.find('autoselect') != -1 and len(tmpList.items) == 1:
             m = tmpList.items[0]
             m_type = m['type']
 
