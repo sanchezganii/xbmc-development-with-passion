@@ -23,6 +23,7 @@ item_info_convert=replace('%s','http://mybcast.com/','')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' token=' + token + ' swfVfy=1 live=true swfUrl=http://mybcast.com/' + swfUrl + ' pageUrl=' + pageUrl 
+#item_info_from=rtmp + ' playpath=' + file + ' token=' + token + ' swfVfy=1 live=true swfUrl=http://mybcast.com/' + swfUrl + ' pageUrl=' + pageUrl 
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s
 

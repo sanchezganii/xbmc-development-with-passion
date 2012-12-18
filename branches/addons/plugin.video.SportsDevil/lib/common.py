@@ -32,7 +32,6 @@ def runPlugin(url):
 #------------------------------------------------------------------------------
 # dialogs
 #------------------------------------------------------------------------------
-from dialogs.dialogProgress import DialogProgress
 from dialogs.dialogQuestion import DialogQuestion
 from dialogs.dialogBrowser import DialogBrowser
 from dialogs.dialogInfo import DialogInfo
