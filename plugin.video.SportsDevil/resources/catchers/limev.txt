@@ -4,7 +4,7 @@ item_info_build=LimeV - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.limev.com/embed.php?fileid=%s&vw=700&vh=400
+item_info_build=http://www.limev.com/%s
 
 item_info_name=tmp
 item_info_from=pageUrl

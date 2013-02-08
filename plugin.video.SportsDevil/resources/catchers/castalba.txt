@@ -6,20 +6,11 @@ item_info_name=pageUrl
 item_info_from=@PARAM1@
 item_info_build=http://castalba.tv/embed.php?cid=%s&wh=640&ht=385&r=lsh.lshunter.tv
 
-item_info_name=file
+item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*file\': \'([^\']+)\',.*','%s')
-item_info_build=%s
-
-item_info_name=swf
-item_info_build=http://static.castalba.tv/player.swf
-
-item_info_name=rtmp
-item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*streamer\': \'([^\']+)\',.*','%s')
+item_info_convert=getInfo('%s','.*?['"]flashplayer['"][:,]\s*['"]([^'"]+)['"].*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@','swf|file|rtmp')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp://159.253.145.164/live playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
-#item_info_from=rtmp + ' playPath=' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s

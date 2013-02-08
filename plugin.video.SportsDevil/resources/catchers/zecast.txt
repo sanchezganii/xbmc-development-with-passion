@@ -4,5 +4,5 @@ item_info_build=ZeCast - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://195.60.77.241/zecastEd/%s swfUrl=http://zecast.tv/swfs/player.swf swfVfy=1 live=true pageUrl=http://zecast.tv
+item_info_build=rtmp://93.174.93.58/zecastlsb/%s swfUrl=http://zecast.tv/swfs/player.swf swfVfy=1 live=true pageUrl=http://zecast.tv
 
