@@ -8,7 +8,7 @@ item_info_build=http://www.aljazeerasport.asia/live.php?id=%s&width=630&height=4
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*?file=([^&]+).*?streamer=([^&]+).*?src="([^"]+\.swf)".*','','file|rtmp|swf')
+item_info_convert=getInfo('%s','.*?file=([^&]+).*?streamer=([^&]+).*?src="([^"]+\.swf)".*','@REFERER@','file|rtmp|swf')
 item_info_build=%s
 
 item_info_name=url

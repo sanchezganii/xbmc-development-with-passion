@@ -6,16 +6,15 @@ item_info_name=pageUrl
 item_info_from=@PARAM1@
 item_info_build=http://surk.tv/embebed.php?id=%s&width=640&height=385
 
-item_info_name=tmp
-item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*'file':\s*'([^']+)',\s*'streamer':\s*'([^']+)'.*?'([^']+\.swf)'.*','@CURRENT_URL@','file|rtmp.tmp|swf')
-item_info_build=%s
+#item_info_name=tmp
+#item_info_from=pageUrl
+#item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*swfobject.embedSWF\(['"]([^'"]+)['"#].*','@REFERER@','file|rtmp|swf')
+#item_info_build=%s
 
-item_info_name=rtmp
-item_info_build=rtmp://159.253.145.171/liverepeater
-#item_info_build=rtmp://67.228.150.184/liverepeater
+#item_info_name=url
+#item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
+#item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' live=true swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl
-item_info_build=%s
-
+item_info_from=@PARAM1@
+item_info_build=rtmp://217.23.13.118:1935/redirect/%s swfUrl=http://www.udemy.com/static/flash/player5.9.swf pageUrl=http://surk.tv live=1 timeout=15 swfVfy=1

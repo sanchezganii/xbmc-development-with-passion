@@ -4,7 +4,7 @@ item_info_build=CoolSport - %s
 
 item_info_name=tmp
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://embeds.coolsport.tv/livegame.php?id=%s&width=640&height=460','.*?id='([^'"]+)'.*)
+item_info_convert=getInfo('http://embeds.coolsport.tv/livegame.php?id=%s&width=640&height=460','.*?id='([^'"]+)'.*','@REFERER@')
 item_info_build=%s
 
 item_info_name=pageUrl

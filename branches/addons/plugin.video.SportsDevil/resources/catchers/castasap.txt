@@ -4,7 +4,7 @@ item_info_build=CastASAP - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://castasap.com/embed.php?c=%s&width=640&height=385
+item_info_build=http://castasap.com/embedhd.php?chname=%s&width=640&height=385
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -13,10 +13,10 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=rtmptmp
-item_info_convert=replace('%s','/live',':1935/live')
+item_info_convert=replace('%s','/export',':1935/export')
 item_info_build=%s
 
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
+item_info_from=rtmp://v1.cdn.media.ihost.md/streamer playpath=' + file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s
