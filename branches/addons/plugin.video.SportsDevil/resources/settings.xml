@@ -7,6 +7,6 @@
         <setting id="download_path" type="folder" source="video" label="30008" option="writeable" default=""/>
     </category>
     <category label="30005">
-        <setting id="updateNow" type="action" action="RunPlugin(plugin://plugin.video.SportsDevil/?mode=50&url=)" label="30272"/>        
+        <setting id="updateNow" type="action" action="RunPlugin(plugin://plugin.video.SportsDevil/?mode=0&url=)" label="30272"/>        
     </category>
 </settings>                                                                                     

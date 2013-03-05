@@ -12,7 +12,7 @@ from utils import regexUtils as reg
 
 from utils.xbmcUtils import select
 from utils.webUtils import isOnline
-from utils.fileUtils import getFileContent
+from utils.fileUtils import getFileContent, fileExists
 
 
 
@@ -195,12 +195,18 @@ def replaceRegex(params, src):
     return src
 
 
-def ifEmpty(params, src):
+def resolveVariable(item, param):
+    if param.startswith('@') and param.endswith('@'):
+        return item.getInfo(param.strip('@'))
+    return param
+    
+
+def ifEmpty(item, params, src):
     paramArr = __parseParams(params)
 
-    paramSource = paramArr[0].replace('%s', src)
-    paramTrue = paramArr[1].replace('%s', src)
-    paramFalse = paramArr[2].replace('%s', src)
+    paramSource = resolveVariable(item, paramArr[0].replace('%s', src))
+    paramTrue = resolveVariable(item, paramArr[1].replace('%s', src))
+    paramFalse = resolveVariable(item, paramArr[2].replace('%s', src))
 
     if paramSource == '':
         return paramTrue
@@ -210,12 +216,10 @@ def ifEmpty(params, src):
 
 def isEqual(item, params, src):
     paramArr = __parseParams(params)
-    paramSource = paramArr[0].replace('%s', src)
-    if paramSource.startswith('@') and paramSource.endswith('@'):
-        paramSource = item.getInfo(paramSource.strip('@'))
-    paramComp = paramArr[1].replace('%s', src)
-    paramTrue = paramArr[2].replace('%s', src)
-    paramFalse = paramArr[3].replace('%s', src)
+    paramSource = resolveVariable(item, paramArr[0].replace('%s', src))
+    paramComp = resolveVariable(item, paramArr[1].replace('%s', src))
+    paramTrue = resolveVariable(item, paramArr[2].replace('%s', src))
+    paramFalse = resolveVariable(item, paramArr[3].replace('%s', src))
 
     if (paramSource == paramComp):
         return paramTrue
@@ -223,11 +227,23 @@ def isEqual(item, params, src):
         return paramFalse
 
 
-def ifExists(params, src):
+def ifFileExists(item, params, src):
     paramArr = __parseParams(params)
-    paramSource = paramArr[0].replace('%s', src)
-    paramTrue = paramArr[1].replace('%s', src)
-    paramFalse = paramArr[2].replace('%s', src)
+    paramSource = resolveVariable(item, paramArr[0].replace('%s', src))
+    paramTrue = resolveVariable(item, paramArr[1].replace('%s', src))
+    paramFalse = resolveVariable(item, paramArr[2].replace('%s', src))
+
+    if fileExists(paramSource):
+        return paramTrue
+    else:
+        return paramFalse    
+
+
+def ifExists(item, params, src):
+    paramArr = __parseParams(params)
+    paramSource = resolveVariable(item, paramArr[0].replace('%s', src))
+    paramTrue = resolveVariable(item, paramArr[1].replace('%s', src))
+    paramFalse = resolveVariable(item, paramArr[2].replace('%s', src))
 
     if isOnline(paramSource):
         return paramTrue

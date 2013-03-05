@@ -4,18 +4,18 @@ item_info_build=CoolSport - %s
 
 item_info_name=tmp
 item_info_from=@PARAM1@
-item_info_convert=getInfo('http://embeds.coolsport.tv/livegame.php?id=%s&width=640&height=460','.*?id='([^'"]+)'.*','@REFERER@')
+item_info_convert=getInfo('http://embeds.coolsport.tv/livegame2.php?id=%s&width=640&height=460','.*?id='([^'"]+)'.*','@REFERER@')
 item_info_build=%s
 
 item_info_name=pageUrl
 item_info_from=tmp
-item_info_build=http://stream4.tv/player.php?id=%s&width=640&height=460
+item_info_build=http://footballnews.be/player2.php?id=%s&width=640&height=460
 
 item_info_name=tmp2
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*swfobject.embedSWF\(['"]([^'"]+)['"].*','@REFERER@','file|rtmp|swf')
+item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*swfobject.embedSWF\(['"]([^'"]+)['"].*','http://embeds.coolsport.tv','file|rtmp|swf')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp://rtmp.stream4.tv:1935/redirect playpath=' + tmp + ' swfUrl=http://cdn.stream4.tv/player.swf swfVfy=1 timeout=15 live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
 item_info_build=%s

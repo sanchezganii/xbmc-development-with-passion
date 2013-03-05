@@ -1,10 +1,10 @@
 item_info_name=title
 item_info_from=@PARAM1@
-item_info_build=LiveVShare - %s
+item_info_build=CastNowHD - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://31.131.6.107/embedhd.php?chname=%s&width=640&height=385
+item_info_build=http://91.228.111.63/embedhd.php?chname=%s&width=640&height=385
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -16,6 +16,7 @@ item_info_from=rtmptmp
 item_info_convert=replace('%s','/export',':1935/export')
 item_info_build=%s
 
+
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://31.131.6.107/' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://91.228.111.63/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s

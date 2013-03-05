@@ -8,13 +8,13 @@ import utils.regexUtils as rU
 import utils.scrapingUtils as sU
 import utils.fileUtils as fU
 import utils.githubUtils as github
+from utils.githubUtils import GitHubAPI
 
 
 # enums
-
 class SyncSourceType:
     CATCHERS = 1
-    MODULES = 2    
+    MODULES = 2
 
 
 # entities
@@ -22,6 +22,7 @@ class SyncSourceType:
 class SyncManager:
     def __init__(self):
         self.sources = []
+        self.__githubAPI = None
     
     def __getSourceByName__(self, name):
         found = filter(lambda x : x.name == name, self.sources)
@@ -31,7 +32,11 @@ class SyncManager:
     
     def addSource(self, name, sourceType, url):
         if not self.__getSourceByName__(name):
-            self.sources.append(SyncSource(name, sourceType, url))
+            hostName = sU.getHostName(url)
+            if hostName == 'github.com':
+                if not self.__githubAPI:
+                    self.__githubAPI = GitHubAPI()
+                self.sources.append(GitHubSource(name, sourceType, url, self.__githubAPI))
     
     def removeSource(self, name):
         source = self.__getSourceByName__(name)
@@ -104,11 +109,16 @@ class SyncManager:
     def __getLocalFiles__(self, folder):            
         if folder:
             syncObjects = []
-            for root, dirs, files in os.walk(folder, topdown = False):
+            for root, _, files in os.walk(folder, topdown = False):
+                relpath = root.replace(folder, '').replace('\\','/').strip('/')
                 for name in files:
                     path = os.path.join(root, name)
                     obj = SyncObject()
-                    obj.name = name
+                    obj.name = relpath
+                    if obj.name != '':
+                        obj.name += '/' + name
+                    else:
+                        obj.name = name
                     obj.file = path
                     obj.created = fU.lastModifiedAt(path)
                     obj.checksum = github.getGithash(path)
@@ -142,37 +152,48 @@ class Update:
             except:
                 return False
                         
-            fU.setFileContent(self.target.file, response)
+            fU.setFileContent(self.target.file, response, True)
             return True
         
         return False
     
     
-class SyncSource:
+
+class SyncSourceBase(object):
+    
     def __init__(self, name, sourceType, url):
         self.name = name
+        self._url = url
         self.type = sourceType
-        self.url = url
         self.enabled = True
     
     def getFiles(self):
-        url = self.url
-        hostName = sU.getHostName(url)
-        syncObjects = None
-        if hostName == 'github.com':
-            syncObjects = self.getFilesAPI()
-            if not syncObjects:
-                syncObjects = self.getFilesScrape()            
+        syncObjects = self.getFilesAPI()
+        if not syncObjects:
+            syncObjects = self.getFilesScrape()            
         return syncObjects
+    
+    def getFilesAPI(self):
+        pass
+    
+    def getFilesScrape(self):
+        pass
+        
 
-
-    # Attention! API calls are limited to 60 per hour
-
-    def getFilesAPI(self):   
-        url = self.url
+class GitHubSource(SyncSourceBase):
+    
+    def __init__(self, name, sourceType, url, api = None):
+        SyncSourceBase.__init__(self, name, sourceType, url)
+        self.__api = api
+        
+    def getFilesAPI(self):
+        if not self.__api:
+            return None
+        
+        url = self._url
         parts = urlparse(url)
         cleanPath = parts.path[1:]
-        parts = cleanPath.split('/', 5)
+        parts = cleanPath.split('/', 4)
         userName = parts[0]
         repoName = parts[1]
         branchName = parts[3]
@@ -180,14 +201,21 @@ class SyncSource:
         folderName = None
         if len(parts) > 4:
             folderName = parts[4]
-
-        files = github.getFiles(userName, repoName, branchName, folderName)
-        if not files:
+        
+        entries = self.__api.getEntries(userName, repoName, branchName, folderName)
+        if not entries:
             return None
+        
+        # file = blob, directory = tree
+        files = filter(lambda x: x.type == 'blob', entries)
+        
         syncObjects = []
         for f in files:
             obj = SyncObject()
-            obj.name = f.path
+            relpath = f.path
+            if folderName:
+                relpath = relpath.replace(folderName + '/', '')
+            obj.name = relpath
             obj.file =  "https://github.com/%s/%s/raw/%s/" % (userName, repoName, branchName)
             if folderName:
                 obj.file += folderName + "/" 
@@ -195,28 +223,43 @@ class SyncSource:
             obj.created = None # would be another request to github api
             obj.checksum = f.sha
             syncObjects.append(obj)
+                
         return syncObjects
     
-    def getFilesScrape(self):
-        url = self.url
-        response = None
-        try:
-            f = urllib.urlopen(url)
-            response = f.read()
-            f.close()
-        except:
-            return None
     
-        matches = rU.findall(response, '<td class="content"><a href="([^"]+)"[^>]+id="([^"]+)".*?<td class="age"><time [^<]*title="([^"]+)"')
-        if matches:
-            syncObjects = []
-            for m in matches:
-                obj = SyncObject()
-                obj.name = m[0].split('/')[-1]
-                obj.file = ('https://github.com' + m[0]).replace('blob', 'raw')
-                obj.checksum = m[1].split('-')[1]
-                obj.created = github.getUpdatedAtFromString(m[2])
-                syncObjects.append(obj)
-            return syncObjects
+    def getFilesScrape(self):
+        dirs =[self._url]
         
-        return None
+        syncObjects = []
+        while len(dirs) > 0:
+            response = None
+            try:
+                f = urllib.urlopen(dirs[0])
+                response = f.read()
+                f.close()
+            except:
+                return None
+            
+            if response:
+                matches = rU.findall(response, '<span class="[^"]*-([^-"]+)"></span></td>\s*<td class="content"><a href="([^"]+)"[^>]+id="([^"]+)".*?<td class="age"><time [^<]*title="([^"]+)"')
+                if matches and len(matches) > 0:
+                    for m in matches:
+                        entryUrl = 'https://github.com' + m[1]
+                        
+                        if m[0] == 'directory':
+                            dirs.append(entryUrl)
+                            continue
+                        else: 
+                            obj = SyncObject()
+                            obj.name = entryUrl.replace('/blob/','/tree/').replace(self._url,'').strip('/')
+                            obj.file = entryUrl.replace('/blob/', '/raw/')
+                            obj.checksum = m[2].split('-')[1]
+                            obj.created = github.getUpdatedAtFromString(m[3])
+                            syncObjects.append(obj)
+                    dirs.remove(dirs[0])
+                else:
+                    # maybe the page is not fully loaded
+                    if response.find('rel="nofollow">..</a></td>') > -1:
+                        dirs.remove(dirs[0])
+                                           
+        return syncObjects

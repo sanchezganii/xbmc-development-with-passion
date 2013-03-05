@@ -17,5 +17,5 @@ item_info_convert=getInfo('http://www.mips.tv:1935/loadbalancer','.*redirect=([\
 item_info_build=rtmp://%s/live/
 
 item_info_name=url
-item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 live=true swfUrl=http://www.mips.tv' + swf + ' pageUrl=' + pageUrl
+item_info_from=rtmp + ' playPath=' + channel + '?id=' + id + ' swfVfy=1 timeout=15 conn=S:OK live=true swfUrl=http://www.mips.tv' + swf + ' pageUrl=' + pageUrl
 item_info_build=%s

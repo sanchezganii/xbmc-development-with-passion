@@ -1,0 +1,21 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=HQStream - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://hqstream.tv/player.php?streampage=%s&height=480&width=700
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*SWFObject\("([^"]+)".*?\'streamer\',\s*\'([^\']+)\'.*?\'file\',\s*\'([^\']+)\'.*','@REFERER@','swf|rtmp.tmp|file')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','live.hqstream.tv','174.36.55.73')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_build=%s
