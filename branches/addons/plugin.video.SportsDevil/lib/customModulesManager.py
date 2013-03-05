@@ -31,7 +31,7 @@ class CustomModulesManager:
         txt = '\n'.join(head)
         
         self.modules = []
-        for root, dirs, files in os.walk(self._customModulesFolder , topdown = False):
+        for root, _, files in os.walk(self._customModulesFolder , topdown = False):
             for name in files:
                 if name.endswith('.module'):
                     self.modules.append(name)
@@ -53,7 +53,7 @@ class CustomModulesManager:
             tag=' href="'
             for line in text:
                 if tag in line.lower():
-                    for i, c in enumerate(line):
+                    for i, _ in enumerate(line):
                         if tag == line[i:i+len(tag)].lower():
                             textline = line[i+len(tag):]
                             end = textline.find('"')
@@ -74,15 +74,17 @@ class CustomModulesManager:
             return os.path.isfile(file_path)
         
         
-        def extract(file, dir):                
-            if not dir.endswith(':') and not os.path.exists(dir):
-                os.mkdir(dir)
+        def extract(fileOrPath, directory):                
+            if not directory.endswith(':') and not os.path.exists(directory):
+                os.mkdir(directory)
         
-            zf = zipfile.ZipFile(file)
+            zf = zipfile.ZipFile(fileOrPath)
         
-            for i, name in enumerate(zf.namelist()):
-                if not name.endswith('/'):
-                    outfile = open(os.path.join(dir, name), 'wb')
+            for _, name in enumerate(zf.namelist()):
+                if name.endswith('/'):
+                    os.makedirs(os.path.join(directory, name), 0777)
+                else:
+                    outfile = open(os.path.join(directory, name), 'wb')
                     outfile.write(zf.read(name))
                     outfile.flush()
                     outfile.close()
@@ -135,6 +137,16 @@ class CustomModulesManager:
             if os.path.isfile(cfgUrl):
                 os.remove(cfgUrl)
                 os.remove(cfgUrl.replace(".cfg", ".module"))
+                
+                # remove all folder that start with cfg name and a dot
+                baseDir = os.path.dirname(cfgUrl)
+                prefix = os.path.basename(cfgUrl).replace(".cfg", ".")
+                dirs = fileUtils.get_immediate_subdirectories(baseDir)
+                for d in dirs:
+                    if d.startswith(prefix):
+                        fileUtils.clearDirectory(os.path.join(baseDir, d))
+                        os.removedirs(os.path.join(baseDir, d))
+
                 return True
         except:
             pass

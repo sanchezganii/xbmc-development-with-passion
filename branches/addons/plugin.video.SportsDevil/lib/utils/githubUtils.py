@@ -4,31 +4,66 @@ from cStringIO import StringIO
 import datetime
 import datetimeUtils   
 
+
+class GitHubAPI:
     
-# max. 60 API calls per hour
-# ATM 12 * getFiles per hour
-def getFiles(userName, repoName, branchName, folderName=None):
-    try:
-        g = Github()
-        user = g.get_user(userName)                                                         # call 1
-        if user:
-            repo = user.get_repo(repoName)                                                  # call 2
-            if repo:
-                branch = repo.get_branch(branchName)                                        # call 3
-                if branch:
-                    tree = repo.get_git_tree(branch.commit.sha)                             # call 4
-                    if tree:
-                        if folderName:
-                            folder = filter(lambda x : x.path == folderName, tree.tree)
-                            if folder and len(folder) > 0:
-                                tree = repo.get_git_tree(folder[0].sha)                     # call 5
-                        if tree:
-                            files = tree.tree
-                            return files
-    except:
-        pass
+    def __init__(self):
+        self.__g = Github()
+        self.__user = None
+        self.__repo = None
+        self.__branch = None
+        self.__tree = None
+        
+    # max. 60 API calls per hour
+    # ATM at least 15 * getEntries per hour
     
-    return None
+    ###########################################################################
+    #            new  |  sameUser  |  sameRepo  |  sameBranch  |  sameTree    #
+    #    A       1       -            -            -              -           #
+    #    B       2       1            -            -              -           #
+    #    C       3       2            1            -              -           #  
+    #    D       4       3            2            1              -           # 
+    ###########################################################################
+    
+    def getEntries(self, userName, repoName, branchName, folderName=None):
+        try:
+            if not self.__user or self.__user.login != userName:
+                self.__user = self.__g.get_user(userName)                                                         # call A
+                if self.__user:
+                    self.__repo = self.__user.get_repo(repoName)                                                  # call B
+                    if self.__repo:
+                        self.__branch = self.__repo.get_branch(branchName)                                        # call C
+
+            if self.__user:
+                
+                if not self.__repo or self.__repo.name != repoName:
+                    self.__repo = self.__user.get_repo(repoName)                                                  # call B
+                    if self.__repo:
+                        self.__branch = self.__repo.get_branch(branchName)                                        # call C
+                    
+                if self.__repo:
+                    
+                    if not self.__branch or self.__branch.name != branchName:
+                        self.__branch = self.__repo.get_branch(branchName)                                        # call C
+                    
+                    if self.__branch:
+                        
+                        recursive = True
+                        commitSha = self.__branch.commit.sha
+                        if not self.__tree or self.__tree.sha != commitSha:
+                            self.__tree = self.__repo.get_git_tree(commitSha, recursive)                          # call D
+                        
+                        if self.__tree:
+                            
+                            entries = self.__tree.tree
+                            if folderName:
+                                entries = filter(lambda x : x.path.startswith(folderName), entries)
+                            return entries
+        except:
+            pass
+        
+        return None
+
 
 
 # returns UTC datetime

@@ -38,7 +38,7 @@ from customModulesManager import CustomModulesManager
 
 
 class Mode:
-    
+    UPDATE = 0
     VIEW = 1
     PLAY = 2
     QUEUE = 3
@@ -48,11 +48,9 @@ class Mode:
     REMOVEFROMFAVOURITES = 7
     EDITITEM = 8
     ADDITEM = 9
-    REMOVEFROMCUSTOMMODULES = 10
+    DOWNLOADCUSTOMMODULE = 10
+    REMOVEFROMCUSTOMMODULES = 11
     
-    # scripts
-    UPDATE = 50
-    DOWNLOADCUSTOMMODULE = 51
 
 
 
@@ -72,8 +70,11 @@ class Main:
 
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
         self.customModulesManager = CustomModulesManager(common.Paths.customModulesDir, common.Paths.customModulesRepo)
+        
+        # todo: cache this (due to limited API calls for github)
         self.syncManager = SyncManager()
-        self.syncManager.addSource("Max Mustermann", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
+        self.syncManager.addSource("Max Mustermann - Catchers", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
+        self.syncManager.addSource("Max Mustermann - Modules", SyncSourceType.MODULES, common.Paths.modulesRepo)
         
         if not os.path.exists(common.Paths.customModulesDir):
             os.makedirs(common.Paths.customModulesDir, 0777)
@@ -87,19 +88,18 @@ class Main:
 
     def getPlayerType(self):
         sPlayerType = common.getSetting('playerType')
-
+        
         if (sPlayerType == '0'):
             return xbmc.PLAYER_CORE_AUTO
-
-        if (sPlayerType == '1'):
+        elif (sPlayerType == '1'):
             return xbmc.PLAYER_CORE_MPLAYER
-
-        if (sPlayerType == '2'):
+        elif (sPlayerType == '2'):
             return xbmc.PLAYER_CORE_DVDPLAYER        
-        
         # PLAYER_CORE_AMLPLAYER
-        if (sPlayerType == '3'):
+        elif (sPlayerType == '3'):
             return 5
+
+        return xbmc.PLAYER_CORE_AUTO
 
 
     def playVideo(self, videoItem, isAutoplay = False):
@@ -149,6 +149,10 @@ class Main:
 
     def getVideos(self, lItem, dia = None, percent = 0, percentSpan = 100):
         allitems = []
+        
+        if dia and dia.isCanceled():
+            return allitems
+        
         currentName = lItem['title']
 
         if lItem['type'].find('video') != -1:
@@ -158,11 +162,16 @@ class Main:
         else:
             tmpList = self.parser.parse(lItem).list
             if tmpList and len(tmpList.items) > 0:
+                
+                if dia:
+                    dia.update(percent, secondline=currentName, thirdline=' ')
+                
                 inc = percentSpan/len(tmpList.items)
-                dia.update(percent, secondline=currentName, thirdline=' ')
                 for item in tmpList.items:
-                    if dia.isCanceled():
+                    
+                    if dia and dia.isCanceled():
                         break
+                    
                     children = self.getVideos(item, dia, percent, inc)
                     if children:
                         allitems.extend(children)
@@ -191,6 +200,10 @@ class Main:
         def endOfDirectory(succeeded=True):
             xbmcplugin.endOfDirectory(handle=self.handle, succeeded=succeeded, cacheToDisc=True)
 
+        if not lItem:
+            endOfDirectory(False)
+            return None
+
         if lItem['type'] == 'search':
             search_phrase = self.getSearchPhrase()
             if not search_phrase:
@@ -206,6 +219,7 @@ class Main:
         if url == common.Paths.customModulesFile: 
             self.customModulesManager.getCustomModules()
 
+        tmpList = None
         result = self.parser.parse(lItem)
         if result.code == ParsingResult.Code.SUCCESS:
             tmpList = result.list
@@ -222,8 +236,6 @@ class Main:
 
         # if it's the main menu, add folder 'Favourites' and 'Custom Modules
         if url == self.MAIN_MENU_FILE:
-            
-            # Add Favourites
             tmp = ListItem.create()
             tmp['title'] = 'Favourites'
             tmp['type'] = 'rss'
@@ -237,8 +249,6 @@ class Main:
             tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
             tmpList.items.insert(0, tmp)
 
-            
-
         # if it's the favourites menu, add item 'Add item'
         elif url == common.Paths.favouritesFile:
             tmp = ListItem.create()
@@ -249,6 +259,7 @@ class Main:
             tmp['url'] = action
             tmpList.items.append(tmp)
         
+        # if it's the custom modules  menu, add item 'more...'
         elif url == common.Paths.customModulesFile:            
             tmp = ListItem.create()
             tmp['title'] = 'more...'
@@ -308,12 +319,24 @@ class Main:
         m_type = item['type']
 
         icon = item['icon']
+
+        if icon and not icon.startswith('http'):
+            try:
+                if not fu.fileExists(icon):
+                    tryFile = os.path.join(common.Paths.modulesDir, icon)
+                    if not fu.fileExists(tryFile):
+                        tryFile = os.path.join(common.Paths.customModulesDir, icon)
+                    if fu.fileExists(tryFile):
+                        icon = tryFile
+            except:
+                pass
+
         if not icon:
             if m_type == 'video':
                 icon = common.Paths.defaultVideoIcon
             else:
                 icon = common.Paths.defaultCategoryIcon
-
+                
         liz = xbmcgui.ListItem(title, title, iconImage=icon, thumbnailImage=icon)
 
         fanart = item['fanart']
@@ -388,12 +411,6 @@ class Main:
 
         codedItem = urllib.quote_plus(ListItem.toUrl(lItem))
 
-        # Jump to MainMenu
-#        if definedIn and definedIn != self.MAIN_MENU_FILE:
-#            action = 'Container.Update(%s, replace)' % (self.base)
-#            contextMenuItem = ('Jump to Mainmenu', action)
-#            contextMenuItems.append(contextMenuItem)
-
         if definedIn:
             # Queue
             contextMenuItem = createContextMenuItem('Queue', Mode.QUEUE, codedItem)
@@ -448,58 +465,74 @@ class Main:
             os.mkdir(cacheDir, 0777)
             common.log('Cache directory created' + str(cacheDir))
         else:
-            for root, dirs, files in os.walk(cacheDir , topdown = False):
-                for name in files:
-                    os.remove(os.path.join(root, name))
+            fu.clearDirectory(cacheDir)
             common.log('Cache directory purged')
 
 
-
-    def update(self):               
-        common.showNotification('SportsDevil', common.translate(30275))
-        xbmcUtils.showBusyAnimation()
-        updates = self.syncManager.getUpdates(SyncSourceType.CATCHERS, common.Paths.catchersDir)
-        xbmcUtils.hideBusyAnimation()
-        count = len(updates)
+    def update(self):
         
+        def checkForUpdates():
+            updates = {}          
+            common.showNotification('SportsDevil', common.translate(30275))
+            xbmcUtils.showBusyAnimation()
+                 
+            catchersUpdates = self.syncManager.getUpdates(SyncSourceType.CATCHERS, common.Paths.catchersDir)
+            if len(catchersUpdates) > 0:
+                updates["Catchers"] = catchersUpdates    
+            modulesUpdates = self.syncManager.getUpdates(SyncSourceType.MODULES, common.Paths.modulesDir)
+            if len(modulesUpdates) > 0:
+                updates["Modules"] = modulesUpdates
+            
+            xbmcUtils.hideBusyAnimation()
+            return updates
+        
+        def doUpdates(typeName, updates):
+            count = len(updates)
+            
+            head = "SportsDevil Updates - %s" % typeName
+            
+            msg = common.translate(30277)
+            if count == 1:
+                msg = common.translate(30276)
+                
+            question = ("%s %s: " % (count, msg)) + ', '.join(map(lambda u: u.split('/')[-1], updates.keys())) + '\n'
+            question += common.translate(30278)
+            
+            updates = updates.values()
+            
+            countFailed = 0
+    
+            dlg = DialogQuestion()
+            dlg.head = head
+            if dlg.ask(question):
+                dlg = DialogProgress()
+                firstline = common.translate(30279)
+                dlg.create(head, firstline, " ")
+           
+                for i in range(0, count):
+                    update = updates[i]
+                    percent = int((i+1.0)*100/count)
+                    dlg.update(percent, firstline, update.name)
+                    if not update.do():
+                        countFailed += 1
+                
+                msg = " "
+                if countFailed > 0:
+                    msg = "%s %s" % (countFailed, common.translate(30280))
+                    
+                dlg.update(100, msg, " ")
+                xbmc.sleep(500)
+                dlg.close()
+            
+        
+        allupdates = checkForUpdates()
+        count = len(allupdates)
         if count == 0:
             common.showNotification('SportsDevil', common.translate(30273))
             return
-        
-        head = "SportsDevil Updates"
-        
-        msg = common.translate(30277)
-        if count == 1:
-            msg = common.translate(30276)
-            
-        question = ("%s %s: " % (count, msg)) + ', '.join(updates.keys()) + '\n'
-        question += common.translate(30278)
-        
-        updates = updates.values()
-        
-        countFailed = 0
-
-        dlg = DialogQuestion()
-        dlg.head = head
-        if dlg.ask(question):
-            dlg = DialogProgress()
-            firstline = common.translate(30279)
-            dlg.create(head, firstline, " ")
-       
-            for i in range(0, count):
-                update = updates[i]
-                percent = int((i+1.0)*100/count)
-                dlg.update(percent, firstline, update.name)
-                if not update.do():
-                    countFailed += 1
-            
-            msg = " "
-            if countFailed > 0:
-                msg = "%s %s" % (countFailed, common.translate(30280))
-                
-            dlg.update(100, msg, " ")
-            xbmc.sleep(500)
-            dlg.close()
+        else:
+            for key, value in allupdates.items():
+                doUpdates(key, value)
 
 
     def queueAllVideos(self, item):

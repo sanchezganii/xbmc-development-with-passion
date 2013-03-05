@@ -38,7 +38,7 @@ class ParsingResult(object):
     def __init__(self, code, itemsList):
         self.code = code
         self.list = itemsList
-
+        self.message = None
 
 class Parser(object):
 
@@ -422,7 +422,7 @@ class Parser(object):
                         tmp = CListItem()
                         tmp['title'] = value
                         if tmpList.skill.find('videoTitle') > -1:
-                            tmp['videoTitle'] = value
+                            tmp['videoTitle'] = value 
                     elif key == 'url':
                         tmp['url'] = value
                         if lItem:
@@ -614,13 +614,16 @@ class Parser(object):
                 src = cc.replaceRegex(params, src)
 
             elif command == 'ifEmpty':
-                src = cc.ifEmpty(params, src)
+                src = cc.ifEmpty(item, params, src)
 
             elif command == 'isEqual':
                 src = cc.isEqual(item, params, src)
 
+            elif command == 'ifFileExists':
+                src = cc.ifFileExists(item, params, src)
+
             elif command == 'ifExists':
-                src = cc.ifExists(params, src)
+                src = cc.ifExists(item, params, src)
 
             elif command == 'encryptJimey':
                 src = crypt.encryptJimey(params.strip("'").replace('%s', src))

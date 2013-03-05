@@ -9,6 +9,9 @@ import hashlib
 #######################################
 # File Helpers
 #######################################
+def fileExists(filename):
+    return os.path.isfile(filename)
+
 
 def getFileExtension(filename):
     ext_pos = filename.rfind('.')
@@ -17,13 +20,16 @@ def getFileExtension(filename):
     else:
         return ''
 
+def get_immediate_subdirectories(directory):
+    return [name for name in os.listdir(directory)
+            if os.path.isdir(os.path.join(directory, name))]
 
 def findInSubdirectory(filename, subdirectory=''):
     if subdirectory:
         path = subdirectory
     else:
         path = os.getcwd()
-    for root, dirs, names in os.walk(path):
+    for root, _, names in os.walk(path):
         if filename in names:
             return os.path.join(root, filename)
     raise 'File not found'
@@ -39,8 +45,8 @@ def cleanFilename(s):
 
 
 def randomFilename(directory, chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length = 8, prefix = '', suffix = '', attempts = 10000):
-    for attempt in range(attempts):
-        filename = ''.join([random.choice(chars) for i in range(length)])
+    for _ in range(attempts):
+        filename = ''.join([random.choice(chars) for _ in range(length)])
         filename = prefix + filename + suffix
         if not os.path.exists(os.path.join(directory, filename)):
             return filename
@@ -56,8 +62,13 @@ def getFileContent(filename):
     except:
         return ''
 
-def setFileContent(filename, txt):
+def setFileContent(filename, txt, createFolders=False):
     try:
+        if createFolders:
+            folderPath = os.path.dirname(filename)
+            if not os.path.exists(folderPath):
+                os.makedirs(folderPath, 0777)
+        
         f = open(filename, 'w')
         f.write(smart_unicode(txt).encode('utf-8'))
         f.close()
@@ -105,3 +116,57 @@ def setLastModifiedAt(path, date):
         pass
     
     return False
+
+def clearDirectory(path):
+    try:
+        for root, _, files in os.walk(path , topdown = False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+    except:
+        return False
+    
+    return True
+
+
+# http://akiscode.com/articles/sha-1directoryhash.shtml
+# Copyright (c) 2009 Stephen Akiki
+# MIT License (Means you can do whatever you want with this)
+#  See http://www.opensource.org/licenses/mit-license.php
+# Error Codes:
+#   -1 -> Directory does not exist
+#   -2 -> General error (see stack traceback)
+
+def GetHashofDirs(directory, verbose=0):
+
+    SHAhash = hashlib.sha1()
+    if not os.path.exists (directory):
+        return -1
+      
+    try:
+        for root, _, files in os.walk(directory):
+            for names in files:
+                if verbose == 1:
+                    print 'Hashing', names
+                filepath = os.path.join(root,names)
+                try:
+                    f1 = open(filepath, 'rb')
+                except:
+                    # You can't open the file for some reason
+                    f1.close()
+                    continue
+        
+        while 1:
+            # Read file in as little chunks
+            buf = f1.read(4096)
+            if not buf: 
+                break
+            SHAhash.update(hashlib.sha1(buf).hexdigest())
+            f1.close()
+        
+    except:
+        import traceback
+        # Print the stack traceback
+        traceback.print_exc()
+        return -2
+
+    return SHAhash.hexdigest()
