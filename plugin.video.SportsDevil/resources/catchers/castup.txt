@@ -17,5 +17,5 @@ item_info_convert=replace('%s','/redirect',':1935/redirect')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp://cdn.castup.tv:1935/redirect/ playPath=' + @PARAM1@ + ' swfUrl=http://176.31.232.222:81/player/player.swf swfVfy=1 token=#ed%h0#w@1 live=true pageUrl=' + pageUrl
+item_info_from=rtmp://cdn.castup.tv:1935/redirect/ playPath=' + @PARAM1@ + ' swfUrl=http://176.31.232.222:81/player/player.swf swfVfy=1 token=#@8x12pX@!x@# live=true pageUrl=' + pageUrl
 item_info_build=%s

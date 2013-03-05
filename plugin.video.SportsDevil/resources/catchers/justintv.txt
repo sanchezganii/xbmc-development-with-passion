@@ -2,32 +2,7 @@ item_info_name=title
 item_info_from=@PARAM1@
 item_info_build=JustinTV - %s
 
-item_info_name=jtv
-item_info_from=@PARAM1@
-item_info_convert=getInfo('http://usher.justin.tv/find/%s.xml?type=live','.*<play>([^<]+)</play>.*?<token>([^<]+)</token>.*?<connect>([^<]+)</connect>.*','','stream|tokenTmp|rtmp')
-item_info_build=%s
-
-item_info_name=token
-item_info_from=tokenTmp
-item_info_convert=replace('%s','"','\22')
-item_info_convert=replace('%s',' ','\20')
-item_info_build=%s
-
-item_info_name=swf.tmp
-item_info_from=@PARAM1@
-item_info_convert=getInfo('http://www.justin.tv/%s','.*swfobject.embedSWF\("(.*?/widgets/live_site_player.+?)".*')
-item_info_build=%s
-
-item_info_name=swf2.tmp
-item_info_from=@PARAM1@
-item_info_build=http://www.justin.tv/widgets/live_facebook_embed_player.swf?channel=%s
-
-item_info_name=swf
-item_info_from= swf.tmp || swf2.tmp
-item_info_build=%s
-
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + stream + ' jtv=' + token + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=@CURRENT_URL@' 
-item_info_build=%s
-
-
+item_info_from=@PARAM1@
+@IF(@PLATFORM@!=xbox)@item_info_build=plugin://plugin.video.jtv.archives/?mode=2&name=%s@ENDIF@
+@IF(@PLATFORM@==xbox)@item_info_build=plugin://video/jtv.archives/?mode=2&name=%s@ENDIF@

@@ -181,7 +181,7 @@ def findVideoFrameLink(page, data):
 
             height = int(iframe[1])
             if height > minheight:
-                m = re.findall(iframe[0], "[ ]width=[\"']*(\d+[%]*)[\"']*")
+                m = re.findall(iframe[0], "[\"' ]width=[\"']*(\d+[%]*)[\"']*")
                 if m:
                     if m[0] == '100%':
                         width = minwidth+1

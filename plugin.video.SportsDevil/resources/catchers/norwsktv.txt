@@ -46,7 +46,7 @@ item_info_build=%s
 item_info_name=rtmp
 item_info_from=rtmp.tmp
 item_info_convert=replace('%s','\','')
-#item_info_convert=replace('%s','/redirect','/vod')
+item_info_convert=replace('%s','/redirect','/vod')
 item_info_build=%s
 
 item_info_name=pageUrl3
@@ -55,5 +55,5 @@ item_info_convert=getInfo('%s','.*<iframe src="([^"]+)".*','@REFERER@')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath='+ file + ' swfUrl=' + swf + ' live=true swfVfy=true timeout=15 pageUrl=' + pageUrl3 
+item_info_from=rtmp + ' playpath='+ file + ' swfUrl=' + swf + ' live=true token=#ro%g0#r@1 buffer=300000 swfVfy=true timeout=15 pageUrl=' + pageUrl3 
 item_info_build=%s

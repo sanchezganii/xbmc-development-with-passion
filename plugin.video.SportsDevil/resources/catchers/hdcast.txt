@@ -4,4 +4,4 @@ item_info_build=HdCast - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://origin.hdcast.tv:1935/redirect/%s swfUrl=http://bitcast-r.v1.sjc1.bitgravity.com/malar/Players/player.swf live=true timeout=15 swfVfy=1 pageUrl=http://www.hdcast.tv
+item_info_build=rtmp://origin.hdcast.tv:1935/redirect/%s swfUrl=http://www.udemy.com/static/flash/player5.9.swf live=true timeout=15 swfVfy=1 pageUrl=http://www.hdcast.tv

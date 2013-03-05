@@ -18,5 +18,5 @@ item_info_build=%s
 
 
 item_info_name=url
-item_info_from=rtmp://v1.cdn.media.ihost.md/streamer playpath=' + file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s

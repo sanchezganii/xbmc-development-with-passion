@@ -102,10 +102,7 @@ def parseWebsite(source, regex, referer='', variables=[]):
 # classes with constants
 #------------------------------------------------------------------------------
 class Paths:
-    rootDir = __settings__.getAddonInfo('path')
-
-    if rootDir[-1] == ';':
-        rootDir = rootDir[0:-1]
+    rootDir = xbmc.translatePath(__settings__.getAddonInfo('path')).decode('utf-8')
 
     cacheDir = os.path.join(rootDir, 'cache')
     resDir = os.path.join(rootDir, 'resources')
@@ -118,11 +115,12 @@ class Paths:
     defaultVideoIcon = os.path.join(imgDir, 'video.png')
     defaultCategoryIcon = os.path.join(imgDir, 'folder.png')    
 
-    pluginDataDir = xbmc.translatePath('special://profile/addon_data/plugin.video.SportsDevil')
+    pluginDataDir = xbmc.translatePath(__settings__.getAddonInfo('profile')).decode('utf-8')
     favouritesFolder = os.path.join(pluginDataDir, 'favourites')
     favouritesFile = os.path.join(favouritesFolder, 'favourites.cfg')
     customModulesDir = os.path.join(pluginDataDir, 'custom')
     customModulesFile = os.path.join(customModulesDir, 'custom.cfg')
     
     catchersRepo = 'https://github.com/MusterGit/sportsdevil-catchers/tree/master/catchers'
+    modulesRepo = 'https://github.com/MusterGit/sportsdevil-modules/tree/master/modules'
     customModulesRepo = 'http://xbmc-development-with-passion.googlecode.com/svn/branches/custom/'
