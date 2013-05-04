@@ -1,5 +1,25 @@
 =Changelog=
 
+V1.8.5.5:
+  * modules:
+    * FIX: livetv.ru
+    * MERGE: modules repo
+	
+  * catchers:
+    * ADD: HTTP: files
+    * MERGE: catchers repo
+  * addon:
+    * CHG: added JavaScript (p,a,c,k,e,d) unpacking to demystification
+    * ADD: conversion function convTimestamp(newformat, offsetString='')
+    * FIX: removal of favourites with unicode titles
+    * FIX: empty favourite folders are shown instead of 'No stream available'
+    * FIX: renaming virtual folders will update the header too
+    * CHG: virtual folders are not limited to one level any more
+    * CHG: renamed settings category "Actions" to "Updates" and moved auto-update setting there
+    * FIX: autoupdate when addon is started from favourite/custom mainmenu entry
+    * ADD: install external addons JustinTV, YouTube and Veetle via settings
+
+
 V1.8.2:
   * FIX: import python module from parent folder
   * FIX: coolsportz.de.cfg, set referer
