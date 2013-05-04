@@ -19,9 +19,9 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=rtmp.tmp
-item_info_convert=replace('%s','live.megom.tv','213.163.71.203')
+item_info_convert=replace('%s','live.megom.tv','37.221.172.85')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + @PARAM1@ + ' swfVfy=1 swfUrl=' + swf + ' live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + @PARAM1@ + ' swfVfy=1 swfUrl=' + swf + ' live=true timeout=15 pageUrl=' + pageUrl
 item_info_build=%s

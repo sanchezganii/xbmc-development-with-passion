@@ -44,9 +44,11 @@ class CustomModulesManager:
         
         def get_dir_listing(url):
             
+            
             f = urllib.urlopen(url)
             response = f.read()
             f.close()
+            
             text = response.split("\n")
             urls = []
             httptag = "http://"

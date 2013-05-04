@@ -17,14 +17,13 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=channelid
-item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*(rtmp://.+?)\/\W)
+item_info_convert=getInfo('http://cdngw.ustream.tv/Viewer/getStream/1/%s.amf','.*(rtmp://.+?)\/\W.*')
 item_info_build=%s
 
 item_info_name=file
 item_info_from=channelid
-item_info_convert=getInfo('http://cgw.ustream.tv/Viewer/getStream/1/%s.amf','.*?streamName\W\W\W(.+?)[/]*\W.*)
+item_info_convert=getInfo('http://cdngw.ustream.tv/Viewer/getStream/1/%s.amf','.*?streamName\W\W\W(.+?)[/]*\W.*')
 item_info_build=%s
-
 
 item_info_name=url
 item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://static-cdn1.ustream.tv/swf/live/viewer.rsl:370.swf live=true timeout=15 swfVfy=true pageUrl=' + @PARAM1@

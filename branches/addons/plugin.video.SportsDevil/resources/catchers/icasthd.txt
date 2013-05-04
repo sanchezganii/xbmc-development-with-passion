@@ -4,7 +4,7 @@ item_info_build=iCastHD - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.icasthd.tv/embed.php?v=%s&vw=575&vh=390&domain=www.myhdfooty.com
+item_info_build=http://www.icasthd.tv/embed.php?v=%s&vw=575&vh=390&domain=www.ihdsports.com
 
 item_info_name=swf
 item_info_from=pageUrl
@@ -22,11 +22,16 @@ item_info_from=pageUrl
 item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@')
 item_info_build=%s
 
-item_info_name=rtmp
-item_info_from=rtmp.tmp
-item_info_convert=replace('%s','cdn.icasthd.tv','cdn.icasthd.tv:1935')
+#item_info_name=rtmp
+#item_info_from=rtmp.tmp
+#item_info_convert=replace('%s','edge.icasthd.com:1935/redirect3','edge.icasthd.com:1935/live')
+#item_info_build=%s
+
+item_info_name=app
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*?\?f=([^'"]+).*','@REFERER@')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
+item_info_from=rtmp.tmp + ' app=live?f=' + app + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
 item_info_build=%s

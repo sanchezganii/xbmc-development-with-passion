@@ -5,4 +5,4 @@ item_info_build=LiveView365 - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://46.249.51.142:1935/liveview365/%s swfUrl=http://liveview365.tv/jwplayer/player.swf pageUrl=http://liveview365.tv live=true timeout=15 swfVfy=1
+item_info_build=rtmp://94.242.228.22:1935/liveview365/%s swfUrl=http://liveview365.tv/jwplayer/player.swf pageUrl=http://liveview365.tv live=true timeout=15 swfVfy=1
