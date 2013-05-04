@@ -77,10 +77,21 @@ def convDate(params, src):
         offsetStr = ''
         if len(paramArr) > 2:
             offsetStr = paramArr[2]
-        return dt.convDate(language, src,str(oldfrmt), str(newfrmt), offsetStr)
+        return dt.convDate(language, src, str(oldfrmt), str(newfrmt), offsetStr)
     else:
         params = params.strip("'")
         return dt.convDate(language, src,params)
+
+
+def convTimestamp(params, src):
+    if params.find("','") != -1:
+        paramArr = __parseParams(params)
+        newfrmt = paramArr[0]
+        offsetStr = paramArr[1]
+        return dt.convTimestamp(src, str(newfrmt), offsetStr)
+    else:
+        newfrmt = params.strip("'")
+        return dt.convTimestamp(src, str(newfrmt))
 
 
 def offset(params, src):

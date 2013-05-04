@@ -1,0 +1,16 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=99Cast - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://www.99cast.com/embed.php?v=%s&vh=430&vw=600
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*?stream:\s*'([^'"]+)'.*swfobject.embedSWF\(['"]([^'"]+)['"].*','@REFERER@','rtmp|swf')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
+item_info_build=%s

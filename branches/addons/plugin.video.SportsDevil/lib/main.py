@@ -34,6 +34,8 @@ from dialogs.dialogQuestion import DialogQuestion
 
 from customModulesManager import CustomModulesManager
 
+from addonInstaller import install
+
 #from cacheManager import CacheManager
 
 
@@ -50,6 +52,7 @@ class Mode:
     ADDITEM = 9
     DOWNLOADCUSTOMMODULE = 10
     REMOVEFROMCUSTOMMODULES = 11
+    INSTALLADDON = 12
     
 
 
@@ -250,12 +253,16 @@ class Main:
             tmpList.items.insert(0, tmp)
 
         # if it's the favourites menu, add item 'Add item'
-        elif url == common.Paths.favouritesFile:
+        elif url == common.Paths.favouritesFile or url.startswith('favfolders'):
+            
+            if url.startswith('favfolders'):
+                url = os.path.normpath(os.path.join(common.Paths.favouritesFolder, url)) 
+            
             tmp = ListItem.create()
             tmp['title'] = 'Add item...'
             tmp['type'] = 'command'
             tmp['icon'] = os.path.join(common.Paths.imgDir, 'bookmark_add.png')
-            action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=')
+            action = 'RunPlugin(%s)' % (self.base + '?mode=' + str(Mode.ADDITEM) + '&url=' + url)
             tmp['url'] = action
             tmpList.items.append(tmp)
         
@@ -275,7 +282,10 @@ class Main:
 
         count = len(tmpList.items)
         if count == 0:
-            common.showInfo('No stream available')
+            if url.startswith('favfolders'):
+                proceed = True
+            else:
+                common.showInfo('No stream available')
         elif count > 0 and not (common.getSetting('autoplay') == 'true' and count == 1 and len(tmpList.getVideos()) == 1):
             # sort methods
             sortKeys = tmpList.sort.split('|')
@@ -296,7 +306,7 @@ class Main:
         success = self.customModulesManager.downloadCustomModules()
         if success == True:            
             # refresh container if SportsDevil is active
-            currContainer = xbmcUtils.getCurrentFolderPath()
+            currContainer = xbmcUtils.getContainerFolderPath()
             common.showNotification('SportsDevil', 'Download successful', 1000)
             if currContainer.startswith(self.base):                
                 xbmc.executebuiltin('Container.Refresh()')
@@ -416,6 +426,7 @@ class Main:
             contextMenuItem = createContextMenuItem('Queue', Mode.QUEUE, codedItem)
             contextMenuItems.append(contextMenuItem)
 
+            # Favourite
             if definedIn.endswith('favourites.cfg') or definedIn.startswith("favfolders/"):
                 # Remove from favourites
                 contextMenuItem = createContextMenuItem('Remove', Mode.REMOVEFROMFAVOURITES, codedItem)
@@ -426,6 +437,7 @@ class Main:
                 contextMenuItems.append(contextMenuItem)
 
             else:
+                # Custom module
                 if definedIn.endswith('custom.cfg'):
                     # Remove from custom modules
                     contextMenuItem = createContextMenuItem('Remove module', Mode.REMOVEFROMCUSTOMMODULES, codedItem)
@@ -524,7 +536,6 @@ class Main:
                 xbmc.sleep(500)
                 dlg.close()
             
-        
         allupdates = checkForUpdates()
         count = len(allupdates)
         if count == 0:
@@ -562,7 +573,7 @@ class Main:
 
     def executeItem(self, item):
         url = item['url']
-        if url.find('(') > -1:
+        if '(' in url:
             xbmcCommand = parseText(url,'([^\(]*).*')
             if xbmcCommand.lower() in ['activatewindow', 'runscript', 'runplugin', 'playmedia']:
                 if xbmcCommand.lower() == 'activatewindow':
@@ -594,23 +605,25 @@ class Main:
     def run(self, paramstring):
         common.log('SportsDevil running')
         try:
-            # Main Menu
-            if len(paramstring) <= 2:
-                
-                mainMenu = ListItem.fromUrl(self.MAIN_MENU_FILE)
-                tmpList = self.parseView(mainMenu)
-                if tmpList:
-                    self.currentlist = tmpList
-                
-                # if addon is started
-                currFolder = xbmcUtils.getCurrentFolderPath()
-                if not currFolder.startswith(self.base):
+            
+            # if addon is started
+            listItemPath = xbmcUtils.getListItemPath()
+            if not listItemPath.startswith(self.base):
+                if not('mode=' in paramstring and not 'mode=1&' in paramstring):   
                     xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
                     self.clearCache()                    
                      
                     if common.getSetting('autoupdate') == 'true':    
                         self.update()
-
+            
+            
+            # Main Menu
+            if len(paramstring) <= 2:                
+                mainMenu = ListItem.fromUrl(self.MAIN_MENU_FILE)
+                tmpList = self.parseView(mainMenu)
+                if tmpList:
+                    self.currentlist = tmpList
+                
             else:
                 params = paramstring[1:]
                 [mode, item] = self._parseParameters(params)
@@ -631,19 +644,25 @@ class Main:
 
 
                 elif mode == Mode.ADDITEM:
-                    if self.favouritesManager.addItem():
+                    tmp = os.path.normpath(params.split('url=')[1])
+                    if tmp:
+                        suffix = tmp.split(os.path.sep)[-1]
+                        tmp = tmp.replace(suffix,'') + urllib.quote_plus(suffix)
+                    if self.favouritesManager.add(tmp):
                         xbmc.executebuiltin('Container.Refresh()')
+
 
                 elif mode in [Mode.ADDTOFAVOURITES, Mode.REMOVEFROMFAVOURITES, Mode.EDITITEM]:
 
                     if mode == Mode.ADDTOFAVOURITES:
-                        self.favouritesManager.addToFavourites(item)
+                        self.favouritesManager.addItem(item)
                     elif mode == Mode.REMOVEFROMFAVOURITES:
                         self.favouritesManager.removeItem(item)
                         xbmc.executebuiltin('Container.Refresh()')
                     elif mode == Mode.EDITITEM:
                         if self.favouritesManager.editItem(item):
                             xbmc.executebuiltin('Container.Refresh()')
+
 
                 elif mode == Mode.EXECUTE:
                     self.executeItem(item)
@@ -667,6 +686,14 @@ class Main:
                     
                 elif mode == Mode.DOWNLOADCUSTOMMODULE:
                     self.downloadCustomModule()
+                
+                elif mode == Mode.INSTALLADDON:
+                    success = install(item['url'])
+                    if success:
+                        xbmc.sleep(100)
+                        if xbmcUtils.getCurrentWindowXmlFile() == 'DialogAddonSettings.xml':
+                            # workaround to update settings dialog
+                            common.setSetting('', '')
                             
 
         except Exception, e:

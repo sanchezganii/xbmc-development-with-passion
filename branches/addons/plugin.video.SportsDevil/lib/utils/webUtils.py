@@ -1,7 +1,7 @@
 # -*- coding: latin-1 -*-
 
-import sys, os
-import traceback
+import os
+#import sys, traceback
 import urllib, urllib2
 import re
 from fileUtils import setFileContent, getFileContent

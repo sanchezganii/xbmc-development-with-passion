@@ -6,14 +6,21 @@ item_info_name=pageUrl
 item_info_from=@PARAM1@
 item_info_build=http://www.ilive.to/embedplayer.php?width=640&height=400&channel=%s&autoplay=true
 
-item_info_name=file
+item_info_name=swf
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*'file':\s*'([^&]+).flv.*','%s')
+item_info_convert=getInfo('%s','.*flashplayer[:,]\s*['"]([^'"]+)['"].*','%s')
 item_info_build=%s
 
-item_info_name=swf
-item_info_build=http://static.ilive.to/jwplayer/player.swf
+item_info_name=rtmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*streamer[:,]\s*['"]([^'"]+)['"].*','%s')
+item_info_build=%s
+
+item_info_name=file
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*file[:,]\s*['"]([^'"]+).flv['"].*','%s')
+item_info_build=%s
 
 item_info_name=url
-item_info_from='rtmp://live.ilive.to:1935/redirect/' + file + ' swfUrl=' + swf + ' swfVfy=1 live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://player.ilive.to/player_ilive.swf live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
 item_info_build=%s

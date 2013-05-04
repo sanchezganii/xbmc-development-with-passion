@@ -23,9 +23,11 @@ def getKeyboard(default = '', heading = '', hidden = False):
         return kboard.getText()
     return ''
 
-    
-def getCurrentFolderPath():
-    return xbmc.getInfoLabel('Container.FolderPath')    
+
+def getImage(title):
+    dialog = xbmcgui.Dialog()
+    image = dialog.browse(1, title, 'pictures', '.jpg|.png', True)
+    return image
 
 
 def showMessage(msg):
@@ -73,3 +75,20 @@ def setSortMethodsForCurrentXBMCList(handle, sortKeys):
             addSortMethod(xbmcplugin.SORT_METHOD_DATE)
         if 'file' in sortKeys:
             addSortMethod(xbmcplugin.SORT_METHOD_FILE)
+            
+            
+            
+def getContainerFolderPath():   
+    return xbmc.getInfoLabel('Container.FolderPath')
+
+def getListItemPath():
+    return xbmc.getInfoLabel('ListItem.Path')
+
+def getCurrentWindow():
+    return xbmc.getInfoLabel('System.CurrentWindow')
+
+def getCurrentControl():
+    return xbmc.getInfoLabel('System.CurrentControl')
+
+def getCurrentWindowXmlFile():
+    return xbmc.getInfoLabel('Window.Property(xmlfile)')

@@ -4,11 +4,11 @@ item_info_build=TuTele - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://www.tutele.tv/embed.php?c=%s&id=&width=640&height=385&autostart=true
+item_info_build=http://tuteletv.net/embed.php?c=%s&autostart=true&pro=true
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*SWFObject\('([^']+)'.*?\'file\',\s*\'([^\']+)\'.*?\'streamer\',\s*\'([^\']+)\'.*','','swf|file|rtmp')
+item_info_convert=getInfo('%s','.*'flashplayer':\s*"([^"]+)".*?'file':\s*'([^']+)'.*?'streamer':\s*'([^']+)'.*','@REFERER@','swf|file|rtmp')
 item_info_build=%s
 
 item_info_name=url

@@ -9,6 +9,7 @@ import os
 import xbmc, xbmcaddon
 
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
+__icon__ = xbmcaddon.Addon(id='plugin.video.SportsDevil').getAddonInfo('icon')
 translate = __settings__.getLocalizedString
 log = xbmc.log
 enable_debug = True
@@ -20,10 +21,14 @@ def getSetting(name):
 def setSetting(name, value):
     __settings__.setSetting(id=name, value=value)
 
-def showNotification(title, message, timeout=2000):
+def showNotification(title, message, timeout=2000, icon=__icon__):
     def clean(s):
         return str(s.encode('utf-8', 'ignore'))
-    command = 'Notification(%s,%s,%s)' % (clean(title), clean(message), timeout)
+    command = ''
+    if icon:
+        command = 'Notification(%s,%s,%s,%s)' % (clean(title), clean(message), timeout, icon)
+    else:
+        command = 'Notification(%s,%s,%s)' % (clean(title), clean(message), timeout)
     xbmc.executebuiltin(command)
 
 def runPlugin(url):
@@ -45,7 +50,7 @@ def ask(question):
 
 def showInfo(message):
     diaInfo = DialogInfo()
-    diaInfo.show(message)
+    diaInfo.show(message)   
 
 def showError(message):
     diaError = DialogError()
@@ -58,6 +63,7 @@ def browseFolders(head):
 def showOSK(defaultText='', title='', hidden=False):
     return getKeyboard(defaultText, title, hidden)
 
+    
 
 #------------------------------------------------------------------------------
 # web related
@@ -124,3 +130,5 @@ class Paths:
     catchersRepo = 'https://github.com/MusterGit/sportsdevil-catchers/tree/master/catchers'
     modulesRepo = 'https://github.com/MusterGit/sportsdevil-modules/tree/master/modules'
     customModulesRepo = 'http://xbmc-development-with-passion.googlecode.com/svn/branches/custom/'
+    
+    xbmcFavouritesFile = xbmc.translatePath( 'special://profile/favourites.xml' )

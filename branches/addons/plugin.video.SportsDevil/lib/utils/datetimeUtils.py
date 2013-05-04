@@ -1,10 +1,9 @@
 # -*- coding: latin-1 -*-
 
 import time, datetime
-from string import lower
 import re
-import traceback
-import sys
+import sys, traceback
+
 
 #######################################
 # Time and Date Helpers
@@ -34,6 +33,21 @@ def timediff(mytime, unit='seconds'):
         return '0'
 
 
+def convTimestamp(timestamp, newfrmt = '', offsetStr = ''):
+    date = datetime.datetime.fromtimestamp(int(timestamp))
+    
+    if offsetStr:
+        date = datetimeoffset(date, offsetStr)
+
+    if newfrmt == '':
+        if date.year != 1900:
+            newfrmt = "%y/%m/%d"
+        else:
+            newfrmt = "%m/%d"
+
+    return date.strftime(newfrmt)
+
+    
 def convDate(language, datestr, frmt, newfrmt = '', offsetStr = ''):
     ''''
     locale.setlocale(locale.LC_ALL, '')
@@ -113,11 +127,6 @@ def convDate(language, datestr, frmt, newfrmt = '', offsetStr = ''):
         '%M':'\d{2}',
         '%S':'\d{2}'
     }
-
-    if str(language).lower() == 'german':
-        months = monthsDE
-    else:
-        months = monthsEN
 
     patFrmt = '(%\w)'
     idxFrmt = re.findall(patFrmt,frmt, re.DOTALL + re.IGNORECASE)
