@@ -9,8 +9,8 @@ item_info_build=rtmp://%s
 
 item_info_name=file
 item_info_from=@PARAM1@
-item_info_build=%s?id=abc
+item_info_build=%s?id=id=39302e3230362e3133312e3135
 
 item_info_name=url
-item_info_from=rtmp://198.144.153.141:443/kuyo playpath=' + file + ' swfUrl=http://yukons.net/yukplay.swf live=true timeout=15 swfVfy=true pageUrl=http://yukons.net
+item_info_from=rtmp://198.144.153.143:443/kuyo playpath=' + file + ' swfUrl=http://yukons.net/yukplay.swf live=true timeout=15 swfVfy=true pageUrl=http://yukons.net
 item_info_build=%s

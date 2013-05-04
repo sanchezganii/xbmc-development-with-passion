@@ -121,18 +121,19 @@ class Parser(object):
                 tmpPath = os.path.dirname(os.path.join(common.Paths.modulesDir, lItem["definedIn"]))
                 cfg = os.path.join(tmpPath ,filename)
                 if not os.path.exists(cfg):
+                    srchFilename = filename
                     if filename.find('/') > -1:
-                        filename = filename.split('/')[1]
+                        srchFilename = srchFilename.split('/')[1]
                     try:
-                        cfg = findInSubdirectory(filename, common.Paths.modulesDir)
+                        cfg = findInSubdirectory(srchFilename, common.Paths.modulesDir)
                     except:
                         try:
-                            cfg = findInSubdirectory(filename, common.Paths.favouritesFolder)
+                            cfg = findInSubdirectory(srchFilename, common.Paths.favouritesFolder)
                         except:
                             try:
-                                cfg = findInSubdirectory(filename, common.Paths.customModulesDir)
+                                cfg = findInSubdirectory(srchFilename, common.Paths.customModulesDir)
                             except:
-                                common.log('File not found: ' + filename)
+                                common.log('File not found: ' + srchFilename)
                                 return None
 
         #load file and apply parameters
@@ -247,17 +248,16 @@ class Parser(object):
                             newReg = '"result1":"([^\"]+)","result2":"([^\"]+)"'
                             link = regexUtils.findall(tmpData, newReg)
                             if link:
-                                file = link[0][0]
+                                _file = link[0][0]
                                 rtmp = link[0][1].replace('\\','')
                                 #.replace('/redirect','/vod')
                                 item = CListItem()
-                                item['title'] = getHostName(sUrl) + '* - ' + file
+                                item['title'] = getHostName(sUrl) + '* - ' + _file
                                 item['type'] = 'video'
-                                item['url'] = rtmp + ' playPath=' + file + ' swfUrl=' + swfUrl +' swfVfy=1 live=true pageUrl=' + startUrl
+                                item['url'] = rtmp + ' playPath=' + _file + ' swfUrl=' + swfUrl +' swfVfy=1 live=true pageUrl=' + startUrl
                                 item.merge(lItem)
                                 items.append(item)
                                 count = 1  
-                        
                         
                         
                         
@@ -546,6 +546,9 @@ class Parser(object):
 
             if command == 'convDate':
                 src = cc.convDate(params, src)
+
+            elif command == 'convTimestamp':
+                src = cc.convTimestamp(params, src)
 
             elif command == 'select':
                 src = cc.select(params, src)
