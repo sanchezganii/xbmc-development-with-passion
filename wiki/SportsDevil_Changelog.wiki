@@ -19,6 +19,7 @@ V1.8.5.5:
     * FIX: autoupdate when addon is started from favourite/custom mainmenu entry
     * ADD: install external addons JustinTV, YouTube and Veetle via settings
 
+<br>
 
 V1.8.2:
   * FIX: import python module from parent folder
