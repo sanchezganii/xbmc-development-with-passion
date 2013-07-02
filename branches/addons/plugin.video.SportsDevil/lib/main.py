@@ -76,8 +76,8 @@ class Main:
         
         # todo: cache this (due to limited API calls for github)
         self.syncManager = SyncManager()
-        self.syncManager.addSource("Max Mustermann - Catchers", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
-        self.syncManager.addSource("Max Mustermann - Modules", SyncSourceType.MODULES, common.Paths.modulesRepo)
+        #self.syncManager.addSource("Max Mustermann - Catchers", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
+        #self.syncManager.addSource("Max Mustermann - Modules", SyncSourceType.MODULES, common.Paths.modulesRepo)
         
         if not os.path.exists(common.Paths.customModulesDir):
             os.makedirs(common.Paths.customModulesDir, 0777)
@@ -613,8 +613,8 @@ class Main:
                     xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
                     self.clearCache()                    
                      
-                    if common.getSetting('autoupdate') == 'true':    
-                        self.update()
+                    #if common.getSetting('autoupdate') == 'true':    
+                    #    self.update()
             
             
             # Main Menu
@@ -681,8 +681,8 @@ class Main:
                 elif mode == Mode.REMOVEFROMCUSTOMMODULES:
                     self.removeCustomModule(item)
                 
-                elif mode == Mode.UPDATE:
-                    self.update()
+                #elif mode == Mode.UPDATE:
+                #    self.update()
                     
                 elif mode == Mode.DOWNLOADCUSTOMMODULE:
                     self.downloadCustomModule()
