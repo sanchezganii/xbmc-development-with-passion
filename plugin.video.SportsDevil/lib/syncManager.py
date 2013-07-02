@@ -168,9 +168,7 @@ class SyncSourceBase(object):
         self.enabled = True
     
     def getFiles(self):
-        syncObjects = self.getFilesAPI()
-        if not syncObjects:
-            syncObjects = self.getFilesScrape()            
+        syncObjects = self.getFilesAPI()          
         return syncObjects
     
     def getFilesAPI(self):
@@ -224,42 +222,4 @@ class GitHubSource(SyncSourceBase):
             obj.checksum = f.sha
             syncObjects.append(obj)
                 
-        return syncObjects
-    
-    
-    def getFilesScrape(self):
-        dirs =[self._url]
-        
-        syncObjects = []
-        while len(dirs) > 0:
-            response = None
-            try:
-                f = urllib.urlopen(dirs[0])
-                response = f.read()
-                f.close()
-            except:
-                return None
-            
-            if response:
-                matches = rU.findall(response, '<span class="[^"]*-([^-"]+)"></span></td>\s*<td class="content"><a href="([^"]+)"[^>]+id="([^"]+)".*?<td class="age"><time [^<]*title="([^"]+)"')
-                if matches and len(matches) > 0:
-                    for m in matches:
-                        entryUrl = 'https://github.com' + m[1]
-                        
-                        if m[0] == 'directory':
-                            dirs.append(entryUrl)
-                            continue
-                        else: 
-                            obj = SyncObject()
-                            obj.name = entryUrl.replace('/blob/','/tree/').replace(self._url,'').strip('/')
-                            obj.file = entryUrl.replace('/blob/', '/raw/')
-                            obj.checksum = m[2].split('-')[1]
-                            obj.created = github.getUpdatedAtFromString(m[3])
-                            syncObjects.append(obj)
-                    dirs.remove(dirs[0])
-                else:
-                    # maybe the page is not fully loaded
-                    if response.find('rel="nofollow">..</a></td>') > -1:
-                        dirs.remove(dirs[0])
-                                           
         return syncObjects
