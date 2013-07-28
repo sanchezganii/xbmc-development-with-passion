@@ -8,15 +8,14 @@
 
 import os
 import xbmcplugin
-import sys
 import xbmc, xbmcgui
-import traceback
 import urllib
 
 import common
 
 import utils.encodingUtils as enc
 from utils import fileUtils as fu
+
 from utils.regexUtils import parseText
 from utils.xbmcUtils import getKeyboard, setSortMethodsForCurrentXBMCList
 from dialogs.dialogProgress import DialogProgress
@@ -35,6 +34,8 @@ from dialogs.dialogQuestion import DialogQuestion
 from customModulesManager import CustomModulesManager
 
 from addonInstaller import install
+
+from utils.beta.t0mm0.common.addon import Addon
 
 #from cacheManager import CacheManager
 
@@ -64,9 +65,6 @@ class Main:
 
 
     def __init__(self):
-        self.base = sys.argv[0]
-        self.handle = int(sys.argv[1])
-        paramstring = urllib.unquote_plus(sys.argv[2])
         
         if not os.path.exists(common.Paths.pluginDataDir):
             os.makedirs(common.Paths.pluginDataDir, 0777)
@@ -84,9 +82,11 @@ class Main:
 
         self.parser = Parser()
         self.currentlist = None
+        
+        self.addon = None
+        
         common.log('SportsDevil initialized')
         
-        self.run(paramstring)
 
 
     def getPlayerType(self):
@@ -396,7 +396,7 @@ class Main:
         """
 
         infoLabels = {}
-        for video_info_name in item.infos_names:
+        for video_info_name in item.infos.keys():
             infoLabels[video_info_name] = enc.clean_safe(item[video_info_name])
         infoLabels['title'] = title
 
@@ -413,13 +413,24 @@ class Main:
 
     def addListItem(self, lItem, totalItems):
         def createContextMenuItem(label, mode, codedItem):
-            action = 'XBMC.RunPlugin(%s)' % (self.base + '?mode=' + str(mode) + '&url=' + codedItem)
+            action = 'XBMC.RunPlugin(%s)' % (self.addon.build_plugin_url({'mode': str(mode), 'item': codedItem}))
             return (label, action)
 
+        def encoded_dict(in_dict):
+            out_dict = {}
+            for k, v in in_dict.iteritems():
+                if isinstance(v, unicode):
+                    v = v.encode('utf8')
+                elif isinstance(v, str):
+                    # Must be encoded in UTF-8
+                    v.decode('utf8')
+                out_dict[k] = v
+            return urllib.urlencode(out_dict)
+        
         contextMenuItems = []
         definedIn = lItem['definedIn']
 
-        codedItem = urllib.quote_plus(ListItem.toUrl(lItem))
+        codedItem = urllib.quote(encoded_dict(lItem.infos))
 
         if definedIn:
             # Queue
@@ -455,16 +466,16 @@ class Main:
             m_type = 'rss'
         
         if m_type == 'video':
-            u = self.base + '?mode=' + str(Mode.PLAY) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.PLAY) + '&item=' + codedItem
             if lItem['IsDownloadable']:
                 contextMenuItem = createContextMenuItem('Download', Mode.DOWNLOAD, codedItem)
                 contextMenuItems.append(contextMenuItem)
             isFolder = False
         elif m_type.find('command') > -1:
-            u = self.base + '?mode=' + str(Mode.EXECUTE) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.EXECUTE) + '&item=' + codedItem
             isFolder = False
         else:
-            u = self.base + '?mode=' + str(Mode.VIEW) + '&url=' + codedItem
+            u = self.base + '?mode=' + str(Mode.VIEW) + '&item=' + codedItem
             isFolder = True
 
         liz.addContextMenuItems(contextMenuItems)
@@ -555,7 +566,8 @@ class Main:
         if items:
             for it in items:
                 item = self.createXBMCListItem(it)
-                uc = self.base + '?mode=' + str(Mode.PLAY) + '&url=' + ListItem.toUrl(it)
+                queries = {'mode': str(Mode.PLAY), 'url': self.addon.build_plugin_url(it.infos)}
+                uc = self.addon.build_plugin_url(queries)
                 xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(uc, item)
             resultLen = len(items)
             msg = 'Queued ' + str(resultLen) + ' video'
@@ -588,22 +600,28 @@ class Main:
                 xbmc.executebuiltin(enc.unescape(url))
 
 
-    def _parseParameters(self, params):
-        # ugly workaround for OpenELEC (sorts query parameters alphabetically)
-        myparameters = params.split('&')
-        mode = filter(lambda x: x.startswith('mode='), myparameters)
-        codedItem = filter(lambda x: x.startswith('url='), myparameters)
-        myparameters.remove(mode[0])
-        myparameters.remove(codedItem[0])        
-        myparameters.append(codedItem[0][4:])
-        
-        mode = int(mode[0].split('=')[1])
-        item = ListItem.fromUrl('&'.join(myparameters))        
+    def _parseParameters(self):
+        mode = int(self.addon.queries['mode'])
+        queryString = self.addon.queries['item']
+        item = ListItem.create()
+        item.infos = self.addon.parse_query(queryString,{})
         return [mode, item]
 
 
-    def run(self, paramstring):
+    def run(self, argv=None):
+        
+        self.addon = Addon('plugin.video.SportsDevil', argv)
+
         common.log('SportsDevil running')
+        
+        base = argv[0]
+        handle = int(argv[1])
+        parameter = argv[2]
+        self.base = base
+        self.handle = handle
+        
+        paramstring = urllib.unquote_plus(parameter)
+        
         try:
             
             # if addon is started
@@ -619,14 +637,14 @@ class Main:
             
             # Main Menu
             if len(paramstring) <= 2:                
-                mainMenu = ListItem.fromUrl(self.MAIN_MENU_FILE)
+                mainMenu = ListItem.create()
+                mainMenu['url'] = self.MAIN_MENU_FILE
                 tmpList = self.parseView(mainMenu)
                 if tmpList:
                     self.currentlist = tmpList
                 
             else:
-                params = paramstring[1:]
-                [mode, item] = self._parseParameters(params)
+                [mode, item] = self._parseParameters()
 
                 # switch(mode)
                 if mode == Mode.VIEW:
@@ -644,7 +662,7 @@ class Main:
 
 
                 elif mode == Mode.ADDITEM:
-                    tmp = os.path.normpath(params.split('url=')[1])
+                    tmp = os.path.normpath(paramstring.split('url=')[1])
                     if tmp:
                         suffix = tmp.split(os.path.sep)[-1]
                         tmp = tmp.replace(suffix,'') + urllib.quote_plus(suffix)
@@ -697,8 +715,7 @@ class Main:
                             
 
         except Exception, e:
-            if common.enable_debug:
-                traceback.print_exc(file = sys.stdout)
-            common.showError('Error running SportsDevil.\n\nReason:\n' + str(e))
+            common.showError('Error running SportsDevil')
+            common.log('Error running SportsDevil. Reason:' + str(e))
 
 

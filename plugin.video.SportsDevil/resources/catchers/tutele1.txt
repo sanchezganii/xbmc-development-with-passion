@@ -4,7 +4,7 @@ item_info_build=TuTeleMe - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://tutele.me/embed.php?c=%s&autostart=true&pro=true
+item_info_build=http://tuteletv.net/embed.php?c=%s
 
 item_info_name=tmp
 item_info_from=pageUrl
@@ -14,5 +14,5 @@ item_info_build=%s
 #rtmp://109.163.236.167/live
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' live=true swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' live=true token=#ed%h0#w@12Fuck swfVfy=1 swfUrl=' + swf + ' pageUrl=' + pageUrl
 item_info_build=%s

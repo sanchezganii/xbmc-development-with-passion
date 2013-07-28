@@ -1,0 +1,7 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=HideCast - %s
+
+item_info_name=url
+item_info_from=@PARAM1@
+item_info_build=rtmpe://31.7.59.98:443/liveedge1/%s swfUrl=http://hidecast.com/jwplayer/jwplayer.flash.swf pageUrl=http://hidecast.com live=true swfVfy=1

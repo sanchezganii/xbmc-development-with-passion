@@ -1,7 +1,0 @@
-item_info_name=title
-item_info_from=@PARAM1@
-item_info_build=WatchYouTube - %s
-
-item_info_name=url
-item_info_from=@PARAM1@
-item_info_build=rtmp://origin.watchyoutube.us:1935/redirect/%s swfUrl=http://bitcast-r.v1.sjc1.bitgravity.com/malar/Players/player.swf live=true timeout=15 swfVfy=1 pageUrl=http://www.watchyoutube.us

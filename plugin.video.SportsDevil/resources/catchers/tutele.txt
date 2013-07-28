@@ -4,7 +4,7 @@ item_info_build=TuTele - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_build=http://tuteletv.net/embed.php?c=%s&autostart=true&pro=true
+item_info_build=http://tuteletv.net/embed.php?channel=%s
 
 item_info_name=tmp
 item_info_from=pageUrl
