@@ -6,9 +6,19 @@ item_info_name=pageUrl
 item_info_from=@PARAM1@
 item_info_build=http://castasap.com/embedhd.php?chname=%s&width=640&height=385
 
-item_info_name=tmp
+item_info_name=file
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*?file[:,]\s*['"]([^'"]+)['"].*?streamer[:,]\s*['"]([^'"]+)['"].*swfobject.embedSWF\(['"]([^'"]+)['"].*','@REFERER@','file|rtmptmp|swf')
+item_info_convert=getInfo('%s','.*file['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*streamer['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@')
+item_info_build=%s
+
+item_info_name=swf
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*swfobject.embedSWF\(['"]([^'"]+)['"].*','@REFERER@')
 item_info_build=%s
 
 item_info_name=rtmp
@@ -18,5 +28,5 @@ item_info_build=%s
 
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
+item_info_from=file + ' swfUrl=http://castasap.com/' + swf + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
 item_info_build=%s
