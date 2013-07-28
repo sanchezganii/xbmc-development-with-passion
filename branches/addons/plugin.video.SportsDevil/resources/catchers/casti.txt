@@ -8,12 +8,12 @@ item_info_build=http://www.casti.tv/embed.php?v=%s&vw=650&vh=500&video=0&domain=
 
 item_info_name=tmp
 item_info_from=pageUrl
-item_info_convert=getInfo('%s','.*SWFObject\(['"]([^'"]+)['"].*?['"]config['"],\s*['"]([^'"]+)['"].*','@REFERER@','swf|tmp2)
+item_info_convert=getInfo('%s','.*SWFObject\(['"]([^'"]+)['"].*?['"]config['"],\s*['"]([^'"]+)['"].*?['"]streamer['"][:,]\s*['"]([^'"]+)['"].*','@REFERER@','swf|tmp2|rtmp)
 item_info_build=%s
 
-item_info_name=tmp3
+item_info_name=file
 item_info_from=tmp2
-item_info_convert=getInfo('%s','.*<file>([^<]+).flv.*<streamer>([^<]+).*','','file|rtmpt)
+item_info_convert=getInfo('%s','.*<file>([^<]+).flv)
 item_info_build=%s
 
 item_info_name=rtmp

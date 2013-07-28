@@ -168,7 +168,7 @@ class SyncSourceBase(object):
         self.enabled = True
     
     def getFiles(self):
-        syncObjects = self.getFilesAPI()          
+        syncObjects = self.getFilesAPI()         
         return syncObjects
     
     def getFilesAPI(self):

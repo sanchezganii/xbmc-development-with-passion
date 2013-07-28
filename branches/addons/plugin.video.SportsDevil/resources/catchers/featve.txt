@@ -4,8 +4,7 @@ item_info_build=Featve - %s
 
 item_info_name=pageUrl
 item_info_from=@PARAM1@
-item_info_convert=replace('%s','.js','.html')
-item_info_build=%s
+item_info_build=http://featve.com/player3.php?id=%s&width=630&height=480
 
 
 item_info_name=tmp
@@ -14,5 +13,6 @@ item_info_convert=getInfo('%s','.*?['"]file['"][:,]\s*['"]([^'"]+)['"].*?['"]str
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 timeout=15 swfVfy=1 pageUrl=' + pageUrl
+item_info_from=rtmp + ' playpath=' + file + ' swfUrl=' + swf + ' live=1 token=$t0nl%$@#q timeout=15 swfVfy=1 pageUrl=' + pageUrl
 item_info_build=%s
+

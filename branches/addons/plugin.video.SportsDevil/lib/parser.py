@@ -460,8 +460,12 @@ class Parser(object):
                     tmp['referer'] = lItem['referer']
                     
                 if item_rule.order.find('|') != -1:
-                    tmp.infos_names = item_rule.order.split('|')
-                    tmp.infos_values = list(reinfos)
+                    infos_names = item_rule.order.split('|')
+                    infos_values = list(reinfos)
+                    i = 0
+                    for name in infos_names:
+                        tmp[name] = infos_values[i]
+                        i = i+1
                 else:
                     tmp[item_rule.order] = reinfos
 
@@ -644,7 +648,7 @@ class Parser(object):
                 try:
                     src = common.translate(int(src))
                 except:
-                    src = src
+                    pass
 
             elif command == 'camelcase':
                 src = enc.smart_unicode(src)
@@ -658,10 +662,33 @@ class Parser(object):
 
             elif command == 'debug':
                 common.log('Debug from cfg file: ' + src)
+                
+            elif command == 'divide':
+                paramArr = params.split(',')
+                a = paramArr[0].strip().strip("'").replace('%s', src)
+                a = resolveVariable(a, item)
+                b = paramArr[1].strip().strip("'").replace('%s', src)
+                b = resolveVariable(b, item)
+                
+                if not a or not b:
+                    continue
+                
+                a = int(a)
+                b = int(b)
+                try:
+                    src = a/b
+                except:
+                    pass
+                
         return src
 
 
 
+
+def resolveVariable(varStr, item):
+    if varStr.startswith('@') and varStr.endswith('@'):
+        return item.getInfo(varStr.strip('@'))
+    return varStr
 
 
 def firstNonEmpty(tmp, variables):

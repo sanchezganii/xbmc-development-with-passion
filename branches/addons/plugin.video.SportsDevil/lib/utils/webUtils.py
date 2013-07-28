@@ -1,115 +1,98 @@
 # -*- coding: latin-1 -*-
 
 import os
-#import sys, traceback
-import urllib, urllib2
+import urllib
 import re
 from fileUtils import setFileContent, getFileContent
 import encodingUtils as enc
 
+from beta.t0mm0.common.net import Net
 
 
-Request = urllib2.Request
-urlopen = urllib2.urlopen
-
-defaultHeaders = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 5.2; en-GB; rv:1.8.1.18) Gecko/20081029 Firefox/2.0.0.18', 'Accept-Charset':'ISO-8859-1,utf-8;q=0.7,*;q=0.7'}
-
+#------------------------------------------------------------------------------
 
 def get_redirected_url(url):
-    opener = urllib2.build_opener(urllib2.HTTPRedirectHandler)
-    request = opener.open(url)
-    return request.url
+    head = BaseRequest().getHead(url)
+    if head:
+        return head.get_url()
+    return None
 
 def isOnline(url):
-    req = Request(url, None, defaultHeaders)
-    try:
-        urlopen(req)
-        return True
-    except:
-        return False
+    return BaseRequest().getHead(url) is not None
 
 #------------------------------------------------------------------------------
 
 
-class WebRequest(object):
 
-    def __init__(self, cookiePath):
-        self.cookiePath = cookiePath
-        self.cj = None
-        ClientCookie = None
-        cookielib = None
 
-        try:                                    # Let's see if cookielib is available
-            import cookielib
-        except ImportError:
-            pass
-        else:
-            import urllib2
-            self.urlopen = urllib2.urlopen
-            self.cj = cookielib.LWPCookieJar()       # This is a subclass of FileCookieJar that has useful load and save methods
-            self.Request = urllib2.Request
 
-        if not cookielib:                   # If importing cookielib fails let's try ClientCookie
+'''
+    REQUEST classes
+'''
+
+class BaseRequest(object):
+    
+    def __init__(self, cookie_file=None):
+        self.cookie_file = cookie_file
+        self.net = Net()
+        if cookie_file:
+            self.net.set_cookies(cookie_file)
+        self.url = ''
+    
+    def ErrorDecorator(self, fn):
+        '''
+            Decorator for web requests
+        '''
+        def wrap(*args):
             try:
-                import ClientCookie
-            except ImportError:
-                import urllib2
-                self.urlopen = urllib2.urlopen
-                self.Request = urllib2.Request
-            else:
-                self.urlopen = ClientCookie.urlopen
-                self.cj = ClientCookie.LWPCookieJar()
-                self.Request = ClientCookie.Request
-
-        if self.cj != None:                                  # now we have to install our CookieJar so that it is used as the default CookieProcessor in the default opener handler
-            if os.path.isfile(cookiePath):
-                self.cj.load(cookiePath)
-            if cookielib:
-                self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
-                urllib2.install_opener(self.opener)
-            else:
-                self.opener = ClientCookie.build_opener(ClientCookie.HTTPCookieProcessor(self.cj))
-                ClientCookie.install_opener(self.opener)
-
-
-    def getSource(self, url, referer=None):
+                return fn(*args)
+            except ValueError, e:
+                print 'Failed to open "%s".' % self.url
+                print 'url is invalid'
+            
+            except IOError, e:
+                    #traceback.print_exc(file = sys.stdout)
+                    print 'Failed to open "%s".' % self.url
+                    if hasattr(e, 'code'):
+                        print 'Failed with error code - %s.' % e.code
+                    elif hasattr(e, 'reason'):
+                        print "The error object has the following 'reason' attribute :", e.reason
+                        print "This usually means the server doesn't exist, is down, or we don't have an internet connection."
+            return None
+        return wrap
+    
+    def _headRequest(self, url):
+        def request():
+            return self.net.http_HEAD(url)        
+        self.url = url
+        decorated = self.ErrorDecorator(request)
+        return decorated()
+    
+    def _getRequest(self, url, headers):
+        def request():
+            return self.net.http_GET(url, headers).content
+        self.url = url
+        decorated = self.ErrorDecorator(request)
+        return decorated()
+    
+    def getHead(self, url):
+        self.url = url
+        return self._headRequest(url)
+    
+    def getSource(self, url, referer):
         url = urllib.unquote_plus(url)
         if not referer:
             referer = url
-
-        try:
-            req = Request(url, None, defaultHeaders)            # create a request object
-            req.add_header('Referer', referer)                  # set referer
-            handle = urlopen(req)                               # and open it to return a handle on the url
-        except IOError, e:
-            #traceback.print_exc(file = sys.stdout)
-            print 'Failed to open "%s".' % url
-            if hasattr(e, 'code'):
-                print 'Failed with error code - %s.' % e.code
-            elif hasattr(e, 'reason'):
-                print "The error object has the following 'reason' attribute :", e.reason
-                print "This usually means the server doesn't exist, is down, or we don't have an internet connection."
-        else:
-            #print 'Here are the headers of the page :'
-            #print handle.info()                             # handle.read() returns the page, handle.geturl() returns the true url of the page fetched (in case urlopen has followed any redirects, which it sometimes does)
-            data = handle.read()
-            handle.close()
-
-            if self.cj:
-#                print 'These are the cookies we have received so far :'
-#                for index, cookie in enumerate(self.cj):
-#                    print index, '  :  ', cookie
-                self.cj.save(self.cookiePath)                     # save the cookies again
-
-            return data
-
-        return None
-
+        headers = {'Referer': referer}
+        response  = self._getRequest(url, headers)
+        if response:
+            if self.cookie_file:
+                self.net.save_cookies(self.cookie_file)
+        return response
 
 #------------------------------------------------------------------------------
 
-
-class DemystifiedWebRequest(WebRequest):
+class DemystifiedWebRequest(BaseRequest):
 
     def __init__(self, cookiePath):
         super(DemystifiedWebRequest,self).__init__(cookiePath)
@@ -133,7 +116,6 @@ class DemystifiedWebRequest(WebRequest):
         return data
 
 #------------------------------------------------------------------------------
-
 
 class CachedWebRequest(DemystifiedWebRequest):
 

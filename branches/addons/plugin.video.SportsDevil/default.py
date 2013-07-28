@@ -1,3 +1,5 @@
+import sys, traceback
+
 
 # REMOTE DEBUGGING
 REMOTE_DBG = False
@@ -19,18 +21,12 @@ if REMOTE_DBG:
 
 
 
-##if (__name__ == "__main__" ):
-##    from lib.main import Main
-##    main = Main()
-##    main.run()
 
-class Main:
-  def __init__(self):
-    self.pDialog = None
-    self.run()
+# ACTUAL ADDON
+from lib import main
 
-  def run(self):
-    from lib import main
-    main.Main()
-
-win = Main()
+try:
+    myAddon = main.Main()
+    myAddon.run(sys.argv)
+except:
+    traceback.print_exc(file = sys.stdout)
