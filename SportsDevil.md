@@ -1,0 +1,89 @@
+# SportsDevil #
+|<img width='150' align='center' height='150' src='http://s1.directupload.net/images/110424/he54f4fc.png'><table><thead><th>SportsDevil is a video addon for live sports and highlights, blogs and TV.<br>It's based on VideoDevil, so big thanks to the developers.<br>SportsDevil scrapes and resolves embedded streams from websites so that they can be played with xbmc.<br>It dynamically parses cfg files that contain regular expressions used for scraping.<br>Please try it out and give me some feedback.</th></thead><tbody></tbody></table>
+
+
+<table><thead><th><a href='http://www.pic-upload.de/view-11304290/livetv.ru.menu.jpg.html'><img src='http://www7.pic-upload.de/06.09.11/lmo7inv6x5es.jpg' width='500></a'></th><th><a href='http://www.pic-upload.de/view-11304324/livetv.ru.highlights.jpg.html '><img src='http://www7.pic-upload.de/06.09.11/okrptesovi7.jpg' width='500></a'></th></thead><tbody></tbody></table>
+
+
+<br>
+<h2>List of supported sites</h2>
+<ul>
+<blockquote><li> Live Sports<br>
+<ul>
+<li> <a href='http://livetv.ru'>LiveTV.ru</a></li>
+<li> <a href='http://www.thefirstrow.eu'>FirstRowSports.eu</a></li>
+<li> <a href='http://www.wiziwig.tv'>WiZiWiG.tv</a></li>
+<li> <a href='http://www.lshunter.tv'>LSHunter.tv</a></li>
+<li> <a href='http://www.rojadirecta.me'>RojaDirecta.me</a></li>
+</ul>
+</li></blockquote>
+
+<blockquote><li> Highlights<br>
+<ul>
+<li> <a href='http://www.goalsarena.com'>Goalsarena.com</a></li>
+<li> <a href='http://livetv.ru'>LiveTV.ru</a></li>
+</ul>
+</li></blockquote>
+
+<blockquote><li> Blogs<br>
+<ul>
+<li> <a href='http://www.sport1.de'>Sport1.de (german)</a></li>
+<li> <a href='http://www.captain-trikot.de'>Captain-Trikot.de (german)</a></li>
+</ul>
+</li></blockquote>
+
+<blockquote><li> TV<br>
+<ul>
+<li> <a href='http://www.cricfree.tv'>Cricfree.tv</a></li>
+<li> Several other Cricket sites</li>
+<li> <a href='http://www.hdfooty.com'>HdFooty.com</a></li>
+<li> <a href='http://www.snsports.tv'>SNSports.tv</a></li>
+<li> <a href='http://www.mypremium.tv'>MyPremium.tv</a></li>
+<li> <a href='http://coolsportz.de'>Coolsportz.de</a></li>
+</ul>
+</li>
+</ul>
+<br></blockquote>
+
+<a href='https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Supported_Streams'><font size='4'><b>List of supported streams</b></font></a>
+<br>
+<br>
+<br>
+<h2>Requirements</h2>
+Copy newest librtmp.dll to xbmc/system/players/dvdplayer (See <a href='http://wiki.xbmc.org/index.php?title=Librtmp'>this page</a> for further information / compiled versions for your OS)<br>
+<br>
+External players needed for:<br>
+<blockquote><ul>
+<li> Sopcast (<a href='http://forum.xbmc.org/showthread.php?t=108544'>Howto use SopCast as external player</a>)</li>
+<li> StreamTorrent (<a href='http://forum.xbmc.org/showthread.php?t=108539'>Howto use StreamTorrent as external player</a>)</li>
+</ul>
+Other addons needed for:<br>
+<ul>
+<li> Veetle (needs Veetle addon)</li>
+<li> YouTube (needs YouTube addon)</li>
+<li> Freedocast (needs Freedocast addon)</li>
+</ul>
+You should use an anti-virus software. Some of the supported sites have trojans in their javascripts. In those cases the infected file will be cache/page.html (the local cache for SportsDevil).</blockquote>
+
+<br>
+<h2>Download</h2>
+<a href='http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/plugin.video.SportsDevil/'><font size='4'>Download</font></a>
+or install via <a href='http://xbmc-development-with-passion.googlecode.com/files/repository.MaxMustermann.xbmc-1.0.1.zip'><font size='4'>repo</font></a><br>
+<br>
+<br>
+<h2>Installation</h2>
+<ol>
+<blockquote><li> Go to addon browser</li>
+<li> Install from zip or via repo</li>
+</ol>
+<br></blockquote>
+
+<a href='http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_FAQ'><font size='4'><b>Frequently Asked Questions</b></font></a>
+<br>
+<br>
+<br>
+<a href='http://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Favourites'><font size='4'><b>HowTo: Favourites Management</b></font></a>
+<br>
+<br>
+<br>
+<a href='https://code.google.com/p/xbmc-development-with-passion/wiki/SportsDevil_Changelog'><font size='4'><b>Changelog</b></font></a>

@@ -1,0 +1,91 @@
+# Currently supported streams #
+
+Livestreams:
+  * Veetle
+  * Freedocast
+  * MMS
+  * VLC
+  * ASF
+  * M3U8
+  * ZoneIn
+  * Meevos
+  * SeeOn
+  * LimeV
+  * Veemi
+  * CastAMP
+  * WiiCast
+  * RaySon
+  * TVope
+  * Aliez
+  * YYCast
+  * WebCastOn
+  * LiveView365
+  * Strmr
+  * Mips
+  * StreamBig
+  * LiveVDO
+  * UStream
+  * ZeCast
+  * StreamHQ
+  * HDCaster
+  * VShare
+  * iCastOn
+  * BoxLiveTV
+  * 786Cast
+  * OwnCast
+  * VStream
+  * Xuuby
+  * JimeyTV
+  * Rey
+  * 24in
+  * Hogy
+  * Laola1
+  * LiveBox
+  * MegaLive
+  * Streami
+  * TuTele
+  * VipLive
+  * Rede.tv
+  * Myp2p.in
+  * ProTV
+  * Nacevi
+  * Guarapa
+  * Globo
+  * NCAA streams for chanfeed
+  * Livefootballstreams.net for firstrowsports.eu
+  * JustinTV
+  * iLive
+  * CastAlba
+  * 24Cast
+  * 04stream
+  * TVCaston
+  * Liveflash
+  * SCity
+  * UCaster (no working stream found so far)
+  * MyBcast
+  * XStit
+  * YourLiveTV
+  * LetonTV
+  * Cast3d
+  * ZCast
+  * CastUp
+  * HQCast
+  * Megom
+  * RedCast
+  * SawLive
+  * SurkTV
+  * Buzzin
+
+<br>
+Highlights:<br>
+<ul><li>Videa.hu<br>
+</li><li>Sapo<br>
+</li><li>VKontakte<br>
+</li><li>Yandex<br>
+</li><li>SVTPlay<br>
+</li><li>RuTube.ru<br>
+</li><li>NBA.com<br>
+</li><li>YaTV.ru<br>
+</li><li>Dailymotion<br>
+</li><li>YouTube<br>
+</li><li>EPlayer

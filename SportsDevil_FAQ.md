@@ -1,0 +1,76 @@
+## _Why can't the author guarantee that SportsDevil will always work?_ ##
+
+This addon is different from many other addons because of several reasons:
+  1. it scrapes many websites => changes in structure and content
+  1. these websites collect streams from other websites => inconsistent reliability of content, lots of streamers (castamp, fcast, wcast, youtube.... 100+ at the moment)
+  1. every involved website wants to protect its content => domain protection, obfuscation of source code...
+  1. every involved streamer wants to protect its streams => changing servers, encryption, tokens, several script calls for one stream...
+
+That's why I can't garantuee any stable streams and why it's so much work to keep things working.
+
+
+---
+
+
+## _I often get 'No streams available' but there is definitely a stream on the website. What am I doing wrong?_ ##
+
+'No streams available' means one of the following:
+
+  * There is no stream
+  * The streams are not supported
+  * The streams are supported but not recognized
+
+
+If a stream is not recognized, this can have one or several reasons:
+
+  * The regular expression is wrong
+  * The html source code is encrypted (escape sequences like %xx and custom javascript)
+  * The website embeds the stream from another site by means of (i)frames
+
+
+I have already written a 'demystification' function that is called if no stream is found on a first try. Most of the iframes are auto-selected and in addition to that I have implemented some of the javascript functions. The latter is hardcoded and very hard to keep up-to-date, so I would need a python function that parses javascript code. Any help appreciated.
+
+
+---
+
+
+## _The plugin says 'Error running SportsDevil'. What can I do?_ ##
+
+Please put your debug log file (xbmc.log) at [Pastebin.com](http://pastebin.com/) and post it in my support thread at http://forum.xbmc.org/showthread.php?p=919416.
+
+
+---
+
+
+## _JustinTV streams do not work. Do I need to install something?_ ##
+
+XBMC uses a library called librtmp to play rtmp streams. This library is maintained by Andrej Stepanchuk and Howard Chu as part of their [RTMPDump toolkit](http://rtmpdump.mplayerhq.hu/).
+
+JustinTV streams are rtmp streams that require a special token. The RTMPDump team has added support of this token to librtmp after the release of Dharma, so you need a nightly build of xbmc for JustinTV streams. Official nightly builds are available at http://mirrors.xbmc.org/nightlies/. There are also unofficial sources.
+
+
+---
+
+
+## _Freedocast streams do not work although I have installed t0mm0's Freedocast addon. Do I have to do something else?_ ##
+
+I only fetch the channel id of a Freedocast stream and call t0mm0's addon with this id as parameter. Many of the channels can't be played. Please post thse issues at t0mm0's corresponding thread.
+
+
+---
+
+
+## _Some of the Veetle streams do not work although I have installed t0mm0's Veetle addon. Do I have to do something else?_ ##
+
+I only fetch the channel id of a Veetle stream and call t0mm0's addon with this id as parameter. Channels that do not have a flash representation but require the Veetle client (external software that is available at their website) are not supported by this addon and will probably never be. This is because nobody knows what the client does to resolve the stream url from a channel id.
+
+
+---
+
+
+## _How can I play SopCast streams on Linux?_ ##
+
+See this [HowTo](http://forum.xbmc.org/showpost.php?p=871519&postcount=2) (thanks to deckoff)
+
+
+---

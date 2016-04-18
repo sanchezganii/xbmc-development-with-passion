@@ -1,0 +1,60 @@
+# Add a folder #
+Custom virtual folders inside your favourites can be added by selecting the list item "Add item..." in your favourites root folder. Select "Add folder" in the selection dialog. You will be asked for a folder name. Please bear in mind that all virtual folders have to be labeled differently.
+
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/favouritesEmpty.jpg' /> | <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/AddItemSelection.jpg' /> |
+|:----------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/OSK.jpg' />             | <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/favouritesFolder.jpg' /> |
+
+
+# Add a favourite #
+You can add two kinds of favourite items:
+  1. SportsDevil items
+  1. xbmc commands (like used in xbmc favourites)
+
+SportsDevil items can be added by using the context menu entry "Add to SportsDevil favourites".
+
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ContextMenuAddFavourite.jpg' /> |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|
+
+Xbmc commands in the form of xbmc favourites can be added via the list item "Add item..." in your favourites root folder. Select "Add xbmc favourite" in the selection dialog. A list of your xbmc favourites will pop up.
+
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ListFavourites.jpg' /> |
+|:---------------------------------------------------------------------------------------------------------------------------------------|
+
+If you have created virtual folders, you will be asked for a destination folder afterwards.
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/SelectVirtualFolder.jpg' /> |
+|:--------------------------------------------------------------------------------------------------------------------------------------------|
+
+
+# Edit a favourite #
+
+You can edit the label, icon and fanart for both virtual folders and favourite items. Favourite items can additionally be moved to another virtual folder.
+All these options are accessible through the context menu entry "Edit".
+
+
+| <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/ContextMenuEditFavourite.jpg' /> | <img width='538' height='358' src='http://xbmc-development-with-passion.googlecode.com/svn/branches/screenshots/EditFavourite.jpg' /> |
+|:-------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------|
+
+Images have to be inside one of your picture sources.
+
+
+# Edit favourites manually #
+
+If you want to edit your favourites manually, you will find the relevant files in "/userdata/addon\_data/plugin.video.SportsDevil/favourites". Such a file contains simple entries like:
+```
+########################################################
+# TV
+########################################################
+title=TV
+type=rss
+url=favfolders/TV.cfg
+
+########################################################
+# ESPN
+########################################################
+title=ESPN
+type=command
+icon=F:\XBMC\portable_data\addons\plugin.video.espn3\icon.png
+url=ActivateWindow(10025,"plugin://plugin.video.espn3")
+```
+Entries are separated by empty lines.
